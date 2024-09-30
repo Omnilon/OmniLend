@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OMNICycle.com | Inventory</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <h1>OMNICycle.com</h1>
+        </header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="Qualify.html">See if you qualify</a>
+            <a href="Inventory.html" class="active">Inventory</a>
+            <a href="Contact.html">Contact</a>
+        </nav>
+        <main>
+            <h2>Our Inventory</h2>
+            <p>Explore our wide range of vehicles and accessories.</p>
+
+            <!-- Tabs Navigation -->
+            <div class="tab-container">
+                <button class="tab-button active" onclick="openTab(event, 'Scooters')">Scooters</button>
+                <button class="tab-button" onclick="openTab(event, 'ATVs')">ATVs</button>
+                <button class="tab-button" onclick="openTab(event, 'Helmets')">Helmets</button>
+                <button class="tab-button" onclick="openTab(event, 'UTVs')">UTVs</button>
+            </div>
+
+            <!-- Tabs Content -->
+            <div id="Scooters" class="tab-content" style="display: block;">
+                <!-- Scooter products go here -->
+                <div class="product-grid">
+                    <!-- Example Product -->
+                    <div class="product-card">
+                        <img src="images/scooter1.jpg" alt="Scooter 1">
+                        <h3>2024 VITACCI SOLONA</h3>
+                        <p>The 2024 Vitacci Solona is a modern scooter designed for urban commuters seeking a blend of style, efficiency, and affordability. </p>
+                        <p class="price">$39 DOWN!</p>
+                        <button>View Details</button>
+                    </div>
+                    <!-- Add more products as needed -->
+                </div>
+            </div>
+
+            <div id="ATVs" class="tab-content">
+                <!-- ATV products go here -->
+                <div class="product-grid">
+                    <!-- Example Product -->
+                    <div class="product-card">
+                        <img src="images/atv1.jpg" alt="ATV 1">
+                        <h3>Model Name</h3>
+                        <p>Brief description of the ATV.</p>
+                        <p class="price">$Price</p>
+                        <button>View Details</button>
+                    </div>
+                    <!-- Add more products as needed -->
+                </div>
+            </div>
+
+            <div id="Helmets" class="tab-content">
+                <!-- Helmet products go here -->
+                <div class="product-grid">
+                    <!-- Example Product -->
+                    <div class="product-card">
+                        <img src="images/helmet1.jpg" alt="Helmet 1">
+                        <h3>Helmet Model</h3>
+                        <p>Brief description of the helmet.</p>
+                        <p class="price">$Price</p>
+                        <button>View Details</button>
+                    </div>
+                    <!-- Add more products as needed -->
+                </div>
+            </div>
+
+            <div id="UTVs" class="tab-content">
+                <!-- UTV products go here -->
+                <div class="product-grid">
+                    <!-- Example Product -->
+                    <div class="product-card">
+                        <img src="images/utv1.jpg" alt="UTV 1">
+                        <h3>Model Name</h3>
+                        <p>Brief description of the UTV.</p>
+                        <p class="price">$Price</p>
+                        <button>View Details</button>
+                    </div>
+                    <!-- Add more products as needed -->
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer>
+        <p>&copy; 2023 OMNICycle.com</p>
+    </footer>
+
+    <!-- Include script for tab functionality -->
+    <script src="script.js"></script>
+</body>
+</html>
