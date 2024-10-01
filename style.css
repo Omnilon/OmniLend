@@ -527,3 +527,31 @@ a:hover {
         padding: 20px;
     }
 }
+/* Logo Styles */
+.logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo {
+    height: 50px; /* Adjust the size as needed */
+    margin-right: 10px; /* Space between logo and text */
+}
+
+header h1, footer p {
+    margin: 0;
+    font-weight: 300;
+    color: #FFD700; /* Match the existing color scheme */
+}
+
+header, footer {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the content */
+}
+
+footer p {
+    font-size: 1em; /* Adjust font size as needed */
+}
