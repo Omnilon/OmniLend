@@ -22,54 +22,65 @@ let currentPosition = 0;
 const totalSlides = slideImages.length;
 
 // Function to create slides
-function createSlides() {
+const createSlides = () => {
     const slideshow = document.querySelector('.slideshow');
     slideImages.forEach((imageSrc) => {
         const slide = document.createElement('div');
         slide.classList.add('slide');
         const img = document.createElement('img');
         img.src = imageSrc;
+        img.loading = 'lazy';
         slide.appendChild(img);
         slideshow.appendChild(slide);
     });
-}
+};
 
 // Function to move to the next slide
-function nextSlide() {
+const nextSlide = () => {
     if (currentPosition >= totalSlides - slidesToShow) {
         currentPosition = 0;
     } else {
         currentPosition++;
     }
     updateSlidePosition();
-}
+};
 
 // Function to move to the previous slide
-function prevSlide() {
+const prevSlide = () => {
     if (currentPosition <= 0) {
         currentPosition = totalSlides - slidesToShow;
     } else {
         currentPosition--;
     }
     updateSlidePosition();
-}
+};
 
 // Function to update slide position
-function updateSlidePosition() {
+const updateSlidePosition = () => {
     const slideshow = document.querySelector('.slideshow');
     const slideWidth = slideshow.querySelector('.slide').offsetWidth;
     slideshow.style.transform = `translateX(-${currentPosition * slideWidth}px)`;
-}
+};
 
 // Auto-slide function
-function autoSlide() {
-    nextSlide();
-    setTimeout(autoSlide, 3000); // Change slide every 3 seconds
-}
+let autoInterval;
+const autoSlide = () => {
+    clearInterval(autoInterval);
+    autoInterval = setInterval(nextSlide, 3000);
+};
+
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        clearInterval(autoInterval);
+    } else {
+        autoSlide();
+    }
+});
 
 // Initialize slideshow
 document.addEventListener('DOMContentLoaded', () => {
     createSlides();
+    updateSlidePosition();
     autoSlide();
 });
 

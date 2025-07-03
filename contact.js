@@ -1,4 +1,4 @@
-document.getElementById('contactForm').addEventListener('submit', async function (e) {
+document.getElementById('contactForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const formStatus = document.getElementById('formStatus');
