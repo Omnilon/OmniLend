@@ -3,6 +3,17 @@
 /* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
 
+:root {
+    --primary-color: #FFD700;
+    --dark-color: #000;
+    --light-color: #fff;
+    --accent-bg: #fff8e1;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 /* Global Reset */
 * {
     margin: 0;
@@ -16,7 +27,7 @@ html, body {
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #fff;
+    background-color: var(--light-color);
     color: #333;
 }
 
@@ -29,20 +40,20 @@ header, nav, main, footer {
 
 /* Header Styles */
 header {
-    background-color: #000;
+    background-color: var(--dark-color);
     padding: 20px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
-    color: #FFD700;
+    color: var(--primary-color);
     margin: 0;
     font-weight: 300;
 }
 
 /* Navigation Styles */
 nav {
-    background-color: #FFD700;
+    background-color: var(--primary-color);
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -51,7 +62,7 @@ nav {
 }
 
 nav a {
-    color: #000;
+    color: var(--dark-color);
     text-align: center;
     padding: 14px 20px;
     text-decoration: none;
@@ -62,13 +73,13 @@ nav a {
 }
 
 nav a:hover {
-    background-color: #000;
-    color: #FFD700;
+    background-color: var(--dark-color);
+    color: var(--primary-color);
 }
 
 .active {
-    background-color: #000;
-    color: #FFD700;
+    background-color: var(--dark-color);
+    color: var(--primary-color);
 }
 
 /* Slideshow Styles */
@@ -78,17 +89,20 @@ nav a:hover {
     margin: 20px auto;
     overflow: hidden;
     padding: 0 60px;
+    scroll-snap-type: x mandatory;
 }
 
 .slideshow {
     display: flex;
     transition: transform 0.5s ease-in-out;
+    scroll-behavior: smooth;
 }
 
 .slide {
     min-width: calc(100% / 3);
     box-sizing: border-box;
     padding: 10px;
+    scroll-snap-align: start;
 }
 
 .slide img {
@@ -102,7 +116,7 @@ nav a:hover {
     position: absolute;
     top: 50%;
     background-color: rgba(0, 0, 0, 0.5);
-    color: #FFD700;
+    color: var(--primary-color);
     padding: 12px;
     border: none;
     cursor: pointer;
@@ -136,7 +150,7 @@ main {
     font-weight: 300;
     font-size: 2.5em;
     margin-bottom: 20px;
-    color: #000;
+    color: var(--dark-color);
 }
 
 .marketing p {
@@ -156,13 +170,13 @@ main {
     margin-bottom: 10px;
     font-weight: 400;
     font-size: 1.2em;
-    color: #000;
+    color: var(--dark-color);
 }
 
 .marketing button {
-    background-color: #FFD700;
+    background-color: var(--primary-color);
     border: none;
-    color: #000;
+    color: var(--dark-color);
     padding: 15px 30px;
     text-align: center;
     font-size: 16px;
@@ -173,15 +187,15 @@ main {
 }
 
 .marketing button:hover {
-    background-color: #000;
-    color: #FFD700;
-    border: 1px solid #FFD700;
+    background-color: var(--dark-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
 }
 
 /* Footer Styles */
 footer {
-    background-color: #000;
-    color: #FFD700;
+    background-color: var(--dark-color);
+    color: var(--primary-color);
     text-align: center;
     padding: 20px 0;
     width: 100%;
@@ -193,7 +207,7 @@ footer {
     margin: 40px auto;
     text-align: center;
     padding: 20px;
-    background-color: #fff8e1;
+    background-color: var(--accent-bg);
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -202,7 +216,7 @@ footer {
     font-weight: 300;
     font-size: 2.2em;
     margin-bottom: 20px;
-    color: #000;
+    color: var(--dark-color);
 }
 
 .qualify p {
@@ -222,7 +236,7 @@ footer {
     margin-bottom: 15px;
     font-weight: 400;
     font-size: 1.2em;
-    color: #000;
+    color: var(--dark-color);
     position: relative;
     padding-left: 30px;
 }
@@ -231,14 +245,14 @@ footer {
     content: "\2713";
     position: absolute;
     left: 0;
-    color: #FFD700;
+    color: var(--primary-color);
     font-size: 1.5em;
 }
 
 .qualify button {
-    background-color: #FFD700;
+    background-color: var(--primary-color);
     border: none;
-    color: #000;
+    color: var(--dark-color);
     padding: 15px 40px;
     text-align: center;
     font-size: 18px;
@@ -249,9 +263,9 @@ footer {
 }
 
 .qualify button:hover {
-    background-color: #000;
-    color: #FFD700;
-    border: 1px solid #FFD700;
+    background-color: var(--dark-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
 }
 
 /* FAQ Section Styles */
@@ -259,7 +273,7 @@ footer {
     max-width: 800px;
     margin: 40px auto;
     padding: 20px;
-    background-color: #fff8e1;
+    background-color: var(--accent-bg);
     border-radius: 10px;
 }
 
@@ -268,7 +282,7 @@ footer {
     font-weight: 300;
     font-size: 2.2em;
     margin-bottom: 30px;
-    color: #000;
+    color: var(--dark-color);
 }
 
 .faq-item {
@@ -278,7 +292,7 @@ footer {
 .faq-item h3 {
     font-weight: 400;
     font-size: 1.5em;
-    color: #000;
+    color: var(--dark-color);
     margin-bottom: 10px;
     cursor: pointer;
     position: relative;
@@ -312,7 +326,7 @@ footer {
     max-width: 800px;
     margin: 40px auto;
     padding: 30px;
-    background-color: #fff8e1;
+    background-color: var(--accent-bg);
     border-radius: 10px;
 }
 
@@ -321,7 +335,7 @@ footer {
     font-weight: 300;
     font-size: 2.2em;
     margin-bottom: 30px;
-    color: #000;
+    color: var(--dark-color);
 }
 
 .contact-form form {
@@ -332,7 +346,7 @@ footer {
 .contact-form label {
     font-weight: 400;
     font-size: 1.1em;
-    color: #000;
+    color: var(--dark-color);
     margin-bottom: 5px;
 }
 
@@ -348,14 +362,14 @@ footer {
 
 .contact-form input:focus,
 .contact-form textarea:focus {
-    border-color: #FFD700;
+    border-color: var(--primary-color);
     outline: none;
 }
 
 .contact-form button {
-    background-color: #FFD700;
+    background-color: var(--primary-color);
     border: none;
-    color: #000;
+    color: var(--dark-color);
     padding: 15px;
     font-size: 1.1em;
     cursor: pointer;
@@ -364,14 +378,14 @@ footer {
 }
 
 .contact-form button:hover {
-    background-color: #000;
-    color: #FFD700;
+    background-color: var(--dark-color);
+    color: var(--primary-color);
 }
 
 .contact-form #formStatus {
     margin-top: 20px;
     font-size: 1em;
-    color: #000;
+    color: var(--dark-color);
     text-align: center;
 }
 
@@ -383,9 +397,9 @@ footer {
 }
 
 .tab-button {
-    background-color: #FFD700;
+    background-color: var(--primary-color);
     border: none;
-    color: #000;
+    color: var(--dark-color);
     padding: 14px 20px;
     cursor: pointer;
     font-size: 16px;
@@ -396,13 +410,13 @@ footer {
 }
 
 .tab-button:hover {
-    background-color: #000;
-    color: #FFD700;
+    background-color: var(--dark-color);
+    color: var(--primary-color);
 }
 
 .tab-button.active {
-    background-color: #000;
-    color: #FFD700;
+    background-color: var(--dark-color);
+    color: var(--primary-color);
 }
 
 /* Tabs Content */
@@ -419,7 +433,7 @@ footer {
 }
 
 .product-card {
-    background-color: #fff;
+    background-color: var(--light-color);
     border: 1px solid #ddd;
     border-radius: 10px;
     width: 250px;
@@ -449,15 +463,15 @@ footer {
 
 .product-card .price {
     font-size: 1.1em;
-    color: #000;
+    color: var(--dark-color);
     margin: 10px 0;
     font-weight: bold;
 }
 
 .product-card button {
-    background-color: #FFD700;
+    background-color: var(--primary-color);
     border: none;
-    color: #000;
+    color: var(--dark-color);
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
@@ -465,8 +479,8 @@ footer {
 }
 
 .product-card button:hover {
-    background-color: #000;
-    color: #FFD700;
+    background-color: var(--dark-color);
+    color: var(--primary-color);
 }
 
 /* Links */
@@ -543,7 +557,7 @@ a:hover {
 header h1, footer p {
     margin: 0;
     font-weight: 300;
-    color: #FFD700; /* Match the existing color scheme */
+    color: var(--primary-color); /* Match the existing color scheme */
 }
 
 header, footer {
@@ -554,4 +568,11 @@ header, footer {
 
 footer p {
     font-size: 1em; /* Adjust font size as needed */
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
 }
