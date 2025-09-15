@@ -1,4 +1,4 @@
-/* script.js */
+﻿/* script.js */
 
 // Shared UI helpers (kept minimal). Any slideshow code is guarded.
 
@@ -165,10 +165,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.createElement('div');
     overlay.id = 'lightbox';
     overlay.innerHTML = `
-        <button class="lb-close" aria-label="Close">×</button>
-        <button class="lb-prev" aria-label="Previous">‹</button>
+        <button class="lb-close" aria-label="Close">Ã—</button>
+        <button class="lb-prev" aria-label="Previous">â€¹</button>
         <img class="lb-media" alt="" />
-        <button class="lb-next" aria-label="Next">›</button>
+        <button class="lb-next" aria-label="Next">â€º</button>
     `;
     document.body.appendChild(overlay);
 
@@ -236,3 +236,14 @@ document.addEventListener('DOMContentLoaded', () => {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }));
 });
+
+// Mobile menu toggle
+(function(){
+  const btn = document.getElementById('menuToggle');
+  if(!btn) return;
+  btn.addEventListener('click', ()=>{
+    const open = !document.body.classList.contains('nav-open');
+    document.body.classList.toggle('nav-open', open);
+    btn.setAttribute('aria-expanded', String(open));
+  });
+})();
