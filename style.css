@@ -701,6 +701,12 @@ body {
 .theme-jeton .logo-row{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:8px; }
 .theme-jeton .logo-chip{ padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.09); background:rgba(255,255,255,.03); font-size:13px; }
 
+/* One-page layout and transitions */
+.onepage { scroll-snap-type: y proximity; }
+.section { scroll-snap-align: start; }
+.section-leave { opacity: 0.6; transform: scale(.995); filter: blur(1px); transition: opacity .35s ease, transform .35s ease, filter .35s ease; }
+.onepage .section { padding-top: 24px; padding-bottom: 24px; }
+
 /* Hero video */
 .hero-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:16px; opacity:0; transition:opacity .6s ease; }
 .hero-video.is-visible{ opacity:.45; filter:saturate(110%) contrast(105%); }
@@ -725,6 +731,9 @@ body {
 .theme-saas .orb-2{ width:420px; height:420px; right:-120px; top:20px; background: radial-gradient(circle at 60% 40%, #f1e3c8, transparent 60%); }
 .theme-saas .mock-window{ position:absolute; right:28px; bottom: -40px; width: 520px; max-width: 45%; border-radius: 14px; border:1px solid #e6e0d6; overflow:hidden; box-shadow: 0 20px 60px rgba(0,0,0,.18); }
 .theme-saas .mock-window img{ display:block; width:100%; height:auto; }
+/* Apply same sizing in Jeton theme */
+.theme-jeton .mock-window{ position:absolute; right:28px; bottom:-40px; width:520px; max-width:45%; border-radius:14px; border:1px solid rgba(255,255,255,.08); overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.35); }
+.theme-jeton .mock-window img{ display:block; width:100%; height:auto; }
 .theme-saas .logos-saas{ text-align:center; margin: 22px auto 10px; color:#6b756f; }
 .theme-saas .logo-row{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:8px; }
 .theme-saas .logo-chip{ padding:8px 12px; border-radius:999px; border:1px solid #e6e0d6; background:#fff; font-size:13px; }
@@ -732,4 +741,5 @@ body {
 
 @media (max-width: 900px){
   .theme-saas .mock-window{ position:relative; right:auto; bottom:auto; max-width:100%; width:100%; margin-top:18px; }
+  .theme-jeton .mock-window{ position:relative; right:auto; bottom:auto; max-width:100%; width:100%; margin-top:18px; }
 }

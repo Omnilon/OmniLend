@@ -200,3 +200,39 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'ArrowLeft') prev();
     });
 });
+
+// Section transitions + sticky nav active state
+document.addEventListener('DOMContentLoaded', () => {
+    const sections = Array.from(document.querySelectorAll('main.onepage .section'));
+    const navLinks = Array.from(document.querySelectorAll('nav a[href^="#"]'));
+    if (sections.length === 0) return;
+
+    let current = null;
+    const setActive = (id) => {
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${id}`));
+    };
+
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const id = entry.target.id;
+            if (entry.isIntersecting) {
+                if (current && current !== entry.target) current.classList.add('section-leave');
+                entry.target.classList.remove('section-leave');
+                current = entry.target;
+                setActive(id);
+            }
+        });
+    }, { threshold: 0.55 });
+
+    sections.forEach(s => io.observe(s));
+
+    // Smooth scroll for on-page anchors (fallback if browser default is off)
+    navLinks.forEach(a => a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        if (!href.startsWith('#')) return;
+        const el = document.querySelector(href);
+        if (!el) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }));
+});

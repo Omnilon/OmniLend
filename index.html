@@ -19,16 +19,16 @@
             </a>
         </header>
         <nav>
-            <a href="index.html" class="active">Home</a>
-            <a href="Services.html">Services</a>
-            <a href="Portfolio.html">Portfolio</a>
-            <a href="About.html">About</a>
-            <a href="Contact.html">Contact</a>
+            <a href="#home" class="active">Home</a>
+            <a href="#services">Services</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
         </nav>
 
-        <main>
+        <main class="onepage">
             <!-- Jeton-style dark hero -->
-            <section class="hero-jeton hero reveal" style="position:relative;">
+            <section id="home" class="hero-jeton hero reveal" style="position:relative;">
                 <div class="bg-grid"></div>
                 <div class="orb orb-1"></div>
                 <div class="orb orb-2"></div>
@@ -43,9 +43,64 @@
                 <div class="mock-window reveal from-right" aria-hidden="true">
                     <img src="images/slide6.jpg" alt="Project preview" loading="lazy" />
                 </div>
-                <a class="scroll-cue" href="#content" aria-label="Scroll to content"></a>
+                <a class="scroll-cue" href="#services" aria-label="Scroll to content"></a>
             </section>
 
+            <!-- Portfolio -->
+            <section id="portfolio" class="section gallery-grid features-jeton">
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1505691723518-36a5ac3b2a59?q=80&w=1600&auto=format&fit=crop" alt="Warm modern living room"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?q=80&w=1600&auto=format&fit=crop" alt="Minimal kitchen detail"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1501045661006-fcebe0257c3f?q=80&w=1600&auto=format&fit=crop" alt="Bedroom with natural textures"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=1600&auto=format&fit=crop" alt="Light-filled dining area"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1600&auto=format&fit=crop" alt="Timeless bathroom finishes"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1521783988139-893ceae1bfb0?q=80&w=1600&auto=format&fit=crop" alt="Entryway styling"></figure>
+            </section>
+
+            <!-- About / Process -->
+            <section id="about" class="section process reveal">
+                <h2>How We Work</h2>
+                <ol>
+                    <li>Discovery call and style fit</li>
+                    <li>Design concepts and selections</li>
+                    <li>Procurement with client-funded purchasing</li>
+                    <li>Install and final styling</li>
+                </ol>
+            </section>
+
+            <!-- Contact -->
+            <section id="contact" class="section contact-form reveal">
+                <h2>Let’s talk about your space</h2>
+                <form id="contactForm">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                    <label for="service">Service:</label>
+                    <select id="service" name="service">
+                        <option value="E-Design">E‑Design</option>
+                        <option value="Residential Refresh">Residential Refresh</option>
+                        <option value="Staging">Staging</option>
+                        <option value="Small Commercial">Small Commercial</option>
+                        <option value="Unsure">Unsure</option>
+                    </select>
+                    <label for="budget">Budget Range:</label>
+                    <select id="budget" name="budget">
+                        <option value="Under $1,000">Under $1,000</option>
+                        <option value="$1,000–$3,000">$1,000–$3,000</option>
+                        <option value="$3,000–$7,500">$3,000–$7,500</option>
+                        <option value="$7,500+">$7,500+</option>
+                    </select>
+                    <label for="message">Project details:</label>
+                    <textarea id="message" name="message" placeholder="Scope, timeline, and any links (Pinterest, Instagram, etc.)" required></textarea>
+                    <button type="submit" class="btn btn-jeton">Submit</button>
+                </form>
+                <p id="formStatus"></p>
+                <ul style="margin-top:12px;">
+                    <li>Email: <a href="mailto:omnilend.co@gmail.com">omnilend.co@gmail.com</a></li>
+                    <li>Phone: <a href="tel:4049198026">404-919-8026</a></li>
+                    <li>Hours: Mon–Fri, 8am–6pm ET</li>
+                </ul>
+            </section>
             <!-- Trusted by row -->
             <section class="logos-saas reveal fade">
                 <span>Trusted by homeowners and small businesses</span>
@@ -59,7 +114,7 @@
             </section>
 
             <!-- Services Teaser -->
-            <section id="content" class="feature-grid stagger features-jeton" data-stagger-step="0.08">
+            <section id="services" class="feature-grid stagger features-jeton" data-stagger-step="0.08">
                 <article class="feature jeton-card reveal from-left">
                     <h3>E‑Design</h3>
                     <p>Fast, flat‑fee design boards with links, finish schedules, and a shopping list you can execute at your pace.</p>
@@ -98,3 +153,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+
