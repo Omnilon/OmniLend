@@ -40,9 +40,8 @@ header, nav, main, footer {
 
 /* Header Styles */
 header {
-    background-color: var(--dark-color);
+    background: transparent;
     padding: 20px 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
@@ -53,12 +52,17 @@ header h1 {
 
 /* Navigation Styles */
 nav {
-    background-color: var(--primary-color);
+    background-color: rgba(192, 163, 110, 0.92);
+    backdrop-filter: blur(8px) saturate(120%);
+    -webkit-backdrop-filter: blur(8px) saturate(120%);
     overflow: hidden;
     display: flex;
     justify-content: center;
     flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 nav a {
@@ -635,3 +639,21 @@ body {
 
 @media (max-width: 900px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px) { .gallery-grid { grid-template-columns: 1fr; } }
+
+/* Reveal animations for scroll */
+.reveal { opacity: 0; transform: translateY(24px) scale(.98); transition: opacity .8s cubic-bezier(.2,.65,.2,1), transform .8s cubic-bezier(.2,.65,.2,1); will-change: opacity, transform; }
+.reveal.from-left { transform: translateX(-24px); }
+.reveal.from-right { transform: translateX(24px); }
+.reveal.fade { transform: none; }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* Portfolio image skeleton shimmer */
+.gallery-grid figure { position: relative; }
+.gallery-grid figure::before { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, #ffffff00 0%, #ffffff90 40%, #ffffff00 80%); background-size: 200% 100%; animation: shimmer 1.2s linear infinite; }
+.gallery-grid figure.is-loaded::before { display: none; }
+.gallery-grid img { opacity: 0; transition: opacity .6s ease; }
+.gallery-grid img.is-loaded { opacity: 1; }
+@keyframes shimmer { to { background-position-x: -200%; } }
+
+/* Brand logo image */
+.brand-logo { height: 28px; width: auto; vertical-align: middle; margin-right: 6px; }

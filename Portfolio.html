@@ -13,10 +13,9 @@
 </head>
 <body>
     <div class="wrapper">
-        <header class="brand-header">
-            <a href="index.html" class="brand">
-                <span class="brand-mark">Ø</span>
-                <span class="brand-name">mnilon Interiors</span>
+        <header class="brand-header reveal fade is-visible">
+            <a href="index.html" class="brand" aria-label="Ømnilon Interiors">
+                <img class="brand-logo" src="images/omnilon-wordmark.svg" alt="Ømnilon Interiors logo" height="28" />
             </a>
         </header>
         <nav>
@@ -28,7 +27,7 @@
         </nav>
 
         <main>
-            <section class="hero" style="padding:48px 28px;">
+            <section class="hero reveal" style="padding:48px 28px;">
                 <div class="hero-inner">
                     <h1>Portfolio</h1>
                     <p>A few of our favorite moments. Images are representative of our style; full project galleries available on request.</p>
@@ -36,19 +35,19 @@
             </section>
 
             <section class="gallery-grid">
-                <!-- Unsplash images for interiors -->
-                <figure><img src="https://images.unsplash.com/photo-1505691723518-36a5ac3b2a59?q=80&w=1600&auto=format&fit=crop" alt="Warm modern living room"></figure>
-                <figure><img src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?q=80&w=1600&auto=format&fit=crop" alt="Minimal kitchen detail"></figure>
-                <figure><img src="https://images.unsplash.com/photo-1501045661006-fcebe0257c3f?q=80&w=1600&auto=format&fit=crop" alt="Bedroom with natural textures"></figure>
-                <figure><img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=1600&auto=format&fit=crop" alt="Light-filled dining area"></figure>
-                <figure><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1600&auto=format&fit=crop" alt="Timeless bathroom finishes"></figure>
-                <figure><img src="https://images.unsplash.com/photo-1521783988139-893ceae1bfb0?q=80&w=1600&auto=format&fit=crop" alt="Entryway styling"></figure>
-                <figure><img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=1600&auto=format&fit=crop" alt="Commercial seating"></figure>
-                <figure><img src="https://images.unsplash.com/photo-1520880867055-1e30d1cb001c?q=80&w=1600&auto=format&fit=crop" alt="Cafe counter"></figure>
-                <figure><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop" alt="Workspace"></figure>
-                <figure><img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1600&auto=format&fit=crop" alt="Reading nook"></figure>
-                <figure><img src="https://images.unsplash.com/photo-1549187774-b4e9b0445b41?q=80&w=1600&auto=format&fit=crop" alt="Staging scene"></figure>
-                <figure><img src="https://images.unsplash.com/photo-1501183638710-841dd1904471?q=80&w=1600&auto=format&fit=crop" alt="Textured materials"></figure>
+                <!-- Unsplash images for interiors (lazy-loaded) -->
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1505691723518-36a5ac3b2a59?q=80&w=1600&auto=format&fit=crop" alt="Warm modern living room"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?q=80&w=1600&auto=format&fit=crop" alt="Minimal kitchen detail"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1501045661006-fcebe0257c3f?q=80&w=1600&auto=format&fit=crop" alt="Bedroom with natural textures"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=1600&auto=format&fit=crop" alt="Light-filled dining area"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1600&auto=format&fit=crop" alt="Timeless bathroom finishes"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1521783988139-893ceae1bfb0?q=80&w=1600&auto=format&fit=crop" alt="Entryway styling"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=1600&auto=format&fit=crop" alt="Commercial seating"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1520880867055-1e30d1cb001c?q=80&w=1600&auto=format&fit=crop" alt="Cafe counter"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop" alt="Workspace"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=1600&auto=format&fit=crop" alt="Reading nook"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1549187774-b4e9b0445b41?q=80&w=1600&auto=format&fit=crop" alt="Staging scene"></figure>
+                <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1501183638710-841dd1904471?q=80&w=1600&auto=format&fit=crop" alt="Textured materials"></figure>
             </section>
         </main>
     </div>
@@ -57,4 +56,3 @@
     </footer>
 </body>
 </html>
-
