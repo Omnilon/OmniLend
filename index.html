@@ -11,7 +11,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 <link rel="manifest" href="/site.webmanifest">
 </head>
-<body>
+<body class="theme-saas">
     <div class="wrapper">
         <header class="brand-header reveal fade is-visible">
             <a href="index.html" class="brand" aria-label="Ømnilon Interiors">
@@ -27,35 +27,52 @@
         </nav>
 
         <main>
-            <!-- Hero -->
-            <section class="hero reveal" style="position:relative;">
-                <video id="heroVideo" class="hero-video" playsinline muted loop preload="metadata" poster="images/slide1.jpg"></video>
+            <!-- SaaS-style Hero -->
+            <section class="hero-saas hero reveal" style="position:relative;">
+                <div class="bg-grid"></div>
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
                 <div class="hero-inner" data-parallax="0.12">
-                    <h1>Spaces that feel like you.</h1>
-                    <p>Atlanta-based studio crafting livable, modern interiors for homes and small businesses. Flexible e‑design, residential refresh, staging, and small commercial updates.</p>
+                    <h1 class="grad-text">Design that works as beautifully as it looks.</h1>
+                    <p>We combine material expertise with modern process to deliver interiors that feel intentional, calm, and effortless.</p>
                     <div class="cta-row">
-                        <a class="btn primary" href="Services.html">Explore Services</a>
-                        <a class="btn" href="Contact.html">Get a Quote</a>
+                        <a class="btn btn-gradient" href="Services.html">Start a project</a>
+                        <a class="btn" href="Portfolio.html">See work</a>
                     </div>
+                </div>
+                <div class="mock-window reveal from-right" aria-hidden="true">
+                    <img src="images/slide6.jpg" alt="Project preview" loading="lazy" />
                 </div>
                 <a class="scroll-cue" href="#content" aria-label="Scroll to content"></a>
             </section>
 
+            <!-- Trusted by row -->
+            <section class="logos-saas reveal fade">
+                <span>Trusted by homeowners and small businesses</span>
+                <div class="logo-row">
+                    <div class="logo-chip">Oak + Stone</div>
+                    <div class="logo-chip">Southlight</div>
+                    <div class="logo-chip">Willow Co</div>
+                    <div class="logo-chip">Hive Coffee</div>
+                    <div class="logo-chip">Frame Studio</div>
+                </div>
+            </section>
+
             <!-- Services Teaser -->
-            <section id="content" class="feature-grid stagger" data-stagger-step="0.08">
-                <article class="feature reveal from-left">
+            <section id="content" class="feature-grid stagger features-saas" data-stagger-step="0.08">
+                <article class="feature glass reveal from-left">
                     <h3>E‑Design</h3>
                     <p>Fast, flat‑fee design boards with links, finish schedules, and a shopping list you can execute at your pace.</p>
                 </article>
-                <article class="feature reveal">
+                <article class="feature glass reveal">
                     <h3>Residential Refresh</h3>
                     <p>Room‑by‑room transformations with milestone billing. Client funds purchases so you never float materials.</p>
                 </article>
-                <article class="feature reveal">
+                <article class="feature glass reveal">
                     <h3>Staging</h3>
                     <p>Photo‑ready staging that highlights your property’s strengths. Clear terms on inventory, timing, and care.</p>
                 </article>
-                <article class="feature reveal from-right">
+                <article class="feature glass reveal from-right">
                     <h3>Small Commercial</h3>
                     <p>Warm, durable finishes and layouts for boutiques, coffee shops, and creative offices.</p>
                 </article>

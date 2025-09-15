@@ -587,6 +587,8 @@ footer p {
     --dark-color: #2F3E3D;   /* deep green-grey */
     --light-color: #F6F2EC;  /* soft parchment */
     --accent-bg: #EFE9DD;    /* light accent */
+    --ink: #0c0f14;          /* deep ink for dark sections */
+    --glass: rgba(255,255,255,.6);
 }
 
 body {
@@ -682,3 +684,23 @@ body {
 #lightbox .lb-close{ top:24px; right:24px; }
 #lightbox .lb-prev{ left:24px; }
 #lightbox .lb-next{ right:24px; }
+/* Gradient headline text */
+.grad-text{ background: linear-gradient(92deg,#FFFFFF 0%, #d9e6de 35%, #C0A36E 80%);
+  -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+/* SaaS hero */
+.theme-saas .hero-saas{ background: radial-gradient(800px 500px at 20% -10%, #e8f2ea, transparent), radial-gradient(900px 600px at 120% 0, #fff, var(--accent-bg)); border-radius: 18px; padding: 84px 28px 96px; overflow: hidden; }
+.theme-saas .hero-saas .bg-grid{ position:absolute; inset:0; background-image: linear-gradient(to right, rgba(0,0,0,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,.06) 1px, transparent 1px); background-size: 36px 36px; opacity:.25; }
+.theme-saas .orb{ position:absolute; filter: blur(30px); opacity:.35; border-radius: 50%; }
+.theme-saas .orb-1{ width:380px; height:380px; left:-80px; top:-60px; background: radial-gradient(circle at 30% 30%, #c3e6d1, transparent 60%); }
+.theme-saas .orb-2{ width:420px; height:420px; right:-120px; top:20px; background: radial-gradient(circle at 60% 40%, #f1e3c8, transparent 60%); }
+.theme-saas .mock-window{ position:absolute; right:28px; bottom: -40px; width: 520px; max-width: 45%; border-radius: 14px; border:1px solid #e6e0d6; overflow:hidden; box-shadow: 0 20px 60px rgba(0,0,0,.18); }
+.theme-saas .mock-window img{ display:block; width:100%; height:auto; }
+.theme-saas .logos-saas{ text-align:center; margin: 22px auto 10px; color:#6b756f; }
+.theme-saas .logo-row{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:8px; }
+.theme-saas .logo-chip{ padding:8px 12px; border-radius:999px; border:1px solid #e6e0d6; background:#fff; font-size:13px; }
+.features-saas .feature.glass{ background: rgba(255,255,255,.8); backdrop-filter: blur(6px); }
+
+@media (max-width: 900px){
+  .theme-saas .mock-window{ position:relative; right:auto; bottom:auto; max-width:100%; width:100%; margin-top:18px; }
+}
