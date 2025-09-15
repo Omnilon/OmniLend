@@ -669,3 +669,16 @@ body {
 
 /* Brand logo image */
 .brand-logo { height: 28px; width: auto; vertical-align: middle; margin-right: 6px; }
+
+/* Hero video */
+.hero-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:16px; opacity:0; transition:opacity .6s ease; }
+.hero-video.is-visible{ opacity:.45; filter:saturate(110%) contrast(105%); }
+
+/* Lightbox */
+#lightbox{ position:fixed; inset:0; background:rgba(0,0,0,.8); display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:opacity .25s ease; z-index:2000; }
+#lightbox.is-open{ opacity:1; visibility:visible; }
+#lightbox .lb-media{ max-width:90vw; max-height:80vh; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,.4); }
+#lightbox .lb-close, #lightbox .lb-prev, #lightbox .lb-next{ position:absolute; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); color:#fff; padding:6px 10px; border-radius:8px; cursor:pointer; font-size:22px; line-height:1; }
+#lightbox .lb-close{ top:24px; right:24px; }
+#lightbox .lb-prev{ left:24px; }
+#lightbox .lb-next{ right:24px; }

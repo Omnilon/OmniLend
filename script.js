@@ -102,3 +102,101 @@ document.addEventListener('DOMContentLoaded', () => {
 
     figures.forEach(f => io.observe(f));
 });
+
+// Staggered children support: add incremental transition delays
+document.addEventListener('DOMContentLoaded', () => {
+    const containers = document.querySelectorAll('.stagger');
+    containers.forEach(container => {
+        const step = parseFloat(container.getAttribute('data-stagger-step') || '0.06');
+        Array.from(container.children).forEach((child, i) => {
+            child.style.transitionDelay = `${(i + 1) * step}s`;
+        });
+    });
+});
+
+// Simple parallax for hero text
+(() => {
+    const heroInner = document.querySelector('.hero .hero-inner[data-parallax]');
+    if (!heroInner) return;
+    const speed = parseFloat(heroInner.getAttribute('data-parallax')) || 0.1;
+    const onScroll = () => {
+        const rect = heroInner.getBoundingClientRect();
+        const offset = Math.min(40, Math.max(-40, (window.innerHeight - rect.top) * speed * 0.1));
+        heroInner.style.transform = `translateY(${offset}px)`;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+})();
+
+// Optional hero video: only show once canplay
+document.addEventListener('DOMContentLoaded', () => {
+    const video = document.getElementById('heroVideo');
+    if (!video) return;
+    // If you add media/hero.mp4 to the repo, it will play automatically.
+    // To use a remote clip, set data-src on the video element.
+    const source = video.getAttribute('data-src') || 'media/hero.mp4';
+    // Create a source element to avoid 404 flashing
+    const s = document.createElement('source');
+    s.src = source; s.type = 'video/mp4';
+    video.appendChild(s);
+    const show = () => { video.classList.add('is-visible'); try { video.play(); } catch (_) {} };
+    video.addEventListener('canplay', show, { once: true });
+});
+
+// Micro-interactions for buttons: subtle spring on hover/press
+document.addEventListener('DOMContentLoaded', () => {
+    const press = (el, scale) => { el.style.transform = `scale(${scale})`; };
+    document.querySelectorAll('.btn, nav a').forEach(el => {
+        el.style.transition = 'transform .18s cubic-bezier(.2,.8,.2,1.4), box-shadow .18s';
+        el.addEventListener('mouseenter', () => press(el, 1.03));
+        el.addEventListener('mouseleave', () => press(el, 1));
+        el.addEventListener('mousedown', () => press(el, 0.98));
+        el.addEventListener('mouseup', () => press(el, 1.02));
+        el.addEventListener('blur', () => press(el, 1));
+    });
+});
+
+// Lightbox for portfolio images
+document.addEventListener('DOMContentLoaded', () => {
+    const images = Array.from(document.querySelectorAll('.gallery-grid img'));
+    if (images.length === 0) return;
+
+    // Build overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'lightbox';
+    overlay.innerHTML = `
+        <button class="lb-close" aria-label="Close">×</button>
+        <button class="lb-prev" aria-label="Previous">‹</button>
+        <img class="lb-media" alt="" />
+        <button class="lb-next" aria-label="Next">›</button>
+    `;
+    document.body.appendChild(overlay);
+
+    const media = overlay.querySelector('.lb-media');
+    const closeBtn = overlay.querySelector('.lb-close');
+    const prevBtn = overlay.querySelector('.lb-prev');
+    const nextBtn = overlay.querySelector('.lb-next');
+    let idx = 0;
+
+    const srcOf = (img) => img.getAttribute('data-src') || img.src;
+    const show = (i) => {
+        idx = (i + images.length) % images.length;
+        media.src = srcOf(images[idx]);
+        overlay.classList.add('is-open');
+    };
+    const hide = () => overlay.classList.remove('is-open');
+    const next = () => show(idx + 1);
+    const prev = () => show(idx - 1);
+
+    images.forEach((img, i) => img.addEventListener('click', () => show(i)));
+    closeBtn.addEventListener('click', hide);
+    nextBtn.addEventListener('click', next);
+    prevBtn.addEventListener('click', prev);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) hide(); });
+    document.addEventListener('keydown', (e) => {
+        if (!overlay.classList.contains('is-open')) return;
+        if (e.key === 'Escape') hide();
+        if (e.key === 'ArrowRight') next();
+        if (e.key === 'ArrowLeft') prev();
+    });
+});

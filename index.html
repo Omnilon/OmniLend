@@ -29,7 +29,8 @@
         <main>
             <!-- Hero -->
             <section class="hero reveal" style="position:relative;">
-                <div class="hero-inner">
+                <video id="heroVideo" class="hero-video" playsinline muted loop preload="metadata" poster="images/slide1.jpg"></video>
+                <div class="hero-inner" data-parallax="0.12">
                     <h1>Spaces that feel like you.</h1>
                     <p>Atlanta-based studio crafting livable, modern interiors for homes and small businesses. Flexible e‑design, residential refresh, staging, and small commercial updates.</p>
                     <div class="cta-row">
@@ -41,7 +42,7 @@
             </section>
 
             <!-- Services Teaser -->
-            <section id="content" class="feature-grid">
+            <section id="content" class="feature-grid stagger" data-stagger-step="0.08">
                 <article class="feature reveal from-left">
                     <h3>E‑Design</h3>
                     <p>Fast, flat‑fee design boards with links, finish schedules, and a shopping list you can execute at your pace.</p>
