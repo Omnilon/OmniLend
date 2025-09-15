@@ -691,6 +691,12 @@ body {
 .hero-jeton .orb-1{ width:360px; height:360px; left:-80px; top:-60px; background: radial-gradient(circle at 30% 30%, rgba(255,122,24,.45), transparent 60%); }
 .hero-jeton .orb-2{ width:420px; height:420px; right:-120px; top:20px; background: radial-gradient(circle at 60% 40%, rgba(255,181,71,.35), transparent 60%); }
 
+/* Ensure hero uses grid so preview never overlaps text */
+.hero-jeton{ display:grid; grid-template-columns: minmax(320px,1fr) minmax(320px, 38vw); gap: 24px; align-items: center; }
+.hero-jeton .hero-inner{ text-align:left; margin:0; }
+.hero-jeton .mock-window{ position:static !important; transform:none !important; width:100% !important; max-width:none !important; aspect-ratio:16/10; }
+.hero-jeton .mock-window img{ height:100%; object-fit:cover; }
+
 .btn.btn-jeton{ border:none; color:#0e1117; background:linear-gradient(90deg,#ff7a18,#ffb547); box-shadow:0 6px 18px rgba(255,122,24,.3); }
 .btn.btn-outline{ border:1px solid #c9d4d4; color:#e8ecec; background:transparent; }
 
@@ -703,7 +709,7 @@ body {
 
 /* One-page layout and transitions */
 .onepage { scroll-snap-type: y proximity; }
-.section { scroll-snap-align: start; }
+.section { scroll-snap-align: start; scroll-margin-top: 96px; }
 .section-leave { opacity: 0.6; transform: scale(.995); filter: blur(1px); transition: opacity .35s ease, transform .35s ease, filter .35s ease; }
 .onepage .section { padding-top: 24px; padding-bottom: 24px; content-visibility: auto; contain-intrinsic-size: 1px 900px; }
 
@@ -754,6 +760,10 @@ body {
 .theme-saas .logo-chip{ padding:8px 12px; border-radius:999px; border:1px solid #e6e0d6; background:#fff; font-size:13px; }
 .features-saas .feature.glass{ background: rgba(255,255,255,.8); backdrop-filter: blur(6px); }
 
+@media (max-width: 980px){
+  .hero-jeton{ grid-template-columns: 1fr; }
+  .hero-jeton .hero-inner{ text-align:center; }
+}
 @media (max-width: 900px){
   .theme-saas .mock-window{ position:relative; right:auto; bottom:auto; max-width:100%; width:100%; margin-top:18px; }
   .theme-jeton .mock-window{ position:relative; right:auto; top:auto; transform:none; max-width:100%; width:100%; margin-top:18px; aspect-ratio:auto; }
