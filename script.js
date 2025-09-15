@@ -140,7 +140,19 @@ document.addEventListener('DOMContentLoaded', () => {
     s.src = source; s.type = 'video/mp4';
     video.appendChild(s);
     const show = () => { video.classList.add('is-visible'); try { video.play(); } catch (_) {} };
-    video.addEventListener('canplay', show, { once: true });
+    let played = false;
+    video.addEventListener('canplay', () => { played = true; show(); }, { once: true });
+
+    // Fallback: if no video can play, swap in a background image
+    const imgFallback = video.getAttribute('data-img');
+    setTimeout(() => {
+        if (!played && imgFallback) {
+            const imgDiv = document.createElement('div');
+            imgDiv.className = 'hero-image is-visible';
+            imgDiv.style.backgroundImage = `url('${imgFallback}')`;
+            video.replaceWith(imgDiv);
+        }
+    }, 1200);
 });
 
 // Micro-interactions for buttons: subtle spring on hover/press

@@ -710,6 +710,9 @@ body {
 /* Hero video */
 .hero-video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:16px; opacity:0; transition:opacity .6s ease; }
 .hero-video.is-visible{ opacity:.45; filter:saturate(110%) contrast(105%); }
+/* Fallback hero image if video unavailable */
+.hero-image{ position:absolute; inset:0; width:100%; height:100%; background-size:cover; background-position:center; border-radius:16px; opacity:0; transition:opacity .6s ease; filter:saturate(110%) contrast(105%); }
+.hero-image.is-visible{ opacity:.45; }
 
 /* Lightbox */
 #lightbox{ position:fixed; inset:0; background:rgba(0,0,0,.8); display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:opacity .25s ease; z-index:2000; }
