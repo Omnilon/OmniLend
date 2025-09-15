@@ -6,6 +6,8 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
 
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
+    const service = document.getElementById('service') ? document.getElementById('service').value : '';
+    const budget = document.getElementById('budget') ? document.getElementById('budget').value : '';
     const message = document.getElementById('message').value.trim();
 
     try {
@@ -14,7 +16,7 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name, email, message }),
+            body: JSON.stringify({ name, email, message, service, budget }),
         });
 
         const result = await response.json();

@@ -1,112 +1,53 @@
 /* script.js */
 
-// Array of image URLs for the slideshow
-const slideImages = [
-    'images/slide1.jpg',
-    'images/slide2.jpg',
-    'images/slide3.jpg',
-    'images/slide4.jpg',
-    'images/slide5.jpg',
-    'images/slide6.jpg',
-    'images/slide7.jpg',
-    'images/slide8.jpg',
-    'images/slide9.jpg',
-    'images/slide10.jpg'
-];
+// Shared UI helpers (kept minimal). Any slideshow code is guarded.
 
-// Number of slides to show at once
-const slidesToShow = 3;
-
-// Initialize variables
-let currentPosition = 0;
-const totalSlides = slideImages.length;
-
-// Function to create slides
-const createSlides = () => {
+// Optional slideshow support (only runs if .slideshow exists)
+(() => {
     const slideshow = document.querySelector('.slideshow');
-    slideImages.forEach((imageSrc) => {
-        const slide = document.createElement('div');
-        slide.classList.add('slide');
-        const img = document.createElement('img');
-        img.src = imageSrc;
-        img.loading = 'lazy';
-        slide.appendChild(img);
-        slideshow.appendChild(slide);
-    });
-};
+    if (!slideshow) return;
 
-// Function to move to the next slide
-const nextSlide = () => {
-    if (currentPosition >= totalSlides - slidesToShow) {
-        currentPosition = 0;
-    } else {
-        currentPosition++;
-    }
-    updateSlidePosition();
-};
+    const slideImages = [];
+    const slidesToShow = 3;
+    let currentPosition = 0;
 
-// Function to move to the previous slide
-const prevSlide = () => {
-    if (currentPosition <= 0) {
-        currentPosition = totalSlides - slidesToShow;
-    } else {
-        currentPosition--;
-    }
-    updateSlidePosition();
-};
+    const createSlides = () => {
+        slideImages.forEach((imageSrc) => {
+            const slide = document.createElement('div');
+            slide.classList.add('slide');
+            const img = document.createElement('img');
+            img.src = imageSrc;
+            img.loading = 'lazy';
+            slide.appendChild(img);
+            slideshow.appendChild(slide);
+        });
+    };
 
-// Function to update slide position
-const updateSlidePosition = () => {
-    const slideshow = document.querySelector('.slideshow');
-    const slideWidth = slideshow.querySelector('.slide').offsetWidth;
-    slideshow.style.transform = `translateX(-${currentPosition * slideWidth}px)`;
-};
+    const updateSlidePosition = () => {
+        const firstSlide = slideshow.querySelector('.slide');
+        if (!firstSlide) return;
+        const slideWidth = firstSlide.offsetWidth;
+        slideshow.style.transform = `translateX(-${currentPosition * slideWidth}px)`;
+    };
 
-// Auto-slide function
-let autoInterval;
-const autoSlide = () => {
-    clearInterval(autoInterval);
-    autoInterval = setInterval(nextSlide, 3000);
-};
+    const nextSlide = () => {
+        const totalSlides = slideImages.length;
+        if (totalSlides === 0) return;
+        currentPosition = (currentPosition >= totalSlides - slidesToShow) ? 0 : currentPosition + 1;
+        updateSlidePosition();
+    };
 
-document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
+    let autoInterval;
+    const autoSlide = () => {
         clearInterval(autoInterval);
-    } else {
-        autoSlide();
-    }
-});
+        autoInterval = setInterval(nextSlide, 3000);
+    };
 
-// Initialize slideshow
-document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) clearInterval(autoInterval); else autoSlide();
+    });
+
     createSlides();
     updateSlidePosition();
     autoSlide();
-});
-
-/* script.js */
-
-/* Existing code for the slideshow on Home.html */
-/* ... */
-
-/* Tab Functionality for Inventory Page */
-function openTab(evt, tabName) {
-    // Declare all variables
-    let i, tabcontent, tabbuttons;
-
-    // Get all elements with class="tab-content" and hide them
-    tabcontent = document.getElementsByClassName("tab-content");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-
-    // Get all elements with class="tab-button" and remove the class "active"
-    tabbuttons = document.getElementsByClassName("tab-button");
-    for (i = 0; i < tabbuttons.length; i++) {
-        tabbuttons[i].classList.remove("active");
-    }
-
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.classList.add("active");
-}
+})();

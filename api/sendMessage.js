@@ -3,7 +3,7 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
 
-    const { name, email, message } = req.body;
+    const { name, email, message, service, budget } = req.body;
 
     if (!name || !email || !message) {
         return res.status(400).json({ message: 'All fields are required.' });
@@ -13,10 +13,12 @@ export default async function handler(req, res) {
     const chatId = process.env.TELEGRAM_CHAT_ID;
 
     const text = `
-New Contact Form Submission:
+Ømnilon Interiors — New Inquiry
 
 Name: ${name}
 Email: ${email}
+Service: ${service || 'n/a'}
+Budget: ${budget || 'n/a'}
 Message: ${message}
 `;
 

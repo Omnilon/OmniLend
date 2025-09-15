@@ -1,7 +1,7 @@
 /* style.css */
 
-/* Import Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@500;700&display=swap');
 
 :root {
     --primary-color: #FFD700;
@@ -576,3 +576,62 @@ footer p {
         animation: none !important;
     }
 }
+
+/* --- Ømnilon theme overrides and new sections --- */
+:root {
+    --primary-color: #C0A36E; /* brass/gold */
+    --dark-color: #2F3E3D;   /* deep green-grey */
+    --light-color: #F6F2EC;  /* soft parchment */
+    --accent-bg: #EFE9DD;    /* light accent */
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+}
+
+.brand-header { padding: 28px 0 16px; }
+.brand { display: inline-flex; align-items: baseline; gap: 6px; text-decoration: none; color: var(--dark-color); }
+.brand-mark { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 34px; color: var(--primary-color); line-height: 1; }
+.brand-name { font-weight: 600; font-size: 22px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+.hero { background: radial-gradient(1000px 500px at 10% -20%, var(--accent-bg), transparent), radial-gradient(1200px 600px at 100% 0%, #fff, var(--accent-bg)); border-radius: 16px; padding: 72px 28px; margin: 10px auto 24px; }
+.hero-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: 44px; line-height: 1.1; margin-bottom: 12px; color: var(--dark-color); }
+.hero p { font-size: 18px; color: #475351; margin: 0 auto 22px; max-width: 720px; }
+.cta-row { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.btn { display: inline-block; padding: 12px 18px; border-radius: 8px; border: 1px solid var(--dark-color); color: var(--dark-color); text-decoration: none; }
+.btn.primary { background-color: var(--dark-color); color: var(--light-color); border-color: var(--dark-color); }
+
+.feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 28px auto; }
+.feature { background: #fff; border: 1px solid #e6e0d6; border-radius: 12px; padding: 18px; }
+.feature h3 { font-family: 'Playfair Display', serif; margin-bottom: 8px; }
+
+.process { max-width: 900px; margin: 40px auto; padding: 0 16px; }
+.process h2 { font-family: 'Playfair Display', serif; margin-bottom: 10px; }
+.process ol { padding-left: 20px; line-height: 1.9; }
+
+.site-footer { padding: 28px 0 40px; text-align: center; color: #6a766f; }
+
+@media (max-width: 768px) {
+    .feature-grid { grid-template-columns: 1fr; }
+}
+
+/* Portfolio gallery */
+.gallery-grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 12px; 
+    margin: 24px auto; 
+}
+.gallery-grid figure { 
+    background: #fff; 
+    border: 1px solid #e6e0d6; 
+    border-radius: 10px; 
+    overflow: hidden; 
+}
+.gallery-grid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+@media (max-width: 900px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .gallery-grid { grid-template-columns: 1fr; } }
