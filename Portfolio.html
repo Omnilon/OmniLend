@@ -27,14 +27,15 @@
         </nav>
 
         <main>
-            <section class="hero reveal" style="padding:48px 28px;">
+            <section class="hero reveal" style="padding:48px 28px; position:relative;">
                 <div class="hero-inner">
                     <h1>Portfolio</h1>
                     <p>A few of our favorite moments. Images are representative of our style; full project galleries available on request.</p>
                 </div>
+                <a class="scroll-cue" href="#content" aria-label="Scroll to content"></a>
             </section>
 
-            <section class="gallery-grid">
+            <section id="content" class="gallery-grid">
                 <!-- Unsplash images for interiors (lazy-loaded) -->
                 <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1505691723518-36a5ac3b2a59?q=80&w=1600&auto=format&fit=crop" alt="Warm modern living room"></figure>
                 <figure class="reveal"><img data-src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?q=80&w=1600&auto=format&fit=crop" alt="Minimal kitchen detail"></figure>
@@ -54,5 +55,6 @@
     <footer class="site-footer">
         <p>&copy; 2025 Ømnilon Interiors — Atlanta, GA</p>
     </footer>
+    <script src="script.js"></script>
 </body>
 </html>

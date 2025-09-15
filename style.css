@@ -608,6 +608,18 @@ body {
 .btn { display: inline-block; padding: 12px 18px; border-radius: 8px; border: 1px solid var(--dark-color); color: var(--dark-color); text-decoration: none; }
 .btn.primary { background-color: var(--dark-color); color: var(--light-color); border-color: var(--dark-color); }
 
+/* Scroll cue (mouse) */
+.scroll-cue {
+    position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%);
+    width: 26px; height: 42px; border: 2px solid #6a766f; border-radius: 16px;
+    opacity: .8;
+}
+.scroll-cue::after{
+    content:""; position:absolute; top:8px; left:50%; width:4px; height:8px; background:#6a766f; border-radius:2px; transform:translateX(-50%);
+    animation: wheel 1.6s ease-in-out infinite;
+}
+@keyframes wheel { 0%{transform:translate(-50%,0);opacity:1} 60%{opacity:.2} 100%{transform:translate(-50%,10px);opacity:0} }
+
 .feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 28px auto; }
 .feature { background: #fff; border: 1px solid #e6e0d6; border-radius: 12px; padding: 18px; }
 .feature h3 { font-family: 'Playfair Display', serif; margin-bottom: 8px; }
