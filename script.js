@@ -249,6 +249,42 @@ document.addEventListener('DOMContentLoaded', () => {
   fxTargets.forEach(el => io.observe(el));
 });
 
+// Testimonials: load from JSON and animate carousel
+document.addEventListener('DOMContentLoaded', async () => {
+  const track = document.getElementById('testimonialTrack');
+  if (!track) return;
+  try {
+    const res = await fetch('data/testimonials.json');
+    const items = await res.json();
+    track.innerHTML = items.map(t => `
+      <article class="t-card fx-rise">
+        <div class="t-head">
+          <img class="t-avatar" src="${t.avatar}" alt="${t.name}" loading="lazy" />
+          <div>
+            <strong>${t.name}</strong>
+            <div class="t-role">${t.role || ''}</div>
+          </div>
+        </div>
+        <p class="t-quote">${t.quote}</p>
+      </article>
+    `).join('');
+  } catch (_) { /* no-op */ }
+
+  const next = document.querySelector('#testimonials .c-next');
+  const prev = document.querySelector('#testimonials .c-prev');
+  const scrollByCard = (dir) => {
+    const card = track.querySelector('.t-card');
+    const w = card ? card.getBoundingClientRect().width + 12 : 300;
+    track.scrollBy({ left: dir * w, behavior: 'smooth' });
+  };
+  next && next.addEventListener('click', () => scrollByCard(1));
+  prev && prev.addEventListener('click', () => scrollByCard(-1));
+
+  let auto = setInterval(() => scrollByCard(1), 5000);
+  track.addEventListener('mouseenter', () => clearInterval(auto));
+  track.addEventListener('mouseleave', () => auto = setInterval(() => scrollByCard(1), 5000));
+});
+
 // Section transitions + sticky nav active state
 document.addEventListener('DOMContentLoaded', () => {
     const sections = Array.from(document.querySelectorAll('main.onepage .section'));
