@@ -810,3 +810,8 @@ body {
 
 /* CTA stripe */
 .cta-stripe{ text-align:center; background:linear-gradient(180deg,rgba(255,181,71,.06),rgba(255,181,71,.02)); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:20px; }
+/* Payment page extras */
+.payments .feature-grid{ margin-top:12px; }
+.pay-form input{ width:100%; margin:6px 0 10px 0; padding:8px; border-radius:8px; border:1px solid rgba(255,255,255,.12); background:#0f1217; color:#e8ecec; }
+.pay-form .mini{ font-size:12px; opacity:.8; }
+.service-list{ display:flex; flex-direction:column; gap:8px; }
