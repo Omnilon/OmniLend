@@ -213,6 +213,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Fluid scroll effects: parallax + progress bar
+(() => {
+  const progress = document.getElementById('scrollProgress');
+  const parallaxEls = Array.from(document.querySelectorAll('[data-parallax-y]'));
+
+  const onScroll = () => {
+    // Progress
+    if (progress) {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = Math.max(0, Math.min(1, window.scrollY / (max || 1)));
+      progress.style.width = `${pct * 100}%`;
+    }
+
+    // Parallax
+    parallaxEls.forEach(el => {
+      const speed = parseFloat(el.getAttribute('data-parallax-y')) || 0.08;
+      const rect = el.getBoundingClientRect();
+      const center = rect.top + rect.height / 2 - window.innerHeight / 2;
+      el.style.transform = `translateY(${center * speed * -1}px)`;
+    });
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+// Enhanced reveal classes (fx-*)
+document.addEventListener('DOMContentLoaded', () => {
+  const fxTargets = document.querySelectorAll('.fx-rise, .fx-clip');
+  if (fxTargets.length === 0) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-inview'); io.unobserve(e.target); } });
+  }, { threshold: 0.2 });
+  fxTargets.forEach(el => io.observe(el));
+});
+
 // Section transitions + sticky nav active state
 document.addEventListener('DOMContentLoaded', () => {
     const sections = Array.from(document.querySelectorAll('main.onepage .section'));
