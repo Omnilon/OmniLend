@@ -5,6 +5,7 @@
   <title>Ømnilon Interiors | Payments</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
+  <script src="https://js.stripe.com/v3"></script>
   <meta name="description" content="Secure payments and deposits for Ømnilon Interiors projects." />
 </head>
 <body class="theme-jeton">
@@ -44,7 +45,7 @@
               <input type="email" id="dep_email" required />
               <label>Amount (USD)</label>
               <input type="number" min="1" step="0.01" id="dep_amount" required />
-              <button class="btn btn-jeton" type="submit">Request Payment Link</button>
+              <button class="btn btn-jeton" type="submit">Pay Deposit</button>
               <p class="mini" id="dep_status"></p>
             </form>
           </article>
@@ -58,7 +59,7 @@
               <input type="email" id="inv_email" required />
               <label>Amount (USD)</label>
               <input type="number" min="1" step="0.01" id="inv_amount" required />
-              <button class="btn btn-jeton" type="submit">Request Payment Link</button>
+              <button class="btn btn-jeton" type="submit">Pay Invoice</button>
               <p class="mini" id="inv_status"></p>
             </form>
           </article>
@@ -66,6 +67,17 @@
             <h3>Need help?</h3>
             <p>Unsure what to pay? Send a note and we’ll reply within one business day.</p>
             <a class="btn btn-outline" href="index.html#contact">Contact us</a>
+          </article>
+          <article class="feature jeton-card">
+            <h3>Buy a Service</h3>
+            <p>Checkout securely for a standard package. Custom scopes welcome via contact.</p>
+            <div class="service-list">
+              <button class="btn btn-jeton" data-service="E-Design" data-amount="450">E‑Design — $450</button>
+              <button class="btn btn-jeton" data-service="Residential Refresh" data-amount="1500">Residential Refresh — $1,500</button>
+              <button class="btn btn-jeton" data-service="Full Residential Design" data-amount="5000">Full Residential — $5,000</button>
+              <button class="btn btn-jeton" data-service="Staging" data-amount="2500">Staging — $2,500</button>
+              <button class="btn btn-jeton" data-service="Commercial Mini‑Makeover" data-amount="7500">Commercial Mini‑Makeover — $7,500</button>
+            </div>
           </article>
         </div>
       </section>
@@ -76,36 +88,49 @@
   </footer>
 
   <script>
-  // Send payment link request via existing Telegram endpoint
-  async function sendPaymentRequest(payload, statusEl){
-    statusEl.textContent = 'Sending…';
-    try{
-      const res = await fetch('/api/sendMessage', {
-        method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)
-      });
-      const data = await res.json();
-      statusEl.textContent = res.ok ? 'Thanks! We will email a secure link shortly.' : `Error: ${data.message}`;
-    }catch(e){ statusEl.textContent = 'Network error. Please try again.'; }
+  const STRIPE_PK = 'pk_test_51S7wB6GvDJqd2Z6nuk9Hv4Kc18ashF3CW2vpE7lPxuxxsO9o89G8w9vwOJasmtH36Pif5FqqXQnknOZTYQoDxLXD00vMMW006q';
+  const stripe = Stripe(STRIPE_PK);
+
+  async function createCheckout(name, amount, email, metadata={}){
+    const res = await fetch('/api/checkout', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ name, amount, email, metadata })
+    });
+    const data = await res.json();
+    if(res.ok && data.id){
+      await stripe.redirectToCheckout({ sessionId: data.id });
+    } else if (data.url){
+      window.location = data.url;
+    } else {
+      throw new Error(data.message || 'Checkout error');
+    }
   }
-  document.getElementById('depositForm').addEventListener('submit', (e)=>{
+
+  document.getElementById('depositForm').addEventListener('submit', async (e)=>{
     e.preventDefault();
-    sendPaymentRequest({
-      name: document.getElementById('dep_name').value,
-      email: document.getElementById('dep_email').value,
-      message: `Payment: Deposit request $${document.getElementById('dep_amount').value}`,
-      service: 'Payment', budget: 'Deposit'
-    }, document.getElementById('dep_status'));
+    const status = document.getElementById('dep_status');
+    status.textContent = 'Redirecting to Stripe…';
+    try{
+      await createCheckout('Deposit', parseFloat(document.getElementById('dep_amount').value), document.getElementById('dep_email').value, { payer: document.getElementById('dep_name').value, type:'deposit' });
+    }catch(err){ status.textContent = err.message; }
   });
-  document.getElementById('invoiceForm').addEventListener('submit', (e)=>{
+
+  document.getElementById('invoiceForm').addEventListener('submit', async (e)=>{
     e.preventDefault();
-    sendPaymentRequest({
-      name: `Invoice ${document.getElementById('inv_no').value}`,
-      email: document.getElementById('inv_email').value,
-      message: `Payment: Invoice request #${document.getElementById('inv_no').value} for $${document.getElementById('inv_amount').value}`,
-      service: 'Payment', budget: 'Invoice'
-    }, document.getElementById('inv_status'));
+    const status = document.getElementById('inv_status');
+    status.textContent = 'Redirecting to Stripe…';
+    try{
+      await createCheckout(`Invoice ${document.getElementById('inv_no').value}`, parseFloat(document.getElementById('inv_amount').value), document.getElementById('inv_email').value, { invoice: document.getElementById('inv_no').value, type:'invoice' });
+    }catch(err){ status.textContent = err.message; }
+  });
+
+  document.querySelectorAll('.service-list .btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      try{
+        await createCheckout(btn.dataset.service, parseFloat(btn.dataset.amount));
+      }catch(err){ alert(err.message); }
+    });
   });
   </script>
 </body>
 </html>
-
