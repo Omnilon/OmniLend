@@ -788,3 +788,21 @@ body {
   #siteNav{ position: fixed; top:70px; left:50%; transform:translateX(-50%); width: min(92vw, 680px); background: rgba(16,20,26,.95); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:10px; display:none; flex-wrap:wrap; gap:8px; justify-content:center; z-index:1200; }
   body.nav-open #siteNav{ display:flex; }
 }
+
+/* Principles */
+.principles{ text-align:center; }
+.principles-grid{ display:grid; grid-template-columns: repeat(4,1fr); gap:12px; margin-top:12px; }
+.p-card{ background:#11151b; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:18px; }
+.p-card h4{ margin-bottom:6px; font-family:'Playfair Display',serif; }
+@media(max-width:900px){ .principles-grid{ grid-template-columns: repeat(2,1fr);} }
+
+/* Testimonials */
+.testimonials{ text-align:center; }
+.carousel{ position:relative; }
+.c-track{ display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory; padding:8px 0; }
+.t-card{ flex:0 0 80%; max-width:680px; margin:0 auto; scroll-snap-align:center; background:#11151b; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:18px; text-align:left; }
+.c-prev,.c-next{ position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:#fff; width:32px; height:32px; border-radius:50%; cursor:pointer; }
+.c-prev{ left:-6px; } .c-next{ right:-6px; }
+
+/* CTA stripe */
+.cta-stripe{ text-align:center; background:linear-gradient(180deg,rgba(255,181,71,.06),rgba(255,181,71,.02)); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:20px; }
