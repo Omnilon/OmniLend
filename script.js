@@ -133,8 +133,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const video = document.getElementById('heroVideo');
     if (!video) return;
     // If you add media/hero.mp4 to the repo, it will play automatically.
-    // To use a remote clip, set data-src on the video element.
-    const source = video.getAttribute('data-src') || 'media/hero.mp4';
+    // To use a remote clip, set data-src on the video element (direct .mp4 only).
+    const provided = video.getAttribute('data-src');
+    const source = (provided && /\.mp4(\?|$)/i.test(provided)) ? provided : 'media/hero.mp4';
     // Create a source element to avoid 404 flashing
     const s = document.createElement('source');
     s.src = source; s.type = 'video/mp4';
@@ -268,6 +269,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         <p class="t-quote">${t.quote}</p>
       </article>
     `).join('');
+    // Dots
+    const dotsWrap = document.createElement('div');
+    dotsWrap.className = 'dots';
+    dotsWrap.innerHTML = items.map((_,i)=>`<span class="dot${i===0?' active':''}"></span>`).join('');
+    track.parentElement.appendChild(dotsWrap);
   } catch (_) { /* no-op */ }
 
   const next = document.querySelector('#testimonials .c-next');
@@ -283,6 +289,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   let auto = setInterval(() => scrollByCard(1), 5000);
   track.addEventListener('mouseenter', () => clearInterval(auto));
   track.addEventListener('mouseleave', () => auto = setInterval(() => scrollByCard(1), 5000));
+
+  // Sync dots
+  const updateDots = () => {
+    const dots = track.parentElement.querySelectorAll('.dot');
+    const cards = Array.from(track.querySelectorAll('.t-card'));
+    const center = track.scrollLeft + track.clientWidth/2;
+    let idx = 0; let minDelta = Infinity;
+    cards.forEach((c,i)=>{ const rect=c.getBoundingClientRect(); const left=track.scrollLeft + c.offsetLeft + rect.width/2; const d=Math.abs(left-center); if(d<minDelta){minDelta=d; idx=i;} });
+    dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+  };
+  track.addEventListener('scroll', updateDots, { passive:true });
+  setTimeout(updateDots, 600);
 });
 
 // Section transitions + sticky nav active state
@@ -310,15 +328,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sections.forEach(s => io.observe(s));
 
-    // Smooth scroll for on-page anchors (fallback if browser default is off)
+// Smooth scroll for on-page anchors (fallback if browser default is off)
+    const ensureSectionReady = (hash) => {
+        const id = (hash || '').replace('#','');
+        if (!id) return;
+        if (id.toLowerCase() === 'portfolio') {
+            document.querySelectorAll('#portfolio img[data-src]').forEach(img => {
+                if (!img.src) {
+                    const src = img.getAttribute('data-src');
+                    if (src) {
+                        img.src = src;
+                        img.addEventListener('load', () => {
+                            img.classList.add('is-loaded');
+                            const fig = img.closest('figure');
+                            if (fig) fig.classList.add('is-loaded');
+                        }, { once: true });
+                    }
+                }
+            });
+        }
+    };
     navLinks.forEach(a => a.addEventListener('click', (e) => {
         const href = a.getAttribute('href');
         if (!href.startsWith('#')) return;
         const el = document.querySelector(href);
         if (!el) return;
         e.preventDefault();
+        ensureSectionReady(href);
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }));
+    window.addEventListener('hashchange', () => ensureSectionReady(location.hash));
+    ensureSectionReady(location.hash);
 });
 
 // Mobile menu toggle

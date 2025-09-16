@@ -798,13 +798,20 @@ body {
 
 /* Testimonials */
 .testimonials{ text-align:center; }
-.carousel{ position:relative; }
-.c-track{ display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory; padding:8px 0; scroll-behavior:smooth; }
+.carousel{ position:relative; padding:6px 0; }
+.carousel::before,.carousel::after{ content:""; position:absolute; top:0; bottom:0; width:48px; pointer-events:none; }
+.carousel::before{ left:0; background:linear-gradient(90deg, rgba(11,13,18,1), rgba(11,13,18,0)); }
+.carousel::after{ right:0; background:linear-gradient(270deg, rgba(11,13,18,1), rgba(11,13,18,0)); }
+.c-track{ display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory; padding:8px 2px; scroll-behavior:smooth; scrollbar-width:none; }
+.c-track::-webkit-scrollbar{ display:none; }
 .t-card{ flex:0 0 80%; max-width:680px; margin:0 auto; scroll-snap-align:center; background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:20px; text-align:left; box-shadow:0 10px 30px rgba(0,0,0,.25); }
 .t-head{ display:flex; gap:10px; align-items:center; margin-bottom:10px; }
 .t-avatar{ width:40px; height:40px; border-radius:50%; object-fit:cover; border:1px solid rgba(255,255,255,.2); }
 .t-quote{ font-size:18px; line-height:1.5; position:relative; }
 .t-quote:before{ content:'“'; position:absolute; left:-14px; top:-14px; font-size:40px; color:#ffb547; opacity:.6; }
+.dots{ display:flex; justify-content:center; gap:6px; margin-top:8px; }
+.dot{ width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.25); }
+.dot.active{ background:#ffb547; }
 .c-prev,.c-next{ position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); color:#fff; width:32px; height:32px; border-radius:50%; cursor:pointer; }
 .c-prev{ left:-6px; } .c-next{ right:-6px; }
 
