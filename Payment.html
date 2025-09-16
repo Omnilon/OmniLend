@@ -34,33 +34,65 @@
       </section>
 
       <section class="section payments fx-rise">
-        <div class="feature-grid features-jeton" id="coreServices">
+        <div class="service-tiles" id="serviceSpotlight">
+          <article class="service-card fx-rise">
+            <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1400&auto=format&fit=crop" alt="Digital moodboard on a tablet" loading="lazy" />
+            <div class="service-card__overlay">
+              <h3>E‑Design (Virtual)</h3>
+              <p>A fast, mood‑board‑to‑makeover plan you can execute on your timeline—layout, palette, shoppable list, and a step‑by‑step setup guide.</p>
+            </div>
+          </article>
+          <article class="service-card fx-rise">
+            <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1400&auto=format&fit=crop" alt="Tailored living room" loading="lazy" />
+            <div class="service-card__overlay">
+              <h3>Residential Room Refresh</h3>
+              <p>A precision tune‑up for one room—new paint and lighting, scaled furniture, curated textiles, and styling that makes what you already own feel intentional.</p>
+            </div>
+          </article>
+          <article class="service-card fx-rise">
+            <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=1400&auto=format&fit=crop" alt="Staged dining area" loading="lazy" />
+            <div class="service-card__overlay">
+              <h3>Home Staging</h3>
+              <p>Market‑ready rooms styled to photograph beautifully and show even better—edited furniture, art, and accents that spotlight light, space, and flow.</p>
+            </div>
+          </article>
+          <article class="service-card fx-rise">
+            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1400&auto=format&fit=crop" alt="Boutique coffee shop interior" loading="lazy" />
+            <div class="service-card__overlay">
+              <h3>Small Commercial / Boutique</h3>
+              <p>Brand‑minded interiors for salons, cafés, and studios—optimized floor plans, durable finishes, and ‘stop‑and‑shoot’ moments that convert foot traffic.</p>
+            </div>
+          </article>
+        </div>
+        <div class="feature-grid features-jeton" id="serviceDetails"></div>
+        <h2 class="payments-subhead">Make a payment</h2>
+        <div class="feature-grid features-jeton" id="paymentForms">
           <article class="feature jeton-card">
             <h3>Pay Deposit</h3>
             <p>Enter your name, email, and amount. We’ll confirm and send a receipt.</p>
             <form class="pay-form" id="depositForm">
-              <label>Name</label>
+              <label for="dep_name">Name</label>
               <input type="text" id="dep_name" required />
-              <label>Email</label>
+              <label for="dep_email">Email</label>
               <input type="email" id="dep_email" required />
-              <label>Amount (USD)</label>
+              <label for="dep_amount">Amount (USD)</label>
               <input type="number" min="1" step="0.01" id="dep_amount" required />
               <button class="btn btn-jeton" type="submit">Pay Deposit</button>
-              <p class="mini" id="dep_status"></p>
+              <p class="mini" id="dep_status" aria-live="polite"></p>
             </form>
           </article>
           <article class="feature jeton-card">
             <h3>Pay Invoice</h3>
             <p>Have an invoice? Share the number and amount and we’ll respond with a secure link.</p>
             <form class="pay-form" id="invoiceForm">
-              <label>Invoice #</label>
+              <label for="inv_no">Invoice #</label>
               <input type="text" id="inv_no" required />
-              <label>Email</label>
+              <label for="inv_email">Email</label>
               <input type="email" id="inv_email" required />
-              <label>Amount (USD)</label>
+              <label for="inv_amount">Amount (USD)</label>
               <input type="number" min="1" step="0.01" id="inv_amount" required />
               <button class="btn btn-jeton" type="submit">Pay Invoice</button>
-              <p class="mini" id="inv_status"></p>
+              <p class="mini" id="inv_status" aria-live="polite"></p>
             </form>
           </article>
           <article class="feature jeton-card">
@@ -69,8 +101,9 @@
             <a class="btn btn-outline" href="index.html#contact">Contact us</a>
           </article>
         </div>
-        <h2 style="margin-top:18px;">Popular add‑ons</h2>
+        <h2 class="payments-subhead">Popular add‑ons</h2>
         <div class="feature-grid features-jeton" id="addonServices"></div>
+        <p class="mini" id="serviceStatus" aria-live="polite"></p>
       </section>
     </main>
   </div>
@@ -121,20 +154,47 @@
     try{
       const res = await fetch('data/services.json');
       const data = await res.json();
-      const core = document.getElementById('coreServices');
+      const cards = document.getElementById('serviceSpotlight');
+      const details = document.getElementById('serviceDetails');
       const addons = document.getElementById('addonServices');
+      const status = document.getElementById('serviceStatus');
 
-      core.insertAdjacentHTML('beforeend', data.core.map(s => `
-        <article class="feature jeton-card">
-          <h3>${s.name}</h3>
-          <p>${s.desc}</p>
-          <div class="cta-row">
-            ${s.link ? `<a class="btn btn-jeton" href="${s.link}" target="_blank" rel="noopener">Pay Now</a>` : ''}
-            ${s.price ? `<button class="btn btn-outline" data-buy data-name="${s.name}" data-amount="${s.price}">$${s.price}</button>` : ''}
-            ${s.priceFrom ? `<button class="btn btn-outline" data-buy data-name="${s.name}" data-amount="${s.priceFrom}">From $${s.priceFrom}</button>` : ''}
-          </div>
-        </article>
-      `).join(''));
+      const imageMap = {
+        'E‑Design (Virtual)': 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1400&auto=format&fit=crop',
+        'Residential Room Refresh': 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1400&auto=format&fit=crop',
+        'Full Residential Design (Turnkey)': 'https://images.unsplash.com/photo-1505691723518-36a5ac3b2a59?q=80&w=1400&auto=format&fit=crop',
+        'Home Staging': 'https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=1400&auto=format&fit=crop',
+        'Small Commercial / Boutique': 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1400&auto=format&fit=crop'
+      };
+
+      if(cards){
+        const highlightNames = ['E‑Design (Virtual)','Residential Room Refresh','Home Staging','Small Commercial / Boutique'];
+        const highlightItems = highlightNames.map(name => data.core.find(item => item.name === name)).filter(Boolean);
+        const featured = highlightItems.length ? highlightItems : data.core.slice(0,4);
+        cards.innerHTML = featured.map(s => `
+          <article class="service-card fx-rise">
+            <img src="${imageMap[s.name] || imageMap['Full Residential Design (Turnkey)']}" alt="${s.name}" loading="lazy" />
+            <div class="service-card__overlay">
+              <h3>${s.name}</h3>
+              <p>${s.desc}</p>
+            </div>
+          </article>
+        `).join('');
+      }
+
+      if(details){
+        details.innerHTML = data.core.map(s => `
+          <article class="feature jeton-card">
+            <h3>${s.name}</h3>
+            <p>${s.desc}</p>
+            <div class="cta-row">
+              ${s.link ? `<a class="btn btn-jeton" href="${s.link}" target="_blank" rel="noopener">Pay Now</a>` : ''}
+              ${s.price ? `<button class="btn btn-outline" data-buy data-name="${s.name}" data-amount="${s.price}">$${s.price}</button>` : ''}
+              ${s.priceFrom ? `<button class="btn btn-outline" data-buy data-name="${s.name}" data-amount="${s.priceFrom}">From $${s.priceFrom}</button>` : ''}
+            </div>
+          </article>
+        `).join('');
+      }
 
       addons.innerHTML = data.addons.map(s => `
         <article class="feature jeton-card">
@@ -146,13 +206,20 @@
         </article>
       `).join('');
 
-      document.querySelectorAll('[data-buy]').forEach(btn => {
+      const buyButtons = document.querySelectorAll('[data-buy]');
+      buyButtons.forEach(btn => {
         btn.addEventListener('click', async () => {
           try{ await createCheckout(btn.dataset.name, parseFloat(btn.dataset.amount)); }
           catch(err){ alert(err.message); }
         });
       });
-    }catch(e){ console.error(e); }
+      if(!buyButtons.length && status){
+        status.textContent = 'Online checkout links coming soon. Use the form above for custom payment links.';
+      }
+    }catch(e){
+      console.error(e);
+      if(status){ status.textContent = 'We could not load the service catalog right now. Use the forms above and we will follow up manually.'; }
+    }
   }
   renderServices();
   </script>

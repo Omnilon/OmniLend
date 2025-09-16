@@ -254,53 +254,75 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', async () => {
   const track = document.getElementById('testimonialTrack');
   if (!track) return;
-  try {
-    const res = await fetch('data/testimonials.json');
-    const items = await res.json();
-    track.innerHTML = items.map(t => `
-      <article class="t-card fx-rise">
-        <div class="t-head">
-          <img class="t-avatar" src="${t.avatar}" alt="${t.name}" loading="lazy" />
-          <div>
-            <strong>${t.name}</strong>
-            <div class="t-role">${t.role || ''}</div>
-          </div>
+
+  const template = (t) => `
+    <article class="t-card fx-rise">
+      <div class="t-stars" aria-hidden="true"><span>★★★★★</span></div>
+      <span class="sr-only">Rated 5 out of 5</span>
+      <p class="t-quote">${t.quote}</p>
+      <div class="t-meta">
+        <img class="t-avatar" src="${t.avatar}" alt="Portrait of ${t.name}" loading="lazy" />
+        <div>
+          <strong>${t.name}</strong>
+          <span class="t-role">${t.role || ''}</span>
         </div>
-        <p class="t-quote">${t.quote}</p>
-      </article>
-    `).join('');
-    // Dots
-    const dotsWrap = document.createElement('div');
-    dotsWrap.className = 'dots';
-    dotsWrap.innerHTML = items.map((_,i)=>`<span class="dot${i===0?' active':''}"></span>`).join('');
-    track.parentElement.appendChild(dotsWrap);
-  } catch (_) { /* no-op */ }
+      </div>
+    </article>
+  `;
+
+  const src = track.dataset.src;
+  if (src) {
+    try {
+      const res = await fetch(src);
+      if (res.ok) {
+        const items = await res.json();
+        if (Array.isArray(items) && items.length) {
+          track.innerHTML = items.map(template).join('');
+        }
+      }
+    } catch (err) {
+      console.warn('Testimonials fetch failed', err);
+    }
+  }
+
+  const cards = track.querySelectorAll('.t-card');
+  if (!cards.length) return;
+
+  const dotsWrap = document.createElement('div');
+  dotsWrap.className = 'dots';
+  dotsWrap.innerHTML = Array.from(cards).map((_,i)=>`<span class="dot${i===0?' active':''}"></span>`).join('');
+  track.parentElement.appendChild(dotsWrap);
 
   const next = document.querySelector('#testimonials .c-next');
   const prev = document.querySelector('#testimonials .c-prev');
   const scrollByCard = (dir) => {
     const card = track.querySelector('.t-card');
-    const w = card ? card.getBoundingClientRect().width + 12 : 300;
+    const w = card ? card.getBoundingClientRect().width + 18 : 300;
     track.scrollBy({ left: dir * w, behavior: 'smooth' });
   };
   next && next.addEventListener('click', () => scrollByCard(1));
   prev && prev.addEventListener('click', () => scrollByCard(-1));
 
-  let auto = setInterval(() => scrollByCard(1), 5000);
+  let auto = setInterval(() => scrollByCard(1), 6000);
   track.addEventListener('mouseenter', () => clearInterval(auto));
-  track.addEventListener('mouseleave', () => auto = setInterval(() => scrollByCard(1), 5000));
+  track.addEventListener('mouseleave', () => auto = setInterval(() => scrollByCard(1), 6000));
 
-  // Sync dots
+  const dots = dotsWrap.querySelectorAll('.dot');
   const updateDots = () => {
-    const dots = track.parentElement.querySelectorAll('.dot');
-    const cards = Array.from(track.querySelectorAll('.t-card'));
-    const center = track.scrollLeft + track.clientWidth/2;
-    let idx = 0; let minDelta = Infinity;
-    cards.forEach((c,i)=>{ const rect=c.getBoundingClientRect(); const left=track.scrollLeft + c.offsetLeft + rect.width/2; const d=Math.abs(left-center); if(d<minDelta){minDelta=d; idx=i;} });
-    dots.forEach((d,i)=>d.classList.toggle('active', i===idx));
+    if (!dots.length) return;
+    const cardsArr = Array.from(track.querySelectorAll('.t-card'));
+    const center = track.scrollLeft + track.clientWidth / 2;
+    let idx = 0;
+    let minDelta = Infinity;
+    cardsArr.forEach((c, i) => {
+      const left = track.scrollLeft + c.offsetLeft + c.getBoundingClientRect().width / 2;
+      const delta = Math.abs(left - center);
+      if (delta < minDelta) { minDelta = delta; idx = i; }
+    });
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
   };
   track.addEventListener('scroll', updateDots, { passive:true });
-  setTimeout(updateDots, 600);
+  setTimeout(updateDots, 500);
 });
 
 // Section transitions + sticky nav active state
@@ -324,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setActive(id);
             }
         });
-    }, { threshold: 0.55 });
+    }, { threshold: 0.32, rootMargin: '-25% 0px -50% 0px' });
 
     sections.forEach(s => io.observe(s));
 
@@ -345,6 +367,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         }, { once: true });
                     }
                 }
+            });
+            requestAnimationFrame(() => {
+                document.querySelectorAll('#portfolio .fx-rise').forEach(el => {
+                    el.classList.add('is-inview');
+                });
             });
         }
     };
