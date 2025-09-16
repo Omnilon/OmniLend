@@ -36,7 +36,7 @@
                 <div class="bg-grid"></div>
                 <div class="orb orb-1" data-parallax-y="0.06"></div>
                 <div class="orb orb-2" data-parallax-y="0.1"></div>
-                <video id="heroVideo" class="hero-video" playsinline muted loop preload="metadata" poster="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop" data-img="https://images.unsplash.com/photo-1501183638710-841dd1904471?q=80&w=1600&auto=format&fit=crop"></video>
+                <video id="heroVideo" class="hero-video" playsinline muted loop preload="metadata" poster="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop" data-img="https://images.unsplash.com/photo-1501183638710-841dd1904471?q=80&w=1600&auto=format&fit=crop" data-src="https://videos.pexels.com/video-files/2934978/2934978-uhd_3840_2160_24fps.mp4"></video>
                 <div class="hero-inner fx-rise" data-parallax="0.12">
                     <h1 class="grad-text">Design that works as beautifully as it looks.</h1>
                     <p>We combine material expertise with modern process to deliver interiors that feel intentional, calm, and effortless.</p>
@@ -104,12 +104,52 @@
             </section>
 
             <!-- Testimonials / Carousel -->
-                        <section id="testimonials" class="section testimonials fx-clip">
-                <h2>What clients say</h2>
+            <section id="testimonials" class="section testimonials fx-clip">
+                <div class="testimonials-head fx-rise">
+                    <h2>What clients say</h2>
+                    <p class="t-sub">Calm, detail-led interiors that make everyday moments feel refined.</p>
+                </div>
                 <div class="carousel" data-carousel>
-                    <button class="c-prev" aria-label="Previous">‹</button>
-                    <div class="c-track" id="testimonialTrack"></div>
-                    <button class="c-next" aria-label="Next">›</button>
+                    <button class="c-prev" aria-label="Previous testimonial">‹</button>
+                    <div class="c-track" id="testimonialTrack" data-src="data/testimonials.json">
+                        <article class="t-card fx-rise">
+                            <div class="t-stars" aria-hidden="true"><span>★★★★★</span></div>
+                            <span class="sr-only">Rated 5 out of 5</span>
+                            <p class="t-quote">Absolutely transformed our living room. Calm, warm, and practical.</p>
+                            <div class="t-meta">
+                                <img class="t-avatar" src="https://images.unsplash.com/photo-1544725176-7c40e5a2c9f9?q=80&w=256&auto=format&fit=crop" alt="Portrait of A. Rivera" loading="lazy" />
+                                <div>
+                                    <strong>A. Rivera</strong>
+                                    <span class="t-role">Homeowner</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="t-card fx-rise">
+                            <div class="t-stars" aria-hidden="true"><span>★★★★★</span></div>
+                            <span class="sr-only">Rated 5 out of 5</span>
+                            <p class="t-quote">Clear milestones and great communication. Install day felt effortless.</p>
+                            <div class="t-meta">
+                                <img class="t-avatar" src="https://images.unsplash.com/photo-1531123414780-f742d16b5b2d?q=80&w=256&auto=format&fit=crop" alt="Portrait of L. Greene" loading="lazy" />
+                                <div>
+                                    <strong>L. Greene</strong>
+                                    <span class="t-role">Townhome Renovation</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="t-card fx-rise">
+                            <div class="t-stars" aria-hidden="true"><span>★★★★★</span></div>
+                            <span class="sr-only">Rated 5 out of 5</span>
+                            <p class="t-quote">We booked e-design first, then brought Ømnilon for full staging.</p>
+                            <div class="t-meta">
+                                <img class="t-avatar" src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=256&auto=format&fit=crop" alt="Portrait of M. Patel" loading="lazy" />
+                                <div>
+                                    <strong>M. Patel</strong>
+                                    <span class="t-role">Realtor Partner</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <button class="c-next" aria-label="Next testimonial">›</button>
                 </div>
             </section>
 
@@ -148,7 +188,7 @@
                     <textarea id="message" name="message" placeholder="Scope, timeline, and any links (Pinterest, Instagram, etc.)" required></textarea>
                     <button type="submit" class="btn btn-jeton">Submit</button>
                 </form>
-                <p id="formStatus"></p>
+                <p id="formStatus" aria-live="polite" role="status"></p>
                 <ul style="margin-top:12px;">
                     <li>Email: <a href="mailto:omnilend.co@gmail.com">omnilend.co@gmail.com</a></li>
                     <li>Phone: <a href="tel:4049198026">404-919-8026</a></li>
