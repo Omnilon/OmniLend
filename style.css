@@ -671,6 +671,8 @@ body {
 
 /* Brand logo image */
 .brand-logo { height: 28px; width: auto; vertical-align: middle; margin-right: 6px; }
+.brand-title{ font-family:'Playfair Display', serif; font-weight:700; letter-spacing:.14em; color:#e8ecec; font-size:18px; display:inline-block; }
+.theme-jeton .brand-title{ background: linear-gradient(90deg,#ffb547,#ffffff); -webkit-background-clip:text; background-clip:text; color:transparent; opacity:.92; }
 
 /* ---- Jeton-inspired theme overrides (scoped) ---- */
 .theme-jeton { background: linear-gradient(180deg, #0b0d12 0%, #0e1117 100%); color: #e8ecec; }
