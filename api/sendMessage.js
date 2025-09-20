@@ -1,6 +1,8 @@
 const DEFAULT_TOKEN = '8304288828:AAFkB3-cnBtfJAZNiTua4vYeVkSXWs_7IWw';
 let cachedChatId = process.env.TELEGRAM_CHAT_ID || process.env.TELEGRAM_FALLBACK_CHAT_ID || '';
 
+const safeTrim = (value) => (typeof value === 'string' ? value.trim() : '');
+
 async function resolveChatId(token) {
     if (cachedChatId) return cachedChatId;
     if (!token) throw new Error('Missing Telegram token');
@@ -24,9 +26,17 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
 
-    const { name, email, message, service, budget } = req.body || {};
+    const { name, email, message, service, budget, asset, experience } = req.body || {};
 
-    if (!name || !email || !message) {
+    const nameValue = safeTrim(name);
+    const emailValue = safeTrim(email);
+    const messageValue = safeTrim(message);
+    const serviceValue = safeTrim(service);
+    const budgetValue = safeTrim(budget);
+    const assetValue = safeTrim(asset);
+    const experienceValue = safeTrim(experience).toLowerCase();
+
+    if (!nameValue || !emailValue || !messageValue) {
         return res.status(400).json({ message: 'Name, email, and a project summary are required.' });
     }
 
@@ -43,15 +53,34 @@ export default async function handler(req, res) {
         return res.status(500).json({ message: err.message || 'Unable to resolve Telegram chat.' });
     }
 
+    const isSecurityExperience = experienceValue === 'security';
+    const messagePrefix = isSecurityExperience
+        ? 'ømnilon sec. — Secret Lifter Briefing'
+        : 'ømnilon Int. — New Interiors Inquiry';
+
+    const detailLines = [
+        `Name: ${nameValue}`,
+        `Email: ${emailValue}`,
+    ];
+
+    if (isSecurityExperience) {
+        detailLines.push(`Primary location/URL: ${assetValue || 'n/a'}`);
+        detailLines.push(`Engagement focus: ${serviceValue || 'n/a'}`);
+        detailLines.push(`Portfolio scale: ${budgetValue || 'n/a'}`);
+    } else {
+        detailLines.push(`Service: ${serviceValue || 'n/a'}`);
+        detailLines.push(`Budget: ${budgetValue || 'n/a'}`);
+    }
+
+    const summaryLabel = isSecurityExperience ? 'Intel:' : 'Project details:';
+
     const text = [
-        'Ømnilon Interiors — New Inquiry',
+        messagePrefix,
         '',
-        `Name: ${name}`,
-        `Email: ${email}`,
-        `Service: ${service || 'n/a'}`,
-        `Budget: ${budget || 'n/a'}`,
+        ...detailLines,
         '',
-        message
+        summaryLabel,
+        messageValue || 'n/a'
     ].join('\n');
 
     const telegramUrl = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
