@@ -114,15 +114,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Simple parallax for hero text
+// Simple parallax for hero text (supports multiple heroes)
 (() => {
-    const heroInner = document.querySelector('.hero .hero-inner[data-parallax]');
-    if (!heroInner) return;
-    const speed = parseFloat(heroInner.getAttribute('data-parallax')) || 0.1;
+    const heroInners = Array.from(document.querySelectorAll('.hero .hero-inner[data-parallax]'));
+    if (!heroInners.length) return;
     const onScroll = () => {
-        const rect = heroInner.getBoundingClientRect();
-        const offset = Math.min(40, Math.max(-40, (window.innerHeight - rect.top) * speed * 0.1));
-        heroInner.style.transform = `translateY(${offset}px)`;
+        heroInners.forEach((heroInner) => {
+            const speed = parseFloat(heroInner.getAttribute('data-parallax')) || 0.1;
+            const rect = heroInner.getBoundingClientRect();
+            const offset = Math.min(40, Math.max(-40, (window.innerHeight - rect.top) * speed * 0.1));
+            heroInner.style.transform = `translateY(${offset}px)`;
+        });
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
@@ -159,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Micro-interactions for buttons: subtle spring on hover/press
 document.addEventListener('DOMContentLoaded', () => {
     const press = (el, scale) => { el.style.transform = `scale(${scale})`; };
-    document.querySelectorAll('.btn, nav a').forEach(el => {
+document.querySelectorAll('.btn, nav a, .experience-pill, .selector-card').forEach(el => {
         el.style.transition = 'transform .18s cubic-bezier(.2,.8,.2,1.4), box-shadow .18s';
         el.addEventListener('mouseenter', () => press(el, 1.03));
         el.addEventListener('mouseleave', () => press(el, 1));
@@ -388,13 +390,108 @@ document.addEventListener('DOMContentLoaded', () => {
     ensureSectionReady(location.hash);
 });
 
-// Mobile menu toggle
-(function(){
-  const btn = document.getElementById('menuToggle');
-  if(!btn) return;
-  btn.addEventListener('click', ()=>{
-    const open = !document.body.classList.contains('nav-open');
-    document.body.classList.toggle('nav-open', open);
-    btn.setAttribute('aria-expanded', String(open));
-  });
-})();
+// Experience selector + multi-nav toggle handling
+document.addEventListener('DOMContentLoaded', () => {
+    const selector = document.getElementById('experienceSelector');
+    const experiences = {
+        interiors: document.getElementById('interiorsExperience'),
+        security: document.getElementById('securityExperience')
+    };
+    const toggles = Array.from(document.querySelectorAll('[data-menu-toggle]'));
+
+    const closeNavs = () => {
+        ['nav-open', 'nav-open-security'].forEach(cls => document.body.classList.remove(cls));
+        toggles.forEach(btn => btn.setAttribute('aria-expanded', 'false'));
+    };
+
+    toggles.forEach(btn => {
+        const targetId = btn.getAttribute('data-menu-toggle');
+        const bodyClass = btn.getAttribute('data-menu-class') || 'nav-open';
+        const nav = targetId ? document.getElementById(targetId) : null;
+        if (!nav) return;
+        btn.addEventListener('click', () => {
+            const willOpen = !document.body.classList.contains(bodyClass);
+            closeNavs();
+            document.body.classList.toggle(bodyClass, willOpen);
+            btn.setAttribute('aria-expanded', String(willOpen));
+        });
+        nav.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', () => {
+                document.body.classList.remove(bodyClass);
+                btn.setAttribute('aria-expanded', 'false');
+            });
+        });
+    });
+
+    const setExperienceVisibility = (name) => {
+        Object.entries(experiences).forEach(([key, wrapper]) => {
+            if (!wrapper) return;
+            const active = key === name;
+            wrapper.hidden = !active;
+            wrapper.setAttribute('aria-hidden', String(!active));
+        });
+    };
+
+    const activateExperience = (name) => {
+        if (!experiences[name]) return;
+        setExperienceVisibility(name);
+        document.body.classList.add('experience-active');
+        document.body.classList.remove('experience-interiors', 'experience-security');
+        document.body.classList.add(name === 'security' ? 'experience-security' : 'experience-interiors');
+        document.body.dataset.experience = name;
+        document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+        const navEl = document.getElementById(name === 'security' ? 'securityNav' : 'siteNav');
+        const firstLink = navEl ? navEl.querySelector('a[href^="#"]') : null;
+        if (firstLink) firstLink.classList.add('active');
+        closeNavs();
+        if (selector && !selector.classList.contains('is-dismissed')) {
+            selector.classList.add('is-dismissed');
+            selector.setAttribute('aria-hidden', 'true');
+            setTimeout(() => { selector.hidden = true; }, 450);
+        }
+        window.scrollTo(0, 0);
+    };
+
+    if (selector) {
+        selector.querySelectorAll('[data-target]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.getAttribute('data-target');
+                if (!target) return;
+                activateExperience(target);
+            });
+        });
+    }
+
+    document.querySelectorAll('[data-switch-experience]').forEach(btn => {
+        btn.addEventListener('click', (event) => {
+            event.preventDefault();
+            const target = btn.getAttribute('data-switch-experience');
+            if (!target) return;
+            activateExperience(target);
+        });
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const requested = params.get('experience');
+    const hash = window.location.hash || '';
+    let initial = null;
+    if (requested && experiences[requested]) {
+        initial = requested;
+    } else if (/^#security-/.test(hash)) {
+        initial = 'security';
+    } else if (/^#(home|services|portfolio|about|contact)/i.test(hash)) {
+        initial = 'interiors';
+    }
+
+    if (initial) {
+        activateExperience(initial);
+        if (hash) {
+            const target = document.querySelector(hash);
+            if (target) {
+                requestAnimationFrame(() => {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            }
+        }
+    }
+});
