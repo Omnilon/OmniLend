@@ -52,41 +52,30 @@
         </div>
 
         <div class="payment-grid">
-          <article class="jeton-card payment-card">
-            <h3>Pay the 50% deposit</h3>
-            <p>Use the amount shown on your proposal (half of the total project fee).</p>
-            <form class="pay-form" id="depositForm">
-              <label for="dep_name">Name</label>
-              <input type="text" id="dep_name" required />
-              <label for="dep_email">Email</label>
-              <input type="email" id="dep_email" required />
-              <label for="dep_amount">Deposit amount (USD)</label>
-              <input type="number" min="1" step="0.01" id="dep_amount" required />
-              <p class="mini">We will email a receipt as soon as the deposit clears.</p>
-              <button class="btn btn-jeton" type="submit">Submit deposit</button>
-              <p class="mini payment-status" id="dep_status" aria-live="polite"></p>
-            </form>
+          <article class="jeton-card payment-card booking-card">
+            <div class="booking-card__intro">
+              <h3>Choose your package</h3>
+              <p>Browse current pricing and see the deposit needed to reserve your project date.</p>
+            </div>
+            <div class="service-picker">
+              <label for="serviceSelect">Service or package</label>
+              <select id="serviceSelect" aria-describedby="serviceHelperText"></select>
+            </div>
+            <div class="service-details" id="serviceDetails" aria-live="polite">
+              <h4 id="serviceName"></h4>
+              <p id="serviceDescription"></p>
+              <p class="service-price" id="servicePrice"></p>
+              <p class="deposit-callout" id="serviceDeposit"></p>
+              <a class="btn btn-jeton" id="serviceLink" target="_blank" rel="noopener">Start instant checkout</a>
+            </div>
+            <p class="mini" id="serviceHelperText">Use the quick pay portal below to enter a different amount.</p>
           </article>
 
-          <article class="jeton-card payment-card">
-            <h3>Pay a custom invoice</h3>
-            <p>Need to split payments or settle a specific invoice? Share the details below.</p>
-            <form class="pay-form" id="invoiceForm">
-              <label for="inv_no">Invoice number</label>
-              <input type="text" id="inv_no" required />
-              <label for="inv_email">Email</label>
-              <input type="email" id="inv_email" required />
-              <label for="inv_amount">Amount (USD)</label>
-              <input type="number" min="1" step="0.01" id="inv_amount" required />
-              <p class="mini">We’ll respond with a secure Stripe checkout link within one business day.</p>
-              <button class="btn btn-jeton" type="submit">Request payment link</button>
-              <p class="mini payment-status" id="inv_status" aria-live="polite"></p>
-            </form>
-          </article>
-
-          <article class="jeton-card payment-card">
-            <h3>Quick pay portal</h3>
-            <p>Prefer to handle it yourself? Use our ready-to-go Stripe checkout link.</p>
+          <article class="jeton-card payment-card quick-pay">
+            <div class="quick-pay__copy">
+              <h3>Quick pay portal</h3>
+              <p>Prefer to handle it yourself? Use our ready-to-go Stripe checkout link.</p>
+            </div>
             <stripe-buy-button
               buy-button-id="buy_btn_1SByhQ2dSpsiXnOLd7LObOHQ"
               publishable-key="pk_live_51S7wAs2dSpsiXnOLBxKLtF0iAkgXgMr7QMn0TAo9fDIbiJXbfCOwyNzMErUJ5OcIUWityN0FaXjjRh2KyxRBFNNo00RheMkkDi"
@@ -133,8 +122,6 @@
 
   <script defer src="script.js"></script>
   <script>
-  const STRIPE_PK = 'pk_test_51S7wB6GvDJqd2Z6nuk9Hv4Kc18ashF3CW2vpE7lPxuxxsO9o89G8w9vwOJasmtH36Pif5FqqXQnknOZTYQoDxLXD00vMMW006q';
-  const stripe = Stripe(STRIPE_PK);
   const PAYMENT_LINK = 'https://buy.stripe.com/4gM6oA6sH9S59ao3NgbEA01';
   const fallbackLinks = document.querySelectorAll('[data-fallback-link]');
   fallbackLinks.forEach(link => {
@@ -144,155 +131,173 @@
     }
   });
 
-  async function createCheckout(name, amount, email, metadata = {}) {
-    if (!amount || Number.isNaN(amount)) {
-      throw new Error('Enter a valid amount to continue.');
-    }
-
-    let response;
-    try {
-      response = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, amount, email, metadata })
-      });
-    } catch (networkError) {
-      console.error('Checkout request failed', networkError);
-      throw new Error('We could not reach our payment server. Please use the quick pay link below.');
-    }
-
-    let data = {};
-    try {
-      data = await response.json();
-    } catch (_) {
-      data = {};
-    }
-
-    if (response.ok && data.id) {
-      await stripe.redirectToCheckout({ sessionId: data.id });
-      return;
-    }
-
-    if (data.url) {
-      window.location = data.url;
-      return;
-    }
-
-    const message = data.message || response.statusText || 'We could not start checkout right now.';
-    if (/stripe secret key missing/i.test(message)) {
-      throw new Error('Online checkout is temporarily offline while we refresh our Stripe keys.');
-    }
-
-    throw new Error(message);
-  }
-
-  function updateStatus(statusEl, message) {
-    if (!statusEl) return;
-    statusEl.textContent = message;
-    statusEl.classList.remove('has-error');
-  }
-
-  function handleCheckoutError(statusEl, error) {
-    if (!statusEl) return;
-    const message = error?.message || 'We could not start checkout right now.';
-    const fallbackMarkup = ` You can still <a href="${PAYMENT_LINK}" target="_blank" rel="noopener">open the secure Stripe portal</a>.`;
-    statusEl.innerHTML = `${message}${fallbackMarkup}`;
-    statusEl.classList.add('has-error');
-  }
-
-  const depositForm = document.getElementById('depositForm');
-  if (depositForm) {
-    depositForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const statusEl = document.getElementById('dep_status');
-      updateStatus(statusEl, 'Redirecting to Stripe…');
-      const amount = parseFloat(document.getElementById('dep_amount').value);
-      const email = document.getElementById('dep_email').value;
-      const name = document.getElementById('dep_name').value;
-      try {
-        await createCheckout('Deposit', amount, email, { payer: name, type: 'deposit' });
-      } catch (error) {
-        handleCheckoutError(statusEl, error);
-      }
+  function formatCurrency(value) {
+    const number = Number(value);
+    if (Number.isNaN(number)) return '';
+    const hasCents = Math.round(number * 100) % 100 !== 0;
+    return number.toLocaleString(undefined, {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: hasCents ? 2 : 0,
+      maximumFractionDigits: hasCents ? 2 : 0
     });
   }
 
-  const invoiceForm = document.getElementById('invoiceForm');
-  if (invoiceForm) {
-    invoiceForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const statusEl = document.getElementById('inv_status');
-      updateStatus(statusEl, 'Preparing your secure link…');
-      const amount = parseFloat(document.getElementById('inv_amount').value);
-      const email = document.getElementById('inv_email').value;
-      const invoiceNumber = document.getElementById('inv_no').value;
-      try {
-        await createCheckout(`Invoice ${invoiceNumber}`, amount, email, { invoice: invoiceNumber, type: 'invoice' });
-      } catch (error) {
-        handleCheckoutError(statusEl, error);
+  function initServicePicker(data) {
+    const select = document.getElementById('serviceSelect');
+    const details = document.getElementById('serviceDetails');
+    const nameEl = document.getElementById('serviceName');
+    const descEl = document.getElementById('serviceDescription');
+    const priceEl = document.getElementById('servicePrice');
+    const depositEl = document.getElementById('serviceDeposit');
+    const linkEl = document.getElementById('serviceLink');
+    const helperEl = document.getElementById('serviceHelperText');
+
+    if (!select || !details) return;
+
+    if (!data?.core?.length) {
+      select.innerHTML = '<option>Pricing is currently unavailable</option>';
+      select.disabled = true;
+      details.hidden = true;
+      if (helperEl) {
+        helperEl.textContent = 'We’re refreshing our pricing. Reach out if you need a custom quote.';
       }
+      return;
+    }
+
+    select.innerHTML = data.core.map((service, index) => `
+      <option value="${index}">${service.name}</option>
+    `).join('');
+
+    function updateService(index) {
+      const service = data.core[index];
+      if (!service) {
+        details.hidden = true;
+        return;
+      }
+
+      details.hidden = false;
+      if (nameEl) nameEl.textContent = service.name || '';
+      if (descEl) descEl.textContent = service.desc || '';
+
+      if (priceEl) {
+        if (service.price) {
+          priceEl.textContent = `Project fee: ${formatCurrency(service.price)}`;
+          priceEl.hidden = false;
+        } else if (service.priceFrom) {
+          priceEl.textContent = `Project fee: from ${formatCurrency(service.priceFrom)}`;
+          priceEl.hidden = false;
+        } else {
+          priceEl.hidden = true;
+        }
+      }
+
+      if (depositEl) {
+        if (service.price) {
+          depositEl.textContent = `50% deposit: ${formatCurrency(service.price * 0.5)}`;
+          depositEl.hidden = false;
+        } else if (service.priceFrom) {
+          depositEl.textContent = `Estimated deposit from ${formatCurrency(service.priceFrom * 0.5)}`;
+          depositEl.hidden = false;
+        } else {
+          depositEl.hidden = true;
+        }
+      }
+
+      if (linkEl) {
+        if (service.link) {
+          linkEl.href = service.link;
+          linkEl.hidden = false;
+          linkEl.textContent = 'Start instant checkout';
+        } else {
+          linkEl.hidden = true;
+        }
+      }
+
+      if (helperEl) {
+        helperEl.textContent = service.link
+          ? 'Instant checkout opens in a new secure Stripe window.'
+          : 'Use the quick pay portal below and enter the amount shown to finish booking.';
+      }
+    }
+
+    updateService(Number(select.value) || 0);
+
+    select.addEventListener('change', (event) => {
+      updateService(Number(event.target.value));
     });
   }
 
-  async function renderServices() {
+  function renderServices(data) {
     const summaryList = document.getElementById('serviceSummaryList');
     const addonList = document.getElementById('addonSummaryList');
     const statusEl = document.getElementById('serviceStatus');
-    if (!summaryList && !addonList) return;
+    if (!summaryList && !addonList && !statusEl) return;
 
-    try {
-      const res = await fetch('data/services.json');
-      if (!res.ok) throw new Error('Network error');
-      const data = await res.json();
-
-      const formatPrice = (item) => {
-        if (item.price) return `$${Number(item.price).toLocaleString()}`;
-        if (item.priceFrom) return `From $${Number(item.priceFrom).toLocaleString()}`;
-        return '';
-      };
-
-      if (summaryList) {
-        summaryList.innerHTML = data.core.map((service) => {
-          const price = formatPrice(service);
-          return `
-            <li>
-              <div class="service-summary__title">
-                <strong>${service.name}</strong>
-                ${price ? `<span class="service-summary__price">${price}</span>` : ''}
-              </div>
-              <p>${service.desc}</p>
-            </li>
-          `;
-        }).join('');
-      }
-
-      if (addonList) {
-        addonList.innerHTML = data.addons.map((addon) => {
-          const price = formatPrice(addon);
-          return `
-            <li>
-              <div class="service-summary__title">
-                <strong>${addon.name}</strong>
-                ${price ? `<span class="service-summary__price">${price}</span>` : ''}
-              </div>
-              <p>${addon.desc}</p>
-            </li>
-          `;
-        }).join('');
-      }
-
-      if (statusEl) {
-        statusEl.textContent = 'Hover or tap a line item to quickly revisit what we deliver.';
-      }
-    } catch (error) {
-      console.error('Service summary failed', error);
+    if (!data) {
       if (statusEl) {
         statusEl.textContent = 'We could not load the service snapshots right now. Let us know if you need a refresher.';
       }
+      return;
+    }
+
+    const formatPrice = (item) => {
+      if (item.price) return formatCurrency(item.price);
+      if (item.priceFrom) return `From ${formatCurrency(item.priceFrom)}`;
+      return '';
+    };
+
+    if (summaryList) {
+      summaryList.innerHTML = data.core.map((service) => {
+        const price = formatPrice(service);
+        return `
+          <li>
+            <div class="service-summary__title">
+              <strong>${service.name}</strong>
+              ${price ? `<span class="service-summary__price">${price}</span>` : ''}
+            </div>
+            <p>${service.desc}</p>
+          </li>
+        `;
+      }).join('');
+    }
+
+    if (addonList) {
+      addonList.innerHTML = data.addons.map((addon) => {
+        const price = formatPrice(addon);
+        return `
+          <li>
+            <div class="service-summary__title">
+              <strong>${addon.name}</strong>
+              ${price ? `<span class="service-summary__price">${price}</span>` : ''}
+            </div>
+            <p>${addon.desc}</p>
+          </li>
+        `;
+      }).join('');
+    }
+
+    if (statusEl) {
+      statusEl.textContent = 'Hover or tap a line item to quickly revisit what we deliver.';
     }
   }
 
-  renderServices();
+  async function loadServiceData() {
+    try {
+      const res = await fetch('data/services.json');
+      if (!res.ok) throw new Error('Network error');
+      return await res.json();
+    } catch (error) {
+      console.error('Service summary failed', error);
+      return null;
+    }
+  }
+
+  (async function initPaymentPage() {
+    const serviceData = await loadServiceData();
+    renderServices(serviceData);
+    initServicePicker(serviceData);
+  })();
   </script>
   <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 </body>

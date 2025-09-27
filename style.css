@@ -1148,6 +1148,20 @@ body.experience-security .menu-toggle span{ background:#9fe8f5; }
 .pay-form input:focus{ outline:none; border-color:#ffb547; box-shadow:0 0 0 2px rgba(255,181,71,.25); }
 .payment-status{ min-height:22px; }
 .payment-status.has-error{ color:#ffb8b8; }
+.booking-card{ gap:18px; }
+.booking-card__intro{ display:flex; flex-direction:column; gap:8px; }
+.service-picker{ display:flex; flex-direction:column; gap:8px; }
+.service-picker label{ font-size:14px; color:#cbd4d0; }
+.service-picker select{ width:100%; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,.18); background:#0f1217; color:#e8ecec; font-size:14px; transition:border .2s ease, box-shadow .2s ease; }
+.service-picker select:focus{ outline:none; border-color:#ffb547; box-shadow:0 0 0 2px rgba(255,181,71,.25); }
+.service-details{ display:flex; flex-direction:column; gap:10px; padding:16px; border-radius:12px; border:1px solid rgba(255,255,255,.08); background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); box-shadow:0 16px 36px rgba(0,0,0,.18); }
+.service-details h4{ margin:0; font-size:18px; }
+.service-details p{ margin:0; }
+.service-price{ font-weight:600; color:#dfe6e2; }
+.deposit-callout{ font-weight:600; color:#ffb547; font-size:16px; }
+.payment-card.quick-pay{ align-items:center; text-align:center; gap:16px; }
+.quick-pay__copy{ display:flex; flex-direction:column; gap:6px; align-items:center; text-align:center; }
+.payment-card.quick-pay stripe-buy-button{ align-self:center; width:100%; max-width:320px; }
 .payment-support-grid{ display:grid; gap:18px; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); }
 .support-card{ display:flex; flex-direction:column; gap:12px; }
 .support-card summary{ cursor:pointer; font-weight:600; font-size:16px; }
