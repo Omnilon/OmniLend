@@ -780,7 +780,8 @@ body {
     list-style: none;
     margin-top: 12px;
     padding-left: 0;
-    color: #b9c4c4;
+    color: #f1f6f6;
+    font-weight: 500;
 }
 
 .contact-meta li + li {
@@ -788,8 +789,14 @@ body {
 }
 
 .contact-meta a {
-    color: inherit;
+    color: #ffcf7a;
     text-decoration: underline;
+    font-weight: 600;
+}
+
+.contact-meta a:hover,
+.contact-meta a:focus-visible {
+    color: #ffdfa7;
 }
 
 body.experience-interiors .experience-pill[data-switch-experience="security"] {
@@ -964,6 +971,9 @@ body.experience-security #scrollProgress {
 #securityExperience .contact-form textarea:focus { border-color: #22ffd7; box-shadow: 0 0 0 2px rgba(34, 255, 215, 0.22); }
 #securityExperience .contact-form button { background: linear-gradient(90deg, #22ffd7, #17c6ff); color: #03141d; }
 #securityExperience .contact-meta { color: #96dce4; }
+#securityExperience .contact-meta a { color: #6fe3ff; }
+#securityExperience .contact-meta a:hover,
+#securityExperience .contact-meta a:focus-visible { color: #9af0ff; }
 
 .grad-text{ background: linear-gradient(92deg,#ffffff 0%, #e1f0e7 35%, #ffb547 80%); -webkit-background-clip:text; background-clip:text; color:transparent; }
 
