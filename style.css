@@ -780,7 +780,7 @@ body {
     list-style: none;
     margin-top: 12px;
     padding-left: 0;
-    color: #f1f6f6;
+    color: #273541;
     font-weight: 500;
 }
 
@@ -789,14 +789,14 @@ body {
 }
 
 .contact-meta a {
-    color: #ffcf7a;
+    color: #9a5b0a;
     text-decoration: underline;
     font-weight: 600;
 }
 
 .contact-meta a:hover,
 .contact-meta a:focus-visible {
-    color: #ffdfa7;
+    color: #c97712;
 }
 
 body.experience-interiors .experience-pill[data-switch-experience="security"] {
@@ -1159,9 +1159,12 @@ body.experience-security .menu-toggle span{ background:#9fe8f5; }
 .service-details p{ margin:0; }
 .service-price{ font-weight:600; color:#dfe6e2; }
 .deposit-callout{ font-weight:600; color:#ffb547; font-size:16px; }
-.payment-card.quick-pay{ align-items:center; text-align:center; gap:16px; }
+.payment-card.quick-pay{ align-items:center; text-align:center; gap:16px; position:relative; transition: box-shadow .3s ease, transform .3s ease; }
 .quick-pay__copy{ display:flex; flex-direction:column; gap:6px; align-items:center; text-align:center; }
 .payment-card.quick-pay stripe-buy-button{ align-self:center; width:100%; max-width:320px; }
+.quick-pay-note{ margin:0; font-size:15px; line-height:1.6; color:#dbe7e4; }
+.payment-card.quick-pay.is-active{ box-shadow:0 0 0 3px rgba(255,181,71,.35), 0 18px 42px rgba(0,0,0,.45); transform:translateY(-2px); }
+.payment-card.quick-pay.is-active .quick-pay-note{ color:#fff4dc; }
 .payment-support-grid{ display:grid; gap:18px; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); }
 .support-card{ display:flex; flex-direction:column; gap:12px; }
 .support-card summary{ cursor:pointer; font-weight:600; font-size:16px; }

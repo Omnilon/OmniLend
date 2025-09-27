@@ -76,6 +76,9 @@
               <h3>Quick pay portal</h3>
               <p>Prefer to handle it yourself? Use our ready-to-go Stripe checkout link.</p>
             </div>
+            <p class="quick-pay-note" id="quickPayNote" aria-live="polite">
+              Enter your deposit or invoice total in the quick pay portal to continue to Stripe.
+            </p>
             <stripe-buy-button
               buy-button-id="buy_btn_1SByhQ2dSpsiXnOLd7LObOHQ"
               publishable-key="pk_live_51S7wAs2dSpsiXnOLBxKLtF0iAkgXgMr7QMn0TAo9fDIbiJXbfCOwyNzMErUJ5OcIUWityN0FaXjjRh2KyxRBFNNo00RheMkkDi"
@@ -124,12 +127,22 @@
   <script>
   const PAYMENT_LINK = 'https://buy.stripe.com/4gM6oA6sH9S59ao3NgbEA01';
   const fallbackLinks = document.querySelectorAll('[data-fallback-link]');
-  fallbackLinks.forEach(link => {
-    link.href = PAYMENT_LINK;
-    if (!link.textContent.trim()) {
-      link.textContent = 'open the secure Stripe portal';
-    }
-  });
+
+  function setFallbackLinks(url) {
+    fallbackLinks.forEach((link) => {
+      link.href = url;
+      if (!link.textContent.trim()) {
+        link.textContent = 'open the secure Stripe portal';
+      }
+    });
+  }
+
+  setFallbackLinks(PAYMENT_LINK);
+
+  const quickPayCard = document.querySelector('.payment-card.quick-pay');
+  const quickPayNote = document.getElementById('quickPayNote');
+  const serviceLinkButton = document.getElementById('serviceLink');
+  let quickPayHighlightTimer;
 
   function formatCurrency(value) {
     const number = Number(value);
@@ -140,6 +153,68 @@
       currency: 'USD',
       minimumFractionDigits: hasCents ? 2 : 0,
       maximumFractionDigits: hasCents ? 2 : 0
+    });
+  }
+
+  function buildPaymentUrl(amount) {
+    try {
+      const url = new URL(PAYMENT_LINK);
+      if (typeof amount === 'number' && !Number.isNaN(amount) && amount > 0) {
+        url.searchParams.set('amount', Math.max(0, Math.round(amount * 100)).toString());
+      } else {
+        url.searchParams.delete('amount');
+      }
+      return url.toString();
+    } catch (error) {
+      console.warn('Could not construct payment URL', error);
+      return PAYMENT_LINK;
+    }
+  }
+
+  function updateQuickPayPortal({ amount, serviceName, highlight = false }) {
+    const paymentUrl = buildPaymentUrl(amount);
+    setFallbackLinks(paymentUrl);
+
+    if (quickPayNote) {
+      if (typeof amount === 'number' && !Number.isNaN(amount) && amount > 0) {
+        const label = serviceName || 'your selection';
+        quickPayNote.textContent = `We’ll route you through the quick pay portal with a ${formatCurrency(amount)} deposit for ${label}.`;
+      } else {
+        quickPayNote.textContent = 'Enter your deposit or invoice total in the quick pay portal to continue to Stripe.';
+      }
+    }
+
+    if (quickPayCard) {
+      if (highlight) {
+        quickPayCard.classList.add('is-active');
+        if (quickPayHighlightTimer) clearTimeout(quickPayHighlightTimer);
+        quickPayHighlightTimer = setTimeout(() => {
+          quickPayCard.classList.remove('is-active');
+        }, 3200);
+      } else {
+        quickPayCard.classList.remove('is-active');
+      }
+    }
+
+    return paymentUrl;
+  }
+
+  if (serviceLinkButton) {
+    serviceLinkButton.addEventListener('click', (event) => {
+      const amountValue = parseFloat(serviceLinkButton.dataset.checkoutAmount || '');
+      const serviceName = serviceLinkButton.dataset.serviceName || '';
+      const hasAmount = !Number.isNaN(amountValue) && amountValue > 0;
+      const paymentUrl = updateQuickPayPortal({
+        amount: hasAmount ? amountValue : null,
+        serviceName,
+        highlight: true
+      });
+
+      event.preventDefault();
+      window.open(paymentUrl, '_blank', 'noopener');
+      if (quickPayCard) {
+        quickPayCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     });
   }
 
@@ -210,33 +285,30 @@
           ? service.priceFrom * 0.5
           : null;
 
+      const depositAmount = typeof preciseDeposit === 'number' && !Number.isNaN(preciseDeposit) && preciseDeposit > 0
+        ? preciseDeposit
+        : null;
+
+      const paymentUrl = updateQuickPayPortal({
+        amount: depositAmount,
+        serviceName: service.name
+      });
+
       if (linkEl) {
-        const baseLink = service.link || PAYMENT_LINK;
-
-        if (baseLink) {
-          let checkoutLink = baseLink;
-          if (preciseDeposit) {
-            try {
-              const url = new URL(baseLink, window.location.origin);
-              const amountInCents = Math.max(0, Math.round(preciseDeposit * 100));
-              url.searchParams.set('amount', amountInCents.toString());
-              checkoutLink = url.toString();
-            } catch (error) {
-              console.warn('Invalid checkout link provided for service', service.name, error);
-            }
-          }
-
-          linkEl.href = checkoutLink;
+        if (paymentUrl) {
+          linkEl.href = paymentUrl;
           linkEl.hidden = false;
           linkEl.textContent = 'Start instant checkout';
+          linkEl.dataset.checkoutAmount = depositAmount ? depositAmount.toString() : '';
+          linkEl.dataset.serviceName = service.name || '';
         } else {
           linkEl.hidden = true;
         }
       }
 
       if (helperEl) {
-        helperEl.textContent = service.link
-          ? 'Instant checkout opens in a new secure Stripe window.'
+        helperEl.textContent = depositAmount
+          ? 'Click “Start instant checkout” to queue the quick pay portal and open Stripe in a new tab.'
           : 'Use the quick pay portal below and enter the amount shown to finish booking.';
       }
     }
