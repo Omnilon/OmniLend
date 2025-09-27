@@ -204,9 +204,29 @@
         }
       }
 
+      const preciseDeposit = service.price
+        ? service.price * 0.5
+        : service.priceFrom
+          ? service.priceFrom * 0.5
+          : null;
+
       if (linkEl) {
-        if (service.link) {
-          linkEl.href = service.link;
+        const baseLink = service.link || PAYMENT_LINK;
+
+        if (baseLink) {
+          let checkoutLink = baseLink;
+          if (preciseDeposit) {
+            try {
+              const url = new URL(baseLink, window.location.origin);
+              const amountInCents = Math.max(0, Math.round(preciseDeposit * 100));
+              url.searchParams.set('amount', amountInCents.toString());
+              checkoutLink = url.toString();
+            } catch (error) {
+              console.warn('Invalid checkout link provided for service', service.name, error);
+            }
+          }
+
+          linkEl.href = checkoutLink;
           linkEl.hidden = false;
           linkEl.textContent = 'Start instant checkout';
         } else {
