@@ -28,94 +28,102 @@
       <section class="hero-jeton hero reveal fx-clip" style="position:relative;">
         <div class="bg-grid"></div>
         <div class="hero-inner fx-rise">
-          <h1 class="grad-text">Secure Payments</h1>
-          <p>Pay deposits and invoices safely. If you need a custom payment link, request one below.</p>
+          <h1 class="grad-text">Book &amp; Pay</h1>
+          <p>Reserve your project with a 50% deposit and wrap up future invoices securely.</p>
         </div>
       </section>
 
       <section class="section payments fx-rise">
-        <div class="service-tiles" id="serviceSpotlight">
-          <article class="service-card fx-rise">
-            <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1400&auto=format&fit=crop" alt="Digital moodboard on a tablet" loading="lazy" />
-            <div class="service-card__overlay">
-              <h3>E‑Design (Virtual)</h3>
-              <p>A fast, mood‑board‑to‑makeover plan you can execute on your timeline—layout, palette, shoppable list, and a step‑by‑step setup guide.</p>
-            </div>
-          </article>
-          <article class="service-card fx-rise">
-            <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1400&auto=format&fit=crop" alt="Tailored living room" loading="lazy" />
-            <div class="service-card__overlay">
-              <h3>Residential Room Refresh</h3>
-              <p>A precision tune‑up for one room—new paint and lighting, scaled furniture, curated textiles, and styling that makes what you already own feel intentional.</p>
-            </div>
-          </article>
-          <article class="service-card fx-rise">
-            <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=1400&auto=format&fit=crop" alt="Staged dining area" loading="lazy" />
-            <div class="service-card__overlay">
-              <h3>Home Staging</h3>
-              <p>Market‑ready rooms styled to photograph beautifully and show even better—edited furniture, art, and accents that spotlight light, space, and flow.</p>
-            </div>
-          </article>
-          <article class="service-card fx-rise">
-            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1400&auto=format&fit=crop" alt="Boutique coffee shop interior" loading="lazy" />
-            <div class="service-card__overlay">
-              <h3>Small Commercial / Boutique</h3>
-              <p>Brand‑minded interiors for salons, cafés, and studios—optimized floor plans, durable finishes, and ‘stop‑and‑shoot’ moments that convert foot traffic.</p>
-            </div>
-          </article>
+        <div class="payment-overview jeton-card">
+          <h2>How booking works</h2>
+          <p>
+            To lock in design time on our calendar we require a <strong>50% deposit</strong> based on the proposal you
+            received. The remaining balance is due closer to install or final delivery.
+          </p>
+          <ul class="payment-checklist">
+            <li><span>50% deposit</span>Reserves your project start date and design window.</li>
+            <li><span>Remaining balance</span>Settled once sourcing, styling, or install is complete.</li>
+            <li><span>Flexible payment links</span>Request a custom Stripe link for larger invoices or retainers.</li>
+          </ul>
+          <div class="payment-alert" role="note">
+            <strong>Need a refresher?</strong> After you submit the deposit you’ll be directed to our
+            <a href="project-brief.html">project brief</a> to share goals, inspo, and room photos.
+          </div>
         </div>
-        <div class="feature-grid features-jeton" id="serviceDetails"></div>
-        <h2 class="payments-subhead">Make a payment</h2>
-        <div class="feature-grid features-jeton" id="paymentForms">
-          <article class="feature jeton-card stripe-button-card">
-            <h3>Pay Now</h3>
-            <p>Use our secure Stripe checkout to submit the standard payment or deposit instantly.</p>
+
+        <div class="payment-grid">
+          <article class="jeton-card payment-card">
+            <h3>Pay the 50% deposit</h3>
+            <p>Use the amount shown on your proposal (half of the total project fee).</p>
+            <form class="pay-form" id="depositForm">
+              <label for="dep_name">Name</label>
+              <input type="text" id="dep_name" required />
+              <label for="dep_email">Email</label>
+              <input type="email" id="dep_email" required />
+              <label for="dep_amount">Deposit amount (USD)</label>
+              <input type="number" min="1" step="0.01" id="dep_amount" required />
+              <p class="mini">We will email a receipt as soon as the deposit clears.</p>
+              <button class="btn btn-jeton" type="submit">Submit deposit</button>
+              <p class="mini payment-status" id="dep_status" aria-live="polite"></p>
+            </form>
+          </article>
+
+          <article class="jeton-card payment-card">
+            <h3>Pay a custom invoice</h3>
+            <p>Need to split payments or settle a specific invoice? Share the details below.</p>
+            <form class="pay-form" id="invoiceForm">
+              <label for="inv_no">Invoice number</label>
+              <input type="text" id="inv_no" required />
+              <label for="inv_email">Email</label>
+              <input type="email" id="inv_email" required />
+              <label for="inv_amount">Amount (USD)</label>
+              <input type="number" min="1" step="0.01" id="inv_amount" required />
+              <p class="mini">We’ll respond with a secure Stripe checkout link within one business day.</p>
+              <button class="btn btn-jeton" type="submit">Request payment link</button>
+              <p class="mini payment-status" id="inv_status" aria-live="polite"></p>
+            </form>
+          </article>
+
+          <article class="jeton-card payment-card">
+            <h3>Quick pay portal</h3>
+            <p>Prefer to handle it yourself? Use our ready-to-go Stripe checkout link.</p>
             <stripe-buy-button
               buy-button-id="buy_btn_1SByhQ2dSpsiXnOLd7LObOHQ"
               publishable-key="pk_live_51S7wAs2dSpsiXnOLBxKLtF0iAkgXgMr7QMn0TAo9fDIbiJXbfCOwyNzMErUJ5OcIUWityN0FaXjjRh2KyxRBFNNo00RheMkkDi"
             >
             </stripe-buy-button>
             <p class="mini">
-              Having trouble loading the button? <a href="https://buy.stripe.com/4gM6oA6sH9S59ao3NgbEA01" target="_blank" rel="noopener">Open the payment page in a new tab</a>.
+              If the button doesn’t load, <a data-fallback-link target="_blank" rel="noopener">open the secure Stripe portal</a>.
             </p>
           </article>
-          <article class="feature jeton-card">
-            <h3>Pay Deposit</h3>
-            <p>Enter your name, email, and amount. We’ll confirm and send a receipt.</p>
-            <form class="pay-form" id="depositForm">
-              <label for="dep_name">Name</label>
-              <input type="text" id="dep_name" required />
-              <label for="dep_email">Email</label>
-              <input type="email" id="dep_email" required />
-              <label for="dep_amount">Amount (USD)</label>
-              <input type="number" min="1" step="0.01" id="dep_amount" required />
-              <button class="btn btn-jeton" type="submit">Pay Deposit</button>
-              <p class="mini" id="dep_status" aria-live="polite"></p>
-            </form>
-          </article>
-          <article class="feature jeton-card">
-            <h3>Pay Invoice</h3>
-            <p>Have an invoice? Share the number and amount and we’ll respond with a secure link.</p>
-            <form class="pay-form" id="invoiceForm">
-              <label for="inv_no">Invoice #</label>
-              <input type="text" id="inv_no" required />
-              <label for="inv_email">Email</label>
-              <input type="email" id="inv_email" required />
-              <label for="inv_amount">Amount (USD)</label>
-              <input type="number" min="1" step="0.01" id="inv_amount" required />
-              <button class="btn btn-jeton" type="submit">Pay Invoice</button>
-              <p class="mini" id="inv_status" aria-live="polite"></p>
-            </form>
-          </article>
-          <article class="feature jeton-card">
-            <h3>Need help?</h3>
-            <p>Unsure what to pay? Send a note and we’ll reply within one business day.</p>
-            <a class="btn btn-outline" href="index.html#contact">Contact us</a>
-          </article>
         </div>
-        <h2 class="payments-subhead">Popular add‑ons</h2>
-        <div class="feature-grid features-jeton" id="addonServices"></div>
-        <p class="mini" id="serviceStatus" aria-live="polite"></p>
+
+        <div class="payment-support-grid">
+          <article class="jeton-card support-card">
+            <h3>Next step: project brief</h3>
+            <p>
+              Once the deposit is complete, share your goals, floor plan notes, and room photos so our team can start concepting.
+            </p>
+            <a class="btn btn-outline" href="project-brief.html">Fill out the project brief</a>
+            <p class="mini">You can return to the brief anytime to update or add details.</p>
+          </article>
+
+          <article class="jeton-card support-card">
+            <h3>Need a hand?</h3>
+            <p>Unsure what amount to enter or need a different payment schedule? Let us know.</p>
+            <a class="btn btn-outline" href="index.html#contact">Message the studio</a>
+          </article>
+
+          <details class="jeton-card support-card service-summary" id="serviceSummaryCard">
+            <summary>See what each service includes</summary>
+            <div class="service-summary__inner">
+              <ul class="service-summary-list" id="serviceSummaryList"></ul>
+              <h4>Popular add-ons</h4>
+              <ul class="service-summary-list" id="addonSummaryList"></ul>
+              <p class="mini" id="serviceStatus" aria-live="polite"></p>
+            </div>
+          </details>
+        </div>
       </section>
     </main>
   </div>
@@ -128,112 +136,162 @@
   const STRIPE_PK = 'pk_test_51S7wB6GvDJqd2Z6nuk9Hv4Kc18ashF3CW2vpE7lPxuxxsO9o89G8w9vwOJasmtH36Pif5FqqXQnknOZTYQoDxLXD00vMMW006q';
   const stripe = Stripe(STRIPE_PK);
   const PAYMENT_LINK = 'https://buy.stripe.com/4gM6oA6sH9S59ao3NgbEA01';
-
-  async function createCheckout(name, amount, email, metadata={}){
-    const res = await fetch('/api/checkout', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ name, amount, email, metadata })
-    });
-    const data = await res.json();
-    if(res.ok && data.id){
-      await stripe.redirectToCheckout({ sessionId: data.id });
-    } else if (data.url){
-      window.location = data.url;
-    } else {
-      throw new Error(data.message || 'Checkout error');
+  const fallbackLinks = document.querySelectorAll('[data-fallback-link]');
+  fallbackLinks.forEach(link => {
+    link.href = PAYMENT_LINK;
+    if (!link.textContent.trim()) {
+      link.textContent = 'open the secure Stripe portal';
     }
+  });
+
+  async function createCheckout(name, amount, email, metadata = {}) {
+    if (!amount || Number.isNaN(amount)) {
+      throw new Error('Enter a valid amount to continue.');
+    }
+
+    let response;
+    try {
+      response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, amount, email, metadata })
+      });
+    } catch (networkError) {
+      console.error('Checkout request failed', networkError);
+      throw new Error('We could not reach our payment server. Please use the quick pay link below.');
+    }
+
+    let data = {};
+    try {
+      data = await response.json();
+    } catch (_) {
+      data = {};
+    }
+
+    if (response.ok && data.id) {
+      await stripe.redirectToCheckout({ sessionId: data.id });
+      return;
+    }
+
+    if (data.url) {
+      window.location = data.url;
+      return;
+    }
+
+    const message = data.message || response.statusText || 'We could not start checkout right now.';
+    if (/stripe secret key missing/i.test(message)) {
+      throw new Error('Online checkout is temporarily offline while we refresh our Stripe keys.');
+    }
+
+    throw new Error(message);
   }
 
-  document.getElementById('depositForm').addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    const status = document.getElementById('dep_status');
-    status.textContent = 'Redirecting to Stripe…';
-    try{
-      await createCheckout('Deposit', parseFloat(document.getElementById('dep_amount').value), document.getElementById('dep_email').value, { payer: document.getElementById('dep_name').value, type:'deposit' });
-    }catch(err){ status.textContent = err.message; }
-  });
+  function updateStatus(statusEl, message) {
+    if (!statusEl) return;
+    statusEl.textContent = message;
+    statusEl.classList.remove('has-error');
+  }
 
-  document.getElementById('invoiceForm').addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    const status = document.getElementById('inv_status');
-    status.textContent = 'Redirecting to Stripe…';
-    try{
-      await createCheckout(`Invoice ${document.getElementById('inv_no').value}`, parseFloat(document.getElementById('inv_amount').value), document.getElementById('inv_email').value, { invoice: document.getElementById('inv_no').value, type:'invoice' });
-    }catch(err){ status.textContent = err.message; }
-  });
+  function handleCheckoutError(statusEl, error) {
+    if (!statusEl) return;
+    const message = error?.message || 'We could not start checkout right now.';
+    const fallbackMarkup = ` You can still <a href="${PAYMENT_LINK}" target="_blank" rel="noopener">open the secure Stripe portal</a>.`;
+    statusEl.innerHTML = `${message}${fallbackMarkup}`;
+    statusEl.classList.add('has-error');
+  }
 
-  // Render services from JSON
-  async function renderServices(){
-    try{
+  const depositForm = document.getElementById('depositForm');
+  if (depositForm) {
+    depositForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const statusEl = document.getElementById('dep_status');
+      updateStatus(statusEl, 'Redirecting to Stripe…');
+      const amount = parseFloat(document.getElementById('dep_amount').value);
+      const email = document.getElementById('dep_email').value;
+      const name = document.getElementById('dep_name').value;
+      try {
+        await createCheckout('Deposit', amount, email, { payer: name, type: 'deposit' });
+      } catch (error) {
+        handleCheckoutError(statusEl, error);
+      }
+    });
+  }
+
+  const invoiceForm = document.getElementById('invoiceForm');
+  if (invoiceForm) {
+    invoiceForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const statusEl = document.getElementById('inv_status');
+      updateStatus(statusEl, 'Preparing your secure link…');
+      const amount = parseFloat(document.getElementById('inv_amount').value);
+      const email = document.getElementById('inv_email').value;
+      const invoiceNumber = document.getElementById('inv_no').value;
+      try {
+        await createCheckout(`Invoice ${invoiceNumber}`, amount, email, { invoice: invoiceNumber, type: 'invoice' });
+      } catch (error) {
+        handleCheckoutError(statusEl, error);
+      }
+    });
+  }
+
+  async function renderServices() {
+    const summaryList = document.getElementById('serviceSummaryList');
+    const addonList = document.getElementById('addonSummaryList');
+    const statusEl = document.getElementById('serviceStatus');
+    if (!summaryList && !addonList) return;
+
+    try {
       const res = await fetch('data/services.json');
+      if (!res.ok) throw new Error('Network error');
       const data = await res.json();
-      const cards = document.getElementById('serviceSpotlight');
-      const details = document.getElementById('serviceDetails');
-      const addons = document.getElementById('addonServices');
-      const status = document.getElementById('serviceStatus');
 
-      const imageMap = {
-        'E‑Design (Virtual)': 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=1400&auto=format&fit=crop',
-        'Residential Room Refresh': 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=1400&auto=format&fit=crop',
-        'Full Residential Design (Turnkey)': 'https://images.unsplash.com/photo-1505691723518-36a5ac3b2a59?q=80&w=1400&auto=format&fit=crop',
-        'Home Staging': 'https://images.unsplash.com/photo-1484154218962-a197022b5858?q=80&w=1400&auto=format&fit=crop',
-        'Small Commercial / Boutique': 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1400&auto=format&fit=crop'
+      const formatPrice = (item) => {
+        if (item.price) return `$${Number(item.price).toLocaleString()}`;
+        if (item.priceFrom) return `From $${Number(item.priceFrom).toLocaleString()}`;
+        return '';
       };
 
-      if(cards){
-        const highlightNames = ['E‑Design (Virtual)','Residential Room Refresh','Home Staging','Small Commercial / Boutique'];
-        const highlightItems = highlightNames.map(name => data.core.find(item => item.name === name)).filter(Boolean);
-        const featured = highlightItems.length ? highlightItems : data.core.slice(0,4);
-        cards.innerHTML = featured.map(s => `
-          <article class="service-card fx-rise">
-            <img src="${imageMap[s.name] || imageMap['Full Residential Design (Turnkey)']}" alt="${s.name}" loading="lazy" />
-            <div class="service-card__overlay">
-              <h3>${s.name}</h3>
-              <p>${s.desc}</p>
-            </div>
-          </article>
-        `).join('');
+      if (summaryList) {
+        summaryList.innerHTML = data.core.map((service) => {
+          const price = formatPrice(service);
+          return `
+            <li>
+              <div class="service-summary__title">
+                <strong>${service.name}</strong>
+                ${price ? `<span class="service-summary__price">${price}</span>` : ''}
+              </div>
+              <p>${service.desc}</p>
+            </li>
+          `;
+        }).join('');
       }
 
-      if(details){
-        details.innerHTML = data.core.map(s => `
-          <article class="feature jeton-card">
-            <h3>${s.name}</h3>
-            <p>${s.desc}</p>
-            <div class="cta-row">
-              ${s.link ? `<a class="btn btn-jeton" href="${s.link}" target="_blank" rel="noopener">Pay Now</a>` : ''}
-              ${s.price ? `<button class="btn btn-outline" data-buy data-name="${s.name}" data-amount="${s.price}">$${s.price}</button>` : ''}
-              ${s.priceFrom ? `<button class="btn btn-outline" data-buy data-name="${s.name}" data-amount="${s.priceFrom}">From $${s.priceFrom}</button>` : ''}
-            </div>
-          </article>
-        `).join('');
+      if (addonList) {
+        addonList.innerHTML = data.addons.map((addon) => {
+          const price = formatPrice(addon);
+          return `
+            <li>
+              <div class="service-summary__title">
+                <strong>${addon.name}</strong>
+                ${price ? `<span class="service-summary__price">${price}</span>` : ''}
+              </div>
+              <p>${addon.desc}</p>
+            </li>
+          `;
+        }).join('');
       }
 
-      addons.innerHTML = data.addons.map(s => `
-        <article class="feature jeton-card">
-          <h3>${s.name}</h3>
-          <p>${s.desc}</p>
-          <div class="cta-row">
-            ${s.link ? `<a class="btn btn-jeton" href="${s.link}" target="_blank" rel="noopener">Pay Now</a>` : `<button class="btn btn-outline" data-buy data-name="${s.name}" data-amount="${s.priceFrom}">From $${s.priceFrom}</button>`}
-          </div>
-        </article>
-      `).join('');
-
-      const buyButtons = document.querySelectorAll('[data-buy]');
-      buyButtons.forEach(btn => {
-        btn.addEventListener('click', async () => {
-          try{ await createCheckout(btn.dataset.name, parseFloat(btn.dataset.amount)); }
-          catch(err){ alert(err.message); }
-        });
-      });
-      if(!buyButtons.length && status){
-        status.textContent = 'Online checkout links coming soon. Use the form above for custom payment links.';
+      if (statusEl) {
+        statusEl.textContent = 'Hover or tap a line item to quickly revisit what we deliver.';
       }
-    }catch(e){
-      console.error(e);
-      if(status){ status.textContent = 'We could not load the service catalog right now. Use the forms above and we will follow up manually.'; }
+    } catch (error) {
+      console.error('Service summary failed', error);
+      if (statusEl) {
+        statusEl.textContent = 'We could not load the service snapshots right now. Let us know if you need a refresher.';
+      }
     }
   }
+
   renderServices();
   </script>
   <script async src="https://js.stripe.com/v3/buy-button.js"></script>

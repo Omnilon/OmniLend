@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ømnilon Interiors | Project Brief</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="Share project goals, inspiration, and room photos with Ømnilon Interiors after booking." />
+</head>
+<body class="theme-jeton">
+  <div class="wrapper">
+    <header class="brand-header reveal fade is-visible">
+      <a href="index.html#home" class="brand" aria-label="Ømnilon Interiors">
+        <span class="brand-title">&#216;MNILON</span>
+      </a>
+    </header>
+    <nav id="siteNav">
+      <a href="index.html#home">Home</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#portfolio">Portfolio</a>
+      <a href="index.html#about">About</a>
+      <a href="Payment.html">Payments</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+
+    <main>
+      <section class="hero-jeton hero reveal fx-clip" style="position:relative;">
+        <div class="bg-grid"></div>
+        <div class="hero-inner fx-rise" data-parallax="0.12">
+          <h1 class="grad-text">Project Brief</h1>
+          <p>Help us understand your spaces, priorities, and inspiration so we can tailor the design plan to you.</p>
+        </div>
+      </section>
+
+      <section class="section brief fx-rise">
+        <div class="jeton-card brief-intro">
+          <h2>What to expect</h2>
+          <p>
+            This questionnaire walks through project goals, timeline, style preferences, and existing pieces we should factor in.
+            Upload room photos or inspiration snapshots so we can see what you see. When you submit, you’ll get a summary to copy
+            into an email along with your images.
+          </p>
+          <ul class="brief-checklist">
+            <li><span>Timeline:</span> upcoming installs, move-in dates, or events we should design around.</li>
+            <li><span>Function:</span> how you need each room to work day-to-day.</li>
+            <li><span>Style:</span> the mood, palette, and any “must keep” pieces.</li>
+          </ul>
+        </div>
+
+        <form class="jeton-card brief-form" id="projectBriefForm">
+          <h2>Tell us about your project</h2>
+          <div class="brief-grid">
+            <label>
+              Your name
+              <input type="text" name="clientName" required />
+            </label>
+            <label>
+              Best email for project updates
+              <input type="email" name="clientEmail" required />
+            </label>
+            <label>
+              Phone (optional)
+              <input type="tel" name="clientPhone" inputmode="tel" />
+            </label>
+            <label>
+              Project address or neighborhood
+              <input type="text" name="projectLocation" />
+            </label>
+            <label>
+              Primary service booked
+              <select name="serviceType" required>
+                <option value="" disabled selected>Select one</option>
+                <option value="E-Design (Virtual)">E-Design (Virtual)</option>
+                <option value="Residential Room Refresh">Residential Room Refresh</option>
+                <option value="Full Residential Design (Turnkey)">Full Residential Design (Turnkey)</option>
+                <option value="Home Staging">Home Staging</option>
+                <option value="Small Commercial / Boutique">Small Commercial / Boutique</option>
+                <option value="Other">Other / Custom Scope</option>
+              </select>
+            </label>
+            <label>
+              Target install or reveal date
+              <input type="date" name="targetDate" />
+            </label>
+          </div>
+
+          <label>
+            Which rooms or areas are we focusing on?
+            <textarea name="rooms" rows="3" placeholder="E.g. primary bedroom, entryway, powder bath"></textarea>
+          </label>
+
+          <label>
+            What feeling or story should the finished space tell?
+            <textarea name="vision" rows="4" placeholder="Share the vibe, keywords, or inspiration references that feel right."></textarea>
+          </label>
+
+          <label>
+            Daily-life musts
+            <textarea name="function" rows="4" placeholder="Storage needs, kid- or pet-friendly goals, entertaining, etc."></textarea>
+          </label>
+
+          <label>
+            Pieces to keep or avoid
+            <textarea name="keepList" rows="3" placeholder="Existing furniture, heirlooms, or items to skip."></textarea>
+          </label>
+
+          <fieldset class="brief-fieldset">
+            <legend>Style direction</legend>
+            <div class="brief-grid">
+              <label>
+                Color palette love list
+                <input type="text" name="colorPalette" placeholder="Warm neutrals, jewel tones, monochrome, etc." />
+              </label>
+              <label>
+                Materials &amp; finishes you’re drawn to
+                <input type="text" name="materials" placeholder="Light oak, unlacquered brass, boucle, etc." />
+              </label>
+              <label>
+                Brands or retailers you gravitate toward
+                <input type="text" name="brands" placeholder="CB2, RH, Chairish, local makers…" />
+              </label>
+              <label>
+                Any “absolutely nots” we should steer clear of?
+                <input type="text" name="avoid" placeholder="No wallpaper, no leather, etc." />
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="brief-fieldset">
+            <legend>Logistics &amp; budget</legend>
+            <div class="brief-grid">
+              <label>
+                Overall investment range (furnishings, decor, trades)
+                <input type="text" name="budget" placeholder="E.g. $15k-$20k or “phase in over 6 months.”" />
+              </label>
+              <label>
+                Decision makers
+                <input type="text" name="decisionMakers" placeholder="Who will review concepts and sign off?" />
+              </label>
+              <label>
+                Preferred way to meet
+                <select name="meetingStyle">
+                  <option value="Virtual">Virtual video call</option>
+                  <option value="In person">In-person walk-through</option>
+                  <option value="Hybrid">Hybrid / mix of both</option>
+                </select>
+              </label>
+              <label>
+                Additional vendors already engaged
+                <input type="text" name="vendors" placeholder="Contractor, architect, organizer, etc." />
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="brief-fieldset">
+            <legend>Photos &amp; inspiration</legend>
+            <p class="mini">Attach clear photos of each room (natural light is best). We’ll remind you to email them after you submit.</p>
+            <label class="file-label">
+              Upload room photos
+              <input type="file" id="spacePhotos" name="spacePhotos" accept="image/*" multiple />
+            </label>
+            <ul class="photo-list" id="photoList">
+              <li>No photos selected yet.</li>
+            </ul>
+            <label>
+              Share any inspiration links (Pinterest, Houzz, Instagram, etc.)
+              <textarea name="inspirationLinks" rows="3" placeholder="Paste URLs or usernames we should explore."></textarea>
+            </label>
+            <label>
+              Need to send large files?
+              <input type="text" name="fileShare" placeholder="Dropbox, Google Drive, or WeTransfer link" />
+            </label>
+          </fieldset>
+
+          <label>
+            Anything else we should know?
+            <textarea name="extras" rows="3" placeholder="Allergies, security instructions, renovation context, etc."></textarea>
+          </label>
+
+          <button class="btn btn-jeton" type="submit">Generate project summary</button>
+          <p class="mini" id="briefStatus" aria-live="polite"></p>
+        </form>
+
+        <section class="jeton-card brief-summary" id="briefSummary" hidden>
+          <h2>Next step: share your brief</h2>
+          <p>
+            Copy the responses below and email them with your photos to
+            <a href="mailto:omnilend.co@gmail.com">omnilend.co@gmail.com</a>. If you selected files above, attach them to the same
+            email so we receive the full context.
+          </p>
+          <textarea id="summaryOutput" rows="12" readonly></textarea>
+          <div class="summary-actions">
+            <button type="button" class="btn btn-outline" id="copySummary">Copy summary to clipboard</button>
+            <a class="btn btn-jeton" href="mailto:omnilend.co@gmail.com?subject=Ømnilon%20Project%20Brief">Start an email</a>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+  <footer class="site-footer">
+    <p>&copy; 2025 Ømnilon Interiors — Atlanta, GA</p>
+  </footer>
+
+  <script defer src="script.js"></script>
+  <script defer src="questionnaire.js"></script>
+</body>
+</html>
