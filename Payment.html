@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
   <script src="https://js.stripe.com/v3"></script>
+  <meta name="stripe-publishable-key" content="" />
   <meta name="description" content="Secure payments and deposits for Ømnilon Interiors projects." />
 </head>
 <body class="theme-jeton">
@@ -146,7 +147,8 @@
   <script>
   const PAYMENT_LINK = '#quickPayPortal';
   const CHECKOUT_ENDPOINT = '/api/checkout';
-  const STRIPE_PUBLISHABLE_KEY = 'pk_live_51S7wAs2dSpsiXnOLBxKLtF0iAkgXgMr7QMn0TAo9fDIbiJXbfCOwyNzMErUJ5OcIUWityN0FaXjjRh2KyxRBFNNo00RheMkkDi';
+  const stripePublishableKeyMeta = document.querySelector('meta[name="stripe-publishable-key"]');
+  const STRIPE_PUBLISHABLE_KEY = stripePublishableKeyMeta?.content?.trim() || '';
   const fallbackLinks = document.querySelectorAll('[data-fallback-link]');
   const quickPayCard = document.querySelector('.payment-card.quick-pay');
   const quickPayNote = document.getElementById('quickPayNote');
@@ -265,6 +267,10 @@
 
   async function ensureStripeClient() {
     if (stripeClient) return stripeClient;
+    if (!STRIPE_PUBLISHABLE_KEY) {
+      console.warn('Stripe publishable key is not configured.');
+      return null;
+    }
     if (typeof Stripe !== 'function') {
       console.error('Stripe.js is not available.');
       return null;
@@ -288,7 +294,11 @@
 
     const stripe = await ensureStripeClient();
     if (!stripe) {
-      reportCheckoutError('We couldn’t initialise Stripe. Use the quick pay portal below to finish booking.');
+      if (!STRIPE_PUBLISHABLE_KEY) {
+        reportCheckoutError('Use the quick pay portal below to finish booking while we refresh the instant checkout link.');
+      } else {
+        reportCheckoutError('We couldn’t initialise Stripe. Use the quick pay portal below to finish booking.');
+      }
       return;
     }
 
