@@ -94,7 +94,8 @@
                     step="0.01"
                     min="1"
                     required
-                    aria-describedby="quickPayError quickPayHelper"
+                    aria-describedby="quickPayError quickPayHelper quickPayStatus"
+                    autocomplete="off"
                   />
                 </div>
                 <p class="mini" id="quickPayHelper">You can adjust the amount before continuing if needed.</p>
@@ -102,8 +103,47 @@
               <div class="quick-pay__selection" id="quickPaySelection" hidden>
                 Paying for <span id="quickPayServiceName"></span>
               </div>
+              <div class="quick-pay__field">
+                <label for="quickPayName">Cardholder name</label>
+                <div class="quick-pay__input-wrapper">
+                  <input
+                    type="text"
+                    id="quickPayName"
+                    name="name"
+                    class="quick-pay__input"
+                    autocomplete="cc-name"
+                    inputmode="text"
+                    spellcheck="false"
+                  />
+                </div>
+              </div>
+              <div class="quick-pay__field">
+                <label for="quickPayEmail">Email for receipt (optional)</label>
+                <div class="quick-pay__input-wrapper">
+                  <input
+                    type="email"
+                    id="quickPayEmail"
+                    name="email"
+                    class="quick-pay__input"
+                    autocomplete="email"
+                    inputmode="email"
+                  />
+                </div>
+              </div>
+              <div class="quick-pay__field quick-pay__field--card">
+                <label for="quickPayCardElement">Card details</label>
+                <div
+                  id="quickPayCardElement"
+                  class="quick-pay__card-element"
+                  role="group"
+                  aria-label="Card details"
+                  aria-describedby="quickPayCardErrors quickPayStatus"
+                ></div>
+                <p class="mini quick-pay__error" id="quickPayCardErrors" role="alert" aria-live="polite"></p>
+              </div>
               <div class="quick-pay__actions">
                 <button type="submit" class="btn btn-jeton" id="quickPaySubmit">Buy</button>
+                <p class="mini quick-pay__status" id="quickPayStatus" role="status" aria-live="polite"></p>
                 <p class="mini quick-pay__error" id="quickPayError" role="alert"></p>
               </div>
             </form>
@@ -147,6 +187,7 @@
   <script>
   const PAYMENT_LINK = '#quickPayPortal';
   const CHECKOUT_ENDPOINT = '/api/checkout';
+  const PAYMENT_INTENT_ENDPOINT = '/api/create-payment-intent';
   const stripePublishableKeyMeta = document.querySelector('meta[name="stripe-publishable-key"]');
   let STRIPE_PUBLISHABLE_KEY = stripePublishableKeyMeta?.content?.trim() || '';
   const SERVICE_SNAPSHOT = Object.freeze({
@@ -232,15 +273,23 @@
   const quickPayAmountInput = document.getElementById('quickPayAmount');
   const quickPaySubmitButton = document.getElementById('quickPaySubmit');
   const quickPayErrorEl = document.getElementById('quickPayError');
+  const quickPayStatusEl = document.getElementById('quickPayStatus');
+  const quickPayCardElementContainer = document.getElementById('quickPayCardElement');
+  const quickPayCardErrorEl = document.getElementById('quickPayCardErrors');
   const quickPaySelection = document.getElementById('quickPaySelection');
   const quickPayServiceNameEl = document.getElementById('quickPayServiceName');
   const quickPayHelper = document.getElementById('quickPayHelper');
+  const quickPayNameInput = document.getElementById('quickPayName');
+  const quickPayEmailInput = document.getElementById('quickPayEmail');
   const serviceLinkButton = document.getElementById('serviceLink');
   const helperTextEl = document.getElementById('serviceHelperText');
   const defaultServiceButtonLabel = serviceLinkButton ? serviceLinkButton.textContent.trim() : '';
   const defaultQuickPayButtonLabel = quickPaySubmitButton ? quickPaySubmitButton.textContent.trim() : '';
   let quickPayHighlightTimer;
   let stripeClient = null;
+  let stripeElements = null;
+  let cardElement = null;
+  let cardElementReadyPromise = null;
   let checkoutInFlight = false;
 
   function setFallbackLinks(url) {
@@ -319,7 +368,7 @@
   function setQuickPayButtonLoading(isLoading) {
     if (!quickPaySubmitButton) return;
     if (isLoading) {
-      quickPaySubmitButton.textContent = 'Redirecting…';
+      quickPaySubmitButton.textContent = 'Processing…';
       quickPaySubmitButton.setAttribute('aria-busy', 'true');
       quickPaySubmitButton.classList.add('is-loading');
       quickPaySubmitButton.disabled = true;
@@ -340,6 +389,24 @@
   function reportQuickPayError(message) {
     if (quickPayErrorEl) {
       quickPayErrorEl.textContent = message || '';
+    }
+    if (message) {
+      reportQuickPayStatus('');
+    }
+  }
+
+  function reportQuickPayStatus(message) {
+    if (quickPayStatusEl) {
+      quickPayStatusEl.textContent = message || '';
+    }
+  }
+
+  function reportQuickPayCardError(message) {
+    if (quickPayCardErrorEl) {
+      quickPayCardErrorEl.textContent = message || '';
+    }
+    if (message) {
+      reportQuickPayStatus('');
     }
   }
 
@@ -395,6 +462,67 @@
       console.error('Failed to initialise Stripe.js', error);
       return null;
     }
+  }
+
+  async function ensureCardElement() {
+    if (cardElement) return cardElement;
+    if (!quickPayCardElementContainer) return null;
+
+    if (cardElementReadyPromise) {
+      return cardElementReadyPromise;
+    }
+
+    cardElementReadyPromise = (async () => {
+      try {
+        const stripe = await ensureStripeClient();
+        if (!stripe) return null;
+
+        if (!stripeElements) {
+          stripeElements = stripe.elements({
+            appearance: {
+              theme: 'night',
+              variables: {
+                colorPrimary: '#ffb547',
+                colorText: '#e8ecec',
+                colorTextPlaceholder: '#9aa5a1',
+                colorDanger: '#ffb8b8',
+                colorBackground: '#0f1217',
+                borderRadius: '10px'
+              }
+            }
+          });
+        }
+
+        const element = stripeElements.create('card', {
+          style: {
+            base: {
+              color: '#e8ecec',
+              fontFamily: '"Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+              fontSize: '16px',
+              '::placeholder': { color: '#9aa5a1' }
+            },
+            invalid: {
+              color: '#ffb8b8'
+            }
+          }
+        });
+        element.mount(quickPayCardElementContainer);
+        element.on('change', (event) => {
+          reportQuickPayCardError(event.error?.message || '');
+        });
+
+        return element;
+      } catch (error) {
+        console.error('Failed to initialise Stripe card element', error);
+        return null;
+      }
+    })();
+
+    cardElement = await cardElementReadyPromise;
+    if (!cardElement) {
+      cardElementReadyPromise = null;
+    }
+    return cardElement;
   }
 
   async function launchServiceCheckout({ amount, serviceName }) {
@@ -513,6 +641,11 @@
 
     if (hasAmount) {
       reportQuickPayError('');
+      reportQuickPayCardError('');
+    }
+
+    if (quickPayCardElementContainer) {
+      ensureCardElement();
     }
 
     return paymentUrl;
@@ -557,6 +690,12 @@
       const rawAmount = quickPayAmountInput.value || '';
       const amount = parseFloat(rawAmount);
       const serviceName = quickPayForm.dataset.serviceName || '';
+      const payerName = quickPayNameInput?.value?.trim() || '';
+      const payerEmail = quickPayEmailInput?.value?.trim() || '';
+
+      reportQuickPayError('');
+      reportQuickPayStatus('');
+      reportQuickPayCardError('');
 
       if (Number.isNaN(amount) || amount <= 0) {
         reportQuickPayError('Enter a valid amount above to continue.');
@@ -565,49 +704,91 @@
       }
 
       const stripe = await ensureStripeClient();
-      if (!stripe) {
-        reportQuickPayError('We couldn’t initialise Stripe. Message the studio and we’ll send a direct payment link.');
+      const card = await ensureCardElement();
+      if (!stripe || !card) {
+        reportQuickPayError('The secure card form is unavailable. Use the instant checkout link above while we refresh it.');
         return;
       }
 
       if (checkoutInFlight) return;
       checkoutInFlight = true;
       setQuickPayButtonLoading(true);
-      reportQuickPayError('');
 
       try {
-        const response = await fetch(CHECKOUT_ENDPOINT, {
+        const response = await fetch(PAYMENT_INTENT_ENDPOINT, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            name: `${serviceName || 'Design Project'} Payment`,
             amount,
-            metadata: {
-              service: serviceName || '',
-              source: 'quick-pay-portal'
-            }
+            serviceName,
+            name: payerName,
+            email: payerEmail
           })
         });
 
+        const payload = await response.json().catch(() => ({}));
         if (!response.ok) {
-          throw new Error(`Checkout request failed: ${response.status}`);
+          const serverMessage = typeof payload?.message === 'string' ? payload.message : '';
+          const isClientError = response.status >= 400 && response.status < 500;
+          const message = isClientError && serverMessage
+            ? serverMessage
+            : 'Payment could not be initiated. Try again in a moment.';
+          throw new Error(message);
         }
 
-        const payload = await response.json();
-        if (payload?.url) {
-          window.location.href = payload.url;
+        const clientSecret = payload?.clientSecret;
+        if (!clientSecret) {
+          throw new Error('Missing payment credentials from the server.');
+        }
+
+        const confirmation = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card,
+            billing_details: {
+              name: payerName || undefined,
+              email: payerEmail || undefined
+            }
+          }
+        });
+
+        if (confirmation.error) {
+          throw confirmation.error;
+        }
+
+        const status = confirmation.paymentIntent?.status;
+        if (status === 'succeeded') {
+          const successMessage = payerEmail
+            ? 'Payment complete! Check your email for the receipt.'
+            : 'Payment complete! We will follow up with a receipt shortly.';
+          reportQuickPayStatus(successMessage);
+          reportQuickPayCardError('');
+          if (quickPayAmountInput) quickPayAmountInput.value = '';
+          if (quickPayNameInput) quickPayNameInput.value = '';
+          if (quickPayEmailInput) quickPayEmailInput.value = '';
+          if (typeof card.clear === 'function') {
+            card.clear();
+          }
           return;
         }
 
-        if (payload?.id) {
-          const { error } = await stripe.redirectToCheckout({ sessionId: payload.id });
-          if (error) throw error;
-        } else {
-          throw new Error('Missing checkout session data');
+        if (status === 'processing') {
+          reportQuickPayStatus('Payment is processing. We’ll email you as soon as it completes.');
+          reportQuickPayCardError('');
+          return;
         }
+
+        throw new Error('We couldn’t confirm the payment. Try again or message the studio for help.');
       } catch (error) {
         console.error('Quick pay checkout failed', error);
-        reportQuickPayError('We couldn’t open Stripe automatically. Try again or message the studio for help.');
+        if (error?.type === 'card_error') {
+          reportQuickPayCardError(error.message || 'There was a problem with your card details.');
+          reportQuickPayError('Update the card details above and try again.');
+        } else {
+          const message = typeof error?.message === 'string' && error.message.trim()
+            ? error.message
+            : 'We couldn’t confirm the payment. Try again or message the studio for help.';
+          reportQuickPayError(message);
+        }
       } finally {
         checkoutInFlight = false;
         setQuickPayButtonLoading(false);
@@ -841,6 +1022,7 @@
   (async function initPaymentPage() {
     renderServices(SERVICE_SNAPSHOT);
     initServicePicker(SERVICE_SNAPSHOT);
+    await ensureCardElement();
 
     const serviceData = await loadServiceData();
     if (serviceData !== SERVICE_SNAPSHOT) {
