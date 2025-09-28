@@ -46,7 +46,7 @@
         </div>
 
         <div class="payment-grid">
-          <article class="jeton-card payment-card">
+          <article class="jeton-card payment-card payment-card--selector">
             <h3>Choose your service</h3>
             <p>Select a service to see the full price and the 50% deposit due today.</p>
 
@@ -68,13 +68,15 @@
             </div>
           </article>
 
-          <article class="jeton-card payment-card">
+          <article class="jeton-card payment-card payment-card--checkout">
             <h3>Pay your deposit</h3>
             <p>
               Use our secure Stripe checkout to submit the 50% deposit. We’ll send a confirmation email with next steps
               and a link to the project questionnaire.
             </p>
+            <p class="payment-security">Encrypted checkout powered by Stripe. No card details are stored on our servers.</p>
             <stripe-buy-button
+              class="payment-buy-button"
               buy-button-id="buy_btn_1SByhQ2dSpsiXnOLd7LObOHQ"
               publishable-key="pk_live_51S7wAs2dSpsiXnOLBxKLtF0iAkgXgMr7QMn0TAo9fDIbiJXbfCOwyNzMErUJ5OcIUWityN0FaXjjRh2KyxRBFNNo00RheMkkDi"
             >
