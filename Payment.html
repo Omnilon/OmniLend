@@ -71,7 +71,7 @@
             <p class="mini" id="serviceHelperText">Use the quick pay portal below to enter a different amount.</p>
           </article>
 
-          <article class="jeton-card payment-card quick-pay">
+          <article class="jeton-card payment-card quick-pay" id="quickPayPortal">
             <div class="quick-pay__copy">
               <h3>Quick pay portal</h3>
               <p>Prefer to handle it yourself? Use our ready-to-go Stripe checkout link.</p>
@@ -125,24 +125,35 @@
 
   <script defer src="script.js"></script>
   <script>
-  const PAYMENT_LINK = 'https://buy.stripe.com/4gM6oA6sH9S59ao3NgbEA01';
+  const PAYMENT_LINK = '#quickPayPortal';
+  const CHECKOUT_ENDPOINT = '/api/checkout';
+  const STRIPE_PUBLISHABLE_KEY = 'pk_live_51S7wAs2dSpsiXnOLBxKLtF0iAkgXgMr7QMn0TAo9fDIbiJXbfCOwyNzMErUJ5OcIUWityN0FaXjjRh2KyxRBFNNo00RheMkkDi';
   const fallbackLinks = document.querySelectorAll('[data-fallback-link]');
+  const quickPayCard = document.querySelector('.payment-card.quick-pay');
+  const quickPayNote = document.getElementById('quickPayNote');
+  const serviceLinkButton = document.getElementById('serviceLink');
+  const helperTextEl = document.getElementById('serviceHelperText');
+  const defaultServiceButtonLabel = serviceLinkButton ? serviceLinkButton.textContent.trim() : '';
+  let quickPayHighlightTimer;
+  let stripeClient = null;
+  let checkoutInFlight = false;
 
   function setFallbackLinks(url) {
     fallbackLinks.forEach((link) => {
-      link.href = url;
-      if (!link.textContent.trim()) {
-        link.textContent = 'open the secure Stripe portal';
+      if (url) {
+        link.href = url;
+        link.hidden = false;
+        if (!link.textContent.trim()) {
+          link.textContent = 'open the secure Stripe portal';
+        }
+      } else {
+        link.removeAttribute('href');
+        link.hidden = true;
       }
     });
   }
 
   setFallbackLinks(PAYMENT_LINK);
-
-  const quickPayCard = document.querySelector('.payment-card.quick-pay');
-  const quickPayNote = document.getElementById('quickPayNote');
-  const serviceLinkButton = document.getElementById('serviceLink');
-  let quickPayHighlightTimer;
 
   function formatCurrency(value) {
     const number = Number(value);
@@ -156,6 +167,16 @@
     });
   }
 
+  function isValidHttpUrl(value) {
+    if (typeof value !== 'string' || !value.trim()) return false;
+    try {
+      const url = new URL(value);
+      return url.protocol === 'https:' || url.protocol === 'http:';
+    } catch (error) {
+      return false;
+    }
+  }
+
   function buildPaymentUrl(baseUrl = PAYMENT_LINK) {
     if (!baseUrl) return '';
     try {
@@ -163,6 +184,97 @@
     } catch (error) {
       console.warn('Could not construct payment URL', error);
       return baseUrl;
+    }
+  }
+
+  function setServiceButtonLoading(isLoading) {
+    if (!serviceLinkButton) return;
+    if (isLoading) {
+      serviceLinkButton.textContent = 'Preparing checkout…';
+      serviceLinkButton.setAttribute('aria-busy', 'true');
+      serviceLinkButton.classList.add('is-loading');
+    } else {
+      serviceLinkButton.textContent = defaultServiceButtonLabel || 'Start instant checkout';
+      serviceLinkButton.removeAttribute('aria-busy');
+      serviceLinkButton.classList.remove('is-loading');
+    }
+  }
+
+  function reportCheckoutError(message) {
+    if (helperTextEl && message) {
+      helperTextEl.textContent = message;
+    }
+  }
+
+  async function ensureStripeClient() {
+    if (stripeClient) return stripeClient;
+    if (typeof Stripe !== 'function') {
+      console.error('Stripe.js is not available.');
+      return null;
+    }
+    try {
+      stripeClient = Stripe(STRIPE_PUBLISHABLE_KEY);
+      return stripeClient;
+    } catch (error) {
+      console.error('Failed to initialise Stripe.js', error);
+      return null;
+    }
+  }
+
+  async function launchServiceCheckout({ amount, serviceName }) {
+    if (!serviceLinkButton) return;
+
+    if (typeof amount !== 'number' || Number.isNaN(amount) || amount <= 0) {
+      reportCheckoutError('Use the quick pay portal below and enter the amount shown to finish booking.');
+      return;
+    }
+
+    const stripe = await ensureStripeClient();
+    if (!stripe) {
+      reportCheckoutError('We couldn’t initialise Stripe. Use the quick pay portal below to finish booking.');
+      return;
+    }
+
+    if (checkoutInFlight) return;
+    checkoutInFlight = true;
+    setServiceButtonLoading(true);
+
+    try {
+      const response = await fetch(CHECKOUT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: `${serviceName || 'Design Project'} Deposit`,
+          amount,
+          metadata: {
+            service: serviceName || '',
+            source: 'service-picker'
+          }
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Checkout request failed: ${response.status}`);
+      }
+
+      const payload = await response.json();
+      if (payload?.url) {
+        window.location.href = payload.url;
+        return;
+      }
+
+      if (payload?.id) {
+        const { error } = await stripe.redirectToCheckout({ sessionId: payload.id });
+        if (error) throw error;
+      } else {
+        throw new Error('Missing checkout session data');
+      }
+    } catch (error) {
+      console.error('Service checkout failed', error);
+      reportCheckoutError('We couldn’t open Stripe automatically. Use the quick pay portal below to finish booking.');
+    } finally {
+      checkoutInFlight = false;
+      setServiceButtonLoading(false);
     }
   }
 
@@ -195,10 +307,11 @@
   }
 
   if (serviceLinkButton) {
-    serviceLinkButton.addEventListener('click', () => {
+    serviceLinkButton.addEventListener('click', async (event) => {
       const amountValue = parseFloat(serviceLinkButton.dataset.checkoutAmount || '');
       const serviceName = serviceLinkButton.dataset.serviceName || '';
-      const checkoutUrl = serviceLinkButton.dataset.checkoutUrl || PAYMENT_LINK;
+      const checkoutUrl = serviceLinkButton.dataset.checkoutUrl || '';
+      const mode = serviceLinkButton.dataset.checkoutMode || (checkoutUrl ? 'direct' : 'session');
       const hasAmount = !Number.isNaN(amountValue) && amountValue > 0;
       updateQuickPayPortal({
         amount: hasAmount ? amountValue : null,
@@ -210,6 +323,16 @@
       if (quickPayCard) {
         quickPayCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+
+      if (mode === 'direct' && checkoutUrl) {
+        return;
+      }
+
+      event.preventDefault();
+      await launchServiceCheckout({
+        amount: hasAmount ? amountValue : null,
+        serviceName
+      });
     });
   }
 
@@ -221,7 +344,7 @@
     const priceEl = document.getElementById('servicePrice');
     const depositEl = document.getElementById('serviceDeposit');
     const linkEl = document.getElementById('serviceLink');
-    const helperEl = document.getElementById('serviceHelperText');
+    const helperEl = helperTextEl;
 
     if (!select || !details) return;
 
@@ -284,7 +407,8 @@
         ? preciseDeposit
         : null;
 
-      const baseLink = service.link || PAYMENT_LINK;
+      const hasDirectLink = isValidHttpUrl(service.link);
+      const baseLink = hasDirectLink ? service.link : '';
       const paymentUrl = updateQuickPayPortal({
         amount: depositAmount,
         serviceName: service.name,
@@ -292,22 +416,38 @@
       });
 
       if (linkEl) {
-        if (paymentUrl) {
-          linkEl.href = paymentUrl;
+        const hasCheckoutOption = Boolean(paymentUrl) || (depositAmount && depositAmount > 0);
+        if (hasCheckoutOption) {
           linkEl.hidden = false;
           linkEl.textContent = 'Start instant checkout';
+          linkEl.href = paymentUrl || PAYMENT_LINK;
+          if (hasDirectLink) {
+            linkEl.target = '_blank';
+            linkEl.rel = 'noopener';
+          } else {
+            linkEl.removeAttribute('target');
+          }
           linkEl.dataset.checkoutAmount = depositAmount ? depositAmount.toString() : '';
           linkEl.dataset.serviceName = service.name || '';
-          linkEl.dataset.checkoutUrl = baseLink;
+          linkEl.dataset.checkoutUrl = hasDirectLink ? baseLink : '';
+          linkEl.dataset.checkoutMode = hasDirectLink ? 'direct' : 'session';
         } else {
           linkEl.hidden = true;
+          linkEl.removeAttribute('data-checkout-amount');
+          linkEl.removeAttribute('data-service-name');
+          linkEl.removeAttribute('data-checkout-url');
+          linkEl.removeAttribute('data-checkout-mode');
         }
       }
 
       if (helperEl) {
-        helperEl.textContent = depositAmount
-          ? 'Click “Start instant checkout” to queue the quick pay portal and open Stripe in a new tab.'
-          : 'Use the quick pay portal below and enter the amount shown to finish booking.';
+        if (depositAmount) {
+          helperEl.textContent = hasDirectLink
+            ? 'Click “Start instant checkout” to queue the quick pay portal and open Stripe in a new tab.'
+            : 'Click “Start instant checkout” to launch a secure Stripe checkout. We’ll also highlight the quick pay portal in case you need it.';
+        } else {
+          helperEl.textContent = 'Use the quick pay portal below and enter the amount shown to finish booking.';
+        }
       }
     }
 
