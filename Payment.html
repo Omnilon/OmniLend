@@ -42,7 +42,7 @@
             is required for <strong>all bookings</strong>. The remaining balance is billed when design delivery or install is
             complete.
           </p>
-          <p class="mini">Need help choosing the right service? Email <a href="mailto:hello@omniloninteriors.com">hello@omniloninteriors.com</a>.</p>
+          <p class="mini">Need help choosing the right service? Email <a href="mailto:omnilend.co@gmail.com">omnilend.co@gmail.com</a>.</p>
         </div>
 
         <div class="payment-grid">
@@ -51,15 +51,17 @@
             <p>Select a service to see the full price and the 50% deposit due today.</p>
 
             <label class="service-picker" for="serviceSelect">Service or package</label>
-            <select id="serviceSelect" class="service-select">
-              <option value="" disabled selected>Select an option</option>
-              <option value="E‑Design (Virtual)" data-price="450">E‑Design (Virtual)</option>
-              <option value="In-Home Styling" data-price="900">In-Home Styling</option>
-              <option value="Full Service Design" data-price="3200">Full Service Design</option>
-              <option value="New Build &amp; Renovation" data-price="5200">New Build &amp; Renovation</option>
-              <option value="Designer On Call" data-price="300">Designer On Call (2 hr block)</option>
-              <option value="Custom Furniture Sourcing" data-price="600">Custom Furniture Sourcing</option>
-            </select>
+            <div class="service-select-wrap">
+              <select id="serviceSelect" class="service-select">
+                <option value="" disabled selected>Select an option</option>
+                <option value="E‑Design (Virtual)" data-price="450">E‑Design (Virtual)</option>
+                <option value="In-Home Styling" data-price="900">In-Home Styling</option>
+                <option value="Full Service Design" data-price="3200">Full Service Design</option>
+                <option value="New Build &amp; Renovation" data-price="5200">New Build &amp; Renovation</option>
+                <option value="Designer On Call" data-price="300">Designer On Call (2 hr block)</option>
+                <option value="Custom Furniture Sourcing" data-price="600">Custom Furniture Sourcing</option>
+              </select>
+            </div>
 
             <div class="service-details" id="serviceDetails" aria-live="polite">
               <h4 id="selectedService" class="service-name"></h4>
@@ -113,7 +115,7 @@
       if (!option || !option.value) {
         selectedService.textContent = '';
         fullPrice.textContent = '';
-        depositAmount.textContent = '';
+        depositAmount.innerHTML = '';
         return;
       }
 
@@ -122,7 +124,7 @@
 
       selectedService.textContent = option.value;
       fullPrice.textContent = `Full price: ${currency.format(price)}`;
-      depositAmount.textContent = `Deposit due today (50%): ${currency.format(deposit)}`;
+      depositAmount.innerHTML = `<span>Deposit due today</span><strong>${currency.format(deposit)}</strong>`;
     }
 
     serviceSelect?.addEventListener('change', (event) => {
