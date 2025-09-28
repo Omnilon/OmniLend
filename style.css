@@ -1162,6 +1162,20 @@ body.experience-security .menu-toggle span{ background:#9fe8f5; }
 .payment-card.quick-pay{ align-items:center; text-align:center; gap:16px; position:relative; transition: box-shadow .3s ease, transform .3s ease; }
 .quick-pay__copy{ display:flex; flex-direction:column; gap:6px; align-items:center; text-align:center; }
 .payment-card.quick-pay stripe-buy-button{ align-self:center; width:100%; max-width:320px; }
+.quick-pay__form{ display:flex; flex-direction:column; gap:12px; align-self:stretch; width:100%; max-width:320px; }
+.quick-pay__field{ display:flex; flex-direction:column; gap:6px; text-align:left; }
+.quick-pay__field label{ font-size:14px; color:#cbd4d0; }
+.quick-pay__input-wrapper{ display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,.18); background:#0f1217; color:#e8ecec; transition:border .2s ease, box-shadow .2s ease; }
+.quick-pay__input-wrapper:focus-within{ border-color:#ffb547; box-shadow:0 0 0 2px rgba(255,181,71,.25); }
+.quick-pay__input-wrapper span{ font-weight:600; color:#ffb547; }
+.quick-pay__input{ flex:1; background:transparent; border:none; color:inherit; font-size:18px; line-height:1.4; }
+.quick-pay__input:focus{ outline:none; }
+.quick-pay__selection{ font-size:14px; color:#cbd4d0; }
+.quick-pay__selection span{ font-weight:600; color:#ffe0b0; }
+.quick-pay__actions{ display:flex; flex-direction:column; gap:6px; }
+.quick-pay__error{ min-height:18px; color:#ffb8b8; }
+.payment-card.quick-pay .btn.is-loading{ opacity:.7; }
+.quick-pay__divider{ font-size:13px; text-transform:uppercase; letter-spacing:.18em; color:#6e7a78; }
 .quick-pay-note{ margin:0; font-size:15px; line-height:1.6; color:#dbe7e4; }
 .payment-card.quick-pay.is-active{ box-shadow:0 0 0 3px rgba(255,181,71,.35), 0 18px 42px rgba(0,0,0,.45); transform:translateY(-2px); }
 .payment-card.quick-pay.is-active .quick-pay-note{ color:#fff4dc; }

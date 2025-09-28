@@ -79,7 +79,36 @@
             <p class="quick-pay-note" id="quickPayNote" aria-live="polite">
               Enter your deposit or invoice total in the quick pay portal to continue to Stripe.
             </p>
+            <form class="quick-pay__form" id="quickPayForm" novalidate>
+              <div class="quick-pay__field">
+                <label for="quickPayAmount">Amount</label>
+                <div class="quick-pay__input-wrapper">
+                  <span aria-hidden="true">$</span>
+                  <input
+                    type="number"
+                    id="quickPayAmount"
+                    name="amount"
+                    class="quick-pay__input"
+                    inputmode="decimal"
+                    step="0.01"
+                    min="1"
+                    required
+                    aria-describedby="quickPayError quickPayHelper"
+                  />
+                </div>
+                <p class="mini" id="quickPayHelper">You can adjust the amount before continuing if needed.</p>
+              </div>
+              <div class="quick-pay__selection" id="quickPaySelection" hidden>
+                Paying for <span id="quickPayServiceName"></span>
+              </div>
+              <div class="quick-pay__actions">
+                <button type="submit" class="btn btn-jeton" id="quickPaySubmit">Buy</button>
+                <p class="mini quick-pay__error" id="quickPayError" role="alert"></p>
+              </div>
+            </form>
+            <div class="quick-pay__divider" role="presentation">or</div>
             <stripe-buy-button
+              id="quickPayButton"
               buy-button-id="buy_btn_1SByhQ2dSpsiXnOLd7LObOHQ"
               publishable-key="pk_live_51S7wAs2dSpsiXnOLBxKLtF0iAkgXgMr7QMn0TAo9fDIbiJXbfCOwyNzMErUJ5OcIUWityN0FaXjjRh2KyxRBFNNo00RheMkkDi"
             >
@@ -128,12 +157,41 @@
   const PAYMENT_LINK = '#quickPayPortal';
   const CHECKOUT_ENDPOINT = '/api/checkout';
   const STRIPE_PUBLISHABLE_KEY = 'pk_live_51S7wAs2dSpsiXnOLBxKLtF0iAkgXgMr7QMn0TAo9fDIbiJXbfCOwyNzMErUJ5OcIUWityN0FaXjjRh2KyxRBFNNo00RheMkkDi';
+  const STATIC_SERVICE_DATA = {
+    core: [
+      { name: 'E‑Design (Virtual)', desc: 'A fast, mood‑board‑to‑makeover plan you can execute on your timeline—layout, palette, shoppable list, and a step‑by‑step setup guide.', price: 450 },
+      { name: 'Residential Room Refresh', desc: 'A precision tune‑up for one room—new paint and lighting, scaled furniture, curated textiles, and styling that makes what you already own feel intentional.', priceFrom: 1500 },
+      { name: 'Full Residential Design (Turnkey)', desc: 'Concept through install—materials, custom pieces, trades and deliveries handled for you—so you leave a ‘before’ and come home to the ‘after.’', priceFrom: 5000 },
+      { name: 'Home Staging', desc: 'Market‑ready rooms styled to photograph beautifully and show even better—edited furniture, art, and accents that spotlight light, space, and flow.', priceFrom: 2500 },
+      { name: 'Small Commercial / Boutique', desc: 'Brand‑minded interiors for salons, cafés, and studios—optimized floor plans, durable finishes, and ‘stop‑and‑shoot’ moments that convert foot traffic.', priceFrom: 7500 }
+    ],
+    addons: [
+      { name: 'Move‑In Styling', desc: 'Unpack, edit, and arrange what you own—then layer key pieces for a finished, livable feel by your first weekend in.', priceFrom: 200 },
+      { name: 'Paint & Color Direction', desc: 'A cohesive palette for walls, trim, ceilings, and key finishes—with sheen specs and room‑by‑room placement so painters just roll.', priceFrom: 200 },
+      { name: 'Personal Sourcing Day', desc: 'A designer on your arm—showrooms to checkout—pulling options, securing trade pricing, and leaving you with a ready‑to‑order cart.', priceFrom: 75 },
+      { name: 'Art Curation & Gallery Walls', desc: 'A curated art plan with scaled mockups and a hanging map—so every piece lands at the right height and tells the right story.', priceFrom: 200 },
+      { name: 'Holiday / Event Styling', desc: 'One‑day transformation for photos, parties, or rentals—tablescapes, mantel moments, florals, and layered lighting you can recreate next season.', priceFrom: 500 },
+      { name: 'Space Planning & Layout', desc: 'Scaled floor plans that unlock sightlines and circulation—right‑sized furniture, clear dimensions, and a map for confident buying.', priceFrom: 200 },
+      { name: 'Finish & Fixture Selections (Kitchen/Bath)', desc: 'Clean, cohesive specs—countertops, tile, plumbing, hardware, and paint that play together beautifully from sample to install.', priceFrom: 200 },
+      { name: 'Lighting Plan', desc: 'Ambient, task, and accent layers plotted room by room—with fixture types, counts, and switch logic for flattering, functional light.', priceFrom: 200 },
+      { name: 'Window Treatments', desc: 'Tailored drapery and shades—fabric and hardware pairings, measurements, and privacy/light control calibrated to each room.', priceFrom: 200 }
+    ]
+  };
   const fallbackLinks = document.querySelectorAll('[data-fallback-link]');
   const quickPayCard = document.querySelector('.payment-card.quick-pay');
   const quickPayNote = document.getElementById('quickPayNote');
+  const quickPayForm = document.getElementById('quickPayForm');
+  const quickPayAmountInput = document.getElementById('quickPayAmount');
+  const quickPaySubmitButton = document.getElementById('quickPaySubmit');
+  const quickPayErrorEl = document.getElementById('quickPayError');
+  const quickPaySelection = document.getElementById('quickPaySelection');
+  const quickPayServiceNameEl = document.getElementById('quickPayServiceName');
+  const quickPayHelper = document.getElementById('quickPayHelper');
+  const quickPayButton = document.getElementById('quickPayButton');
   const serviceLinkButton = document.getElementById('serviceLink');
   const helperTextEl = document.getElementById('serviceHelperText');
   const defaultServiceButtonLabel = serviceLinkButton ? serviceLinkButton.textContent.trim() : '';
+  const defaultQuickPayButtonLabel = quickPaySubmitButton ? quickPaySubmitButton.textContent.trim() : '';
   let quickPayHighlightTimer;
   let stripeClient = null;
   let checkoutInFlight = false;
@@ -165,6 +223,15 @@
       minimumFractionDigits: hasCents ? 2 : 0,
       maximumFractionDigits: hasCents ? 2 : 0
     });
+  }
+
+  function formatAmountForInput(value) {
+    if (typeof value !== 'number' || Number.isNaN(value)) return '';
+    const cents = Math.round(value * 100);
+    if (cents % 100 === 0) {
+      return String(cents / 100);
+    }
+    return (cents / 100).toFixed(2);
   }
 
   function isValidHttpUrl(value) {
@@ -200,9 +267,30 @@
     }
   }
 
+  function setQuickPayButtonLoading(isLoading) {
+    if (!quickPaySubmitButton) return;
+    if (isLoading) {
+      quickPaySubmitButton.textContent = 'Redirecting…';
+      quickPaySubmitButton.setAttribute('aria-busy', 'true');
+      quickPaySubmitButton.classList.add('is-loading');
+      quickPaySubmitButton.disabled = true;
+    } else {
+      quickPaySubmitButton.textContent = defaultQuickPayButtonLabel || 'Buy';
+      quickPaySubmitButton.removeAttribute('aria-busy');
+      quickPaySubmitButton.classList.remove('is-loading');
+      quickPaySubmitButton.disabled = false;
+    }
+  }
+
   function reportCheckoutError(message) {
     if (helperTextEl && message) {
       helperTextEl.textContent = message;
+    }
+  }
+
+  function reportQuickPayError(message) {
+    if (quickPayErrorEl) {
+      quickPayErrorEl.textContent = message || '';
     }
   }
 
@@ -282,12 +370,40 @@
     const paymentUrl = buildPaymentUrl(baseLink || PAYMENT_LINK);
     setFallbackLinks(paymentUrl);
 
+    const hasAmount = typeof amount === 'number' && !Number.isNaN(amount) && amount > 0;
+
+    if (quickPayAmountInput) {
+      quickPayAmountInput.value = hasAmount ? formatAmountForInput(amount) : '';
+    }
+
+    if (quickPayForm) {
+      quickPayForm.dataset.serviceName = serviceName || '';
+    }
+
+    if (quickPayServiceNameEl && quickPaySelection) {
+      if (serviceName) {
+        quickPaySelection.hidden = false;
+        quickPayServiceNameEl.textContent = serviceName;
+      } else {
+        quickPaySelection.hidden = true;
+        quickPayServiceNameEl.textContent = '';
+      }
+    }
+
     if (quickPayNote) {
-      if (typeof amount === 'number' && !Number.isNaN(amount) && amount > 0) {
+      if (hasAmount) {
         const label = serviceName || 'your selection';
-        quickPayNote.textContent = `We’ll route you through the quick pay portal with a ${formatCurrency(amount)} deposit for ${label}.`;
+        quickPayNote.textContent = `We’ll route you through the quick pay portal with a ${formatCurrency(amount)} deposit for ${label}. You can adjust the amount before continuing.`;
       } else {
         quickPayNote.textContent = 'Enter your deposit or invoice total in the quick pay portal to continue to Stripe.';
+      }
+    }
+
+    if (quickPayHelper) {
+      if (hasAmount) {
+        quickPayHelper.textContent = 'Need to tweak it? Edit the amount before tapping Buy.';
+      } else {
+        quickPayHelper.textContent = 'You can adjust the amount before continuing if needed.';
       }
     }
 
@@ -301,6 +417,14 @@
       } else {
         quickPayCard.classList.remove('is-active');
       }
+    }
+
+    if (hasAmount) {
+      reportQuickPayError('');
+    }
+
+    if (quickPayButton) {
+      quickPayButton.hidden = false;
     }
 
     return paymentUrl;
@@ -336,6 +460,76 @@
     });
   }
 
+  if (quickPayForm) {
+    quickPayForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      if (!quickPayAmountInput) return;
+
+      const rawAmount = quickPayAmountInput.value || '';
+      const amount = parseFloat(rawAmount);
+      const serviceName = quickPayForm.dataset.serviceName || '';
+
+      if (Number.isNaN(amount) || amount <= 0) {
+        reportQuickPayError('Enter a valid amount above to continue.');
+        quickPayAmountInput.focus();
+        return;
+      }
+
+      const stripe = await ensureStripeClient();
+      if (!stripe) {
+        reportQuickPayError('We couldn’t initialise Stripe. Message the studio and we’ll send a direct payment link.');
+        return;
+      }
+
+      if (checkoutInFlight) return;
+      checkoutInFlight = true;
+      setQuickPayButtonLoading(true);
+      reportQuickPayError('');
+
+      try {
+        const response = await fetch(CHECKOUT_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: `${serviceName || 'Design Project'} Payment`,
+            amount,
+            metadata: {
+              service: serviceName || '',
+              source: 'quick-pay-portal'
+            }
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`Checkout request failed: ${response.status}`);
+        }
+
+        const payload = await response.json();
+        if (payload?.url) {
+          window.location.href = payload.url;
+          return;
+        }
+
+        if (payload?.id) {
+          const { error } = await stripe.redirectToCheckout({ sessionId: payload.id });
+          if (error) throw error;
+        } else {
+          throw new Error('Missing checkout session data');
+        }
+      } catch (error) {
+        console.error('Quick pay checkout failed', error);
+        reportQuickPayError('We couldn’t open Stripe automatically. Use the Stripe button below or message the studio for help.');
+        if (quickPayButton) {
+          quickPayButton.focus?.();
+        }
+      } finally {
+        checkoutInFlight = false;
+        setQuickPayButtonLoading(false);
+      }
+    });
+  }
+
   function initServicePicker(data) {
     const select = document.getElementById('serviceSelect');
     const details = document.getElementById('serviceDetails');
@@ -348,7 +542,9 @@
 
     if (!select || !details) return;
 
-    if (!data?.core?.length) {
+    const serviceEntries = data?.core?.length ? data.core : STATIC_SERVICE_DATA.core;
+
+    if (!serviceEntries?.length) {
       select.innerHTML = '<option>Pricing is currently unavailable</option>';
       select.disabled = true;
       details.hidden = true;
@@ -358,12 +554,12 @@
       return;
     }
 
-    select.innerHTML = data.core.map((service, index) => `
+    select.innerHTML = serviceEntries.map((service, index) => `
       <option value="${index}">${service.name}</option>
     `).join('');
 
-    function updateService(index) {
-      const service = data.core[index];
+    function updateService(index, { highlight = false } = {}) {
+      const service = serviceEntries[index];
       if (!service) {
         details.hidden = true;
         return;
@@ -412,7 +608,8 @@
       const paymentUrl = updateQuickPayPortal({
         amount: depositAmount,
         serviceName: service.name,
-        baseLink
+        baseLink,
+        highlight
       });
 
       if (linkEl) {
@@ -443,8 +640,8 @@
       if (helperEl) {
         if (depositAmount) {
           helperEl.textContent = hasDirectLink
-            ? 'Click “Start instant checkout” to queue the quick pay portal and open Stripe in a new tab.'
-            : 'Click “Start instant checkout” to launch a secure Stripe checkout. We’ll also highlight the quick pay portal in case you need it.';
+            ? 'Click “Start instant checkout” to queue the quick pay portal and open Stripe in a new tab. We’ll prefill the deposit for you.'
+            : 'Click “Start instant checkout” to launch a secure Stripe checkout. We’ll also highlight the quick pay portal with the deposit prefilled in case you need it.';
         } else {
           helperEl.textContent = 'Use the quick pay portal below and enter the amount shown to finish booking.';
         }
@@ -454,7 +651,7 @@
     updateService(Number(select.value) || 0);
 
     select.addEventListener('change', (event) => {
-      updateService(Number(event.target.value));
+      updateService(Number(event.target.value), { highlight: true });
     });
   }
 
@@ -464,7 +661,9 @@
     const statusEl = document.getElementById('serviceStatus');
     if (!summaryList && !addonList && !statusEl) return;
 
-    if (!data) {
+    const summaryData = data || STATIC_SERVICE_DATA;
+
+    if (!summaryData) {
       if (statusEl) {
         statusEl.textContent = 'We could not load the service snapshots right now. Let us know if you need a refresher.';
       }
@@ -478,7 +677,7 @@
     };
 
     if (summaryList) {
-      summaryList.innerHTML = data.core.map((service) => {
+      summaryList.innerHTML = summaryData.core.map((service) => {
         const price = formatPrice(service);
         return `
           <li>
@@ -493,7 +692,7 @@
     }
 
     if (addonList) {
-      addonList.innerHTML = data.addons.map((addon) => {
+      addonList.innerHTML = summaryData.addons.map((addon) => {
         const price = formatPrice(addon);
         return `
           <li>
@@ -516,17 +715,22 @@
     try {
       const res = await fetch('data/services.json');
       if (!res.ok) throw new Error('Network error');
-      return await res.json();
+      const payload = await res.json();
+      if (payload?.core?.length) {
+        return payload;
+      }
+      throw new Error('Unexpected data shape');
     } catch (error) {
-      console.error('Service summary failed', error);
-      return null;
+      console.warn('Falling back to static service data', error);
+      return STATIC_SERVICE_DATA;
     }
   }
 
   (async function initPaymentPage() {
     const serviceData = await loadServiceData();
-    renderServices(serviceData);
-    initServicePicker(serviceData);
+    const resolvedData = serviceData || STATIC_SERVICE_DATA;
+    renderServices(resolvedData);
+    initServicePicker(resolvedData);
   })();
   </script>
   <script async src="https://js.stripe.com/v3/buy-button.js"></script>
