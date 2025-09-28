@@ -156,23 +156,18 @@
     });
   }
 
-  function buildPaymentUrl(amount) {
+  function buildPaymentUrl(baseUrl = PAYMENT_LINK) {
+    if (!baseUrl) return '';
     try {
-      const url = new URL(PAYMENT_LINK);
-      if (typeof amount === 'number' && !Number.isNaN(amount) && amount > 0) {
-        url.searchParams.set('amount', Math.max(0, Math.round(amount * 100)).toString());
-      } else {
-        url.searchParams.delete('amount');
-      }
-      return url.toString();
+      return new URL(baseUrl).toString();
     } catch (error) {
       console.warn('Could not construct payment URL', error);
-      return PAYMENT_LINK;
+      return baseUrl;
     }
   }
 
-  function updateQuickPayPortal({ amount, serviceName, highlight = false }) {
-    const paymentUrl = buildPaymentUrl(amount);
+  function updateQuickPayPortal({ amount, serviceName, highlight = false, baseLink }) {
+    const paymentUrl = buildPaymentUrl(baseLink || PAYMENT_LINK);
     setFallbackLinks(paymentUrl);
 
     if (quickPayNote) {
@@ -200,18 +195,18 @@
   }
 
   if (serviceLinkButton) {
-    serviceLinkButton.addEventListener('click', (event) => {
+    serviceLinkButton.addEventListener('click', () => {
       const amountValue = parseFloat(serviceLinkButton.dataset.checkoutAmount || '');
       const serviceName = serviceLinkButton.dataset.serviceName || '';
+      const checkoutUrl = serviceLinkButton.dataset.checkoutUrl || PAYMENT_LINK;
       const hasAmount = !Number.isNaN(amountValue) && amountValue > 0;
-      const paymentUrl = updateQuickPayPortal({
+      updateQuickPayPortal({
         amount: hasAmount ? amountValue : null,
         serviceName,
-        highlight: true
+        highlight: true,
+        baseLink: checkoutUrl
       });
 
-      event.preventDefault();
-      window.open(paymentUrl, '_blank', 'noopener');
       if (quickPayCard) {
         quickPayCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
@@ -289,9 +284,11 @@
         ? preciseDeposit
         : null;
 
+      const baseLink = service.link || PAYMENT_LINK;
       const paymentUrl = updateQuickPayPortal({
         amount: depositAmount,
-        serviceName: service.name
+        serviceName: service.name,
+        baseLink
       });
 
       if (linkEl) {
@@ -301,6 +298,7 @@
           linkEl.textContent = 'Start instant checkout';
           linkEl.dataset.checkoutAmount = depositAmount ? depositAmount.toString() : '';
           linkEl.dataset.serviceName = service.name || '';
+          linkEl.dataset.checkoutUrl = baseLink;
         } else {
           linkEl.hidden = true;
         }
