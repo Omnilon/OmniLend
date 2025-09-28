@@ -149,6 +149,82 @@
   const CHECKOUT_ENDPOINT = '/api/checkout';
   const stripePublishableKeyMeta = document.querySelector('meta[name="stripe-publishable-key"]');
   const STRIPE_PUBLISHABLE_KEY = stripePublishableKeyMeta?.content?.trim() || '';
+  const SERVICE_SNAPSHOT = Object.freeze({
+    core: [
+      {
+        name: 'E‑Design (Virtual)',
+        desc: 'A fast, mood‑board‑to‑makeover plan you can execute on your timeline—layout, palette, shoppable list, and a step‑by‑step setup guide.',
+        price: 450
+      },
+      {
+        name: 'Residential Room Refresh',
+        desc: 'A precision tune‑up for one room—new paint and lighting, scaled furniture, curated textiles, and styling that makes what you already own feel intentional.',
+        priceFrom: 1500
+      },
+      {
+        name: 'Full Residential Design (Turnkey)',
+        desc: 'Concept through install—materials, custom pieces, trades and deliveries handled for you—so you leave a ‘before’ and come home to the ‘after.’',
+        priceFrom: 5000
+      },
+      {
+        name: 'Home Staging',
+        desc: 'Market‑ready rooms styled to photograph beautifully and show even better—edited furniture, art, and accents that spotlight light, space, and flow.',
+        priceFrom: 2500
+      },
+      {
+        name: 'Small Commercial / Boutique',
+        desc: 'Brand‑minded interiors for salons, cafés, and studios—optimized floor plans, durable finishes, and ‘stop‑and‑shoot’ moments that convert foot traffic.',
+        priceFrom: 7500
+      }
+    ],
+    addons: [
+      {
+        name: 'Move‑In Styling',
+        desc: 'Unpack, edit, and arrange what you own—then layer key pieces for a finished, livable feel by your first weekend in.',
+        priceFrom: 200
+      },
+      {
+        name: 'Paint & Color Direction',
+        desc: 'A cohesive palette for walls, trim, ceilings, and key finishes—with sheen specs and room‑by‑room placement so painters just roll.',
+        priceFrom: 200
+      },
+      {
+        name: 'Personal Sourcing Day',
+        desc: 'A designer on your arm—showrooms to checkout—pulling options, securing trade pricing, and leaving you with a ready‑to‑order cart.',
+        priceFrom: 75
+      },
+      {
+        name: 'Art Curation & Gallery Walls',
+        desc: 'A curated art plan with scaled mockups and a hanging map—so every piece lands at the right height and tells the right story.',
+        priceFrom: 200
+      },
+      {
+        name: 'Holiday / Event Styling',
+        desc: 'One‑day transformation for photos, parties, or rentals—tablescapes, mantel moments, florals, and layered lighting you can recreate next season.',
+        priceFrom: 500
+      },
+      {
+        name: 'Space Planning & Layout',
+        desc: 'Scaled floor plans that unlock sightlines and circulation—right‑sized furniture, clear dimensions, and a map for confident buying.',
+        priceFrom: 200
+      },
+      {
+        name: 'Finish & Fixture Selections (Kitchen/Bath)',
+        desc: 'Clean, cohesive specs—countertops, tile, plumbing, hardware, and paint that play together beautifully from sample to install.',
+        priceFrom: 200
+      },
+      {
+        name: 'Lighting Plan',
+        desc: 'Ambient, task, and accent layers plotted room by room—with fixture types, counts, and switch logic for flattering, functional light.',
+        priceFrom: 200
+      },
+      {
+        name: 'Window Treatments',
+        desc: 'Tailored drapery and shades—fabric and hardware pairings, measurements, and privacy/light control calibrated to each room.',
+        priceFrom: 200
+      }
+    ]
+  });
   const fallbackLinks = document.querySelectorAll('[data-fallback-link]');
   const quickPayCard = document.querySelector('.payment-card.quick-pay');
   const quickPayNote = document.getElementById('quickPayNote');
@@ -524,11 +600,18 @@
       return;
     }
 
+    const previousHandler = select.__serviceChangeHandler;
+    if (previousHandler) {
+      select.removeEventListener('change', previousHandler);
+    }
+
+    const previousValue = select.value;
     select.innerHTML = data.core.map((service, index) => `
       <option value="${index}">${service.name}</option>
     `).join('');
+    select.disabled = false;
 
-    function updateService(index) {
+    function updateService(index, { highlight = false } = {}) {
       const service = data.core[index];
       if (!service) {
         details.hidden = true;
@@ -578,7 +661,8 @@
       const paymentUrl = updateQuickPayPortal({
         amount: depositAmount,
         serviceName: service.name,
-        baseLink
+        baseLink,
+        highlight
       });
 
       if (linkEl) {
@@ -617,11 +701,23 @@
       }
     }
 
-    updateService(Number(select.value) || 0);
+    const initialIndex = (() => {
+      const candidate = Number(previousValue);
+      if (!Number.isNaN(candidate) && data.core[candidate]) {
+        return candidate;
+      }
+      return Number(select.value) || 0;
+    })();
 
-    select.addEventListener('change', (event) => {
-      updateService(Number(event.target.value));
-    });
+    select.value = String(initialIndex);
+    updateService(initialIndex);
+
+    const handleChange = (event) => {
+      updateService(Number(event.target.value), { highlight: true });
+    };
+
+    select.addEventListener('change', handleChange);
+    select.__serviceChangeHandler = handleChange;
   }
 
   function renderServices(data) {
@@ -678,7 +774,18 @@
     }
   }
 
-  async function loadServiceData() {
+  function mergeWithSnapshot(data) {
+    if (!data) return SERVICE_SNAPSHOT;
+    const merged = {
+      ...SERVICE_SNAPSHOT,
+      ...data,
+      core: Array.isArray(data.core) && data.core.length ? data.core : SERVICE_SNAPSHOT.core,
+      addons: Array.isArray(data.addons) && data.addons.length ? data.addons : SERVICE_SNAPSHOT.addons
+    };
+    return merged;
+  }
+
+  async function fetchServiceData() {
     try {
       const res = await fetch('data/services.json');
       if (!res.ok) throw new Error('Network error');
@@ -689,10 +796,20 @@
     }
   }
 
+  async function loadServiceData() {
+    const remote = await fetchServiceData();
+    return mergeWithSnapshot(remote);
+  }
+
   (async function initPaymentPage() {
+    renderServices(SERVICE_SNAPSHOT);
+    initServicePicker(SERVICE_SNAPSHOT);
+
     const serviceData = await loadServiceData();
-    renderServices(serviceData);
-    initServicePicker(serviceData);
+    if (serviceData !== SERVICE_SNAPSHOT) {
+      renderServices(serviceData);
+      initServicePicker(serviceData);
+    }
   })();
   </script>
 </body>
