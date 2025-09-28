@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Ømnilon Interiors | Payments</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ømnilon Interiors | Payments</title>
+  <meta name="description" content="Submit deposits and payments for Ømnilon Interiors projects." />
   <link rel="stylesheet" href="style.css" />
-  <script src="https://js.stripe.com/v3"></script>
-  <meta name="stripe-publishable-key" content="" />
-  <meta name="description" content="Secure payments and deposits for Ømnilon Interiors projects." />
+  <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 </head>
 <body class="theme-jeton">
   <div class="wrapper">
@@ -16,6 +15,7 @@
         <span class="brand-title">&#216;MNILON</span>
       </a>
     </header>
+
     <nav id="siteNav">
       <a href="index.html#home">Home</a>
       <a href="index.html#services">Services</a>
@@ -26,1010 +26,111 @@
     </nav>
 
     <main>
-      <section class="hero-jeton hero reveal fx-clip" style="position:relative;">
+      <section class="hero hero-jeton reveal fx-clip">
         <div class="bg-grid"></div>
         <div class="hero-inner fx-rise">
-          <h1 class="grad-text">Book &amp; Pay</h1>
-          <p>Reserve your project with a 50% deposit and wrap up future invoices securely.</p>
+          <h1 class="grad-text">Secure Your Spot</h1>
+          <p>Every booking requires a 50% deposit to reserve your project on our schedule.</p>
         </div>
       </section>
 
       <section class="section payments fx-rise">
-        <div class="payment-overview jeton-card">
-          <h2>How booking works</h2>
+        <div class="jeton-card payment-overview">
+          <h2>How payments work</h2>
           <p>
-            To lock in design time on our calendar we require a <strong>50% deposit</strong> based on the proposal you
-            received. The remaining balance is due closer to install or final delivery.
+            We lock in design resources only after the deposit is received. A <strong>non-refundable 50% deposit</strong>
+            is required for <strong>all bookings</strong>. The remaining balance is billed when design delivery or install is
+            complete.
           </p>
-          <ul class="payment-checklist">
-            <li><span>50% deposit</span>Reserves your project start date and design window.</li>
-            <li><span>Remaining balance</span>Settled once sourcing, styling, or install is complete.</li>
-            <li><span>Flexible payment links</span>Request a custom Stripe link for larger invoices or retainers.</li>
-          </ul>
-          <div class="payment-alert" role="note">
-            <strong>Need a refresher?</strong> After you submit the deposit you’ll be directed to our
-            <a href="project-brief.html">project brief</a> to share goals, inspo, and room photos.
-          </div>
+          <p class="mini">Need help choosing the right service? Email <a href="mailto:hello@omniloninteriors.com">hello@omniloninteriors.com</a>.</p>
         </div>
 
         <div class="payment-grid">
-          <article class="jeton-card payment-card booking-card">
-            <div class="booking-card__intro">
-              <h3>Choose your package</h3>
-              <p>Browse current pricing and see the deposit needed to reserve your project date.</p>
-            </div>
-            <div class="service-picker">
-              <label for="serviceSelect">Service or package</label>
-              <select id="serviceSelect" aria-describedby="serviceHelperText"></select>
-            </div>
+          <article class="jeton-card payment-card">
+            <h3>Choose your service</h3>
+            <p>Select a service to see the full price and the 50% deposit due today.</p>
+
+            <label class="service-picker" for="serviceSelect">Service or package</label>
+            <select id="serviceSelect" class="service-select">
+              <option value="" disabled selected>Select an option</option>
+              <option value="E‑Design (Virtual)" data-price="450">E‑Design (Virtual)</option>
+              <option value="In-Home Styling" data-price="900">In-Home Styling</option>
+              <option value="Full Service Design" data-price="3200">Full Service Design</option>
+              <option value="New Build &amp; Renovation" data-price="5200">New Build &amp; Renovation</option>
+              <option value="Designer On Call" data-price="300">Designer On Call (2 hr block)</option>
+              <option value="Custom Furniture Sourcing" data-price="600">Custom Furniture Sourcing</option>
+            </select>
+
             <div class="service-details" id="serviceDetails" aria-live="polite">
-              <h4 id="serviceName"></h4>
-              <p id="serviceDescription"></p>
-              <p class="service-price" id="servicePrice"></p>
-              <p class="deposit-callout" id="serviceDeposit"></p>
-              <a class="btn btn-jeton" id="serviceLink" target="_blank" rel="noopener">Start instant checkout</a>
+              <h4 id="selectedService" class="service-name"></h4>
+              <p id="fullPrice" class="service-price"></p>
+              <p id="depositAmount" class="deposit-callout"></p>
             </div>
-            <p class="mini" id="serviceHelperText">Use the quick pay portal below to enter a different amount.</p>
           </article>
 
-          <article class="jeton-card payment-card quick-pay" id="quickPayPortal">
-            <div class="quick-pay__copy">
-              <h3>Quick pay portal</h3>
-              <p>Prefer to handle it yourself? Use our ready-to-go Stripe checkout link.</p>
-            </div>
-            <p class="quick-pay-note" id="quickPayNote" aria-live="polite">
-              Enter your deposit or invoice total in the quick pay portal to continue to Stripe.
+          <article class="jeton-card payment-card">
+            <h3>Pay your deposit</h3>
+            <p>
+              Use our secure Stripe checkout to submit the 50% deposit. We’ll send a confirmation email with next steps
+              and a link to the project questionnaire.
             </p>
-            <form class="quick-pay__form" id="quickPayForm" novalidate>
-              <div class="quick-pay__field">
-                <label for="quickPayAmount">Amount</label>
-                <div class="quick-pay__input-wrapper">
-                  <span aria-hidden="true">$</span>
-                  <input
-                    type="number"
-                    id="quickPayAmount"
-                    name="amount"
-                    class="quick-pay__input"
-                    inputmode="decimal"
-                    step="0.01"
-                    min="1"
-                    required
-                    aria-describedby="quickPayError quickPayHelper quickPayStatus"
-                    autocomplete="off"
-                  />
-                </div>
-                <p class="mini" id="quickPayHelper">You can adjust the amount before continuing if needed.</p>
-              </div>
-              <div class="quick-pay__selection" id="quickPaySelection" hidden>
-                Paying for <span id="quickPayServiceName"></span>
-              </div>
-              <div class="quick-pay__field">
-                <label for="quickPayName">Cardholder name</label>
-                <div class="quick-pay__input-wrapper">
-                  <input
-                    type="text"
-                    id="quickPayName"
-                    name="name"
-                    class="quick-pay__input"
-                    autocomplete="cc-name"
-                    inputmode="text"
-                    spellcheck="false"
-                  />
-                </div>
-              </div>
-              <div class="quick-pay__field">
-                <label for="quickPayEmail">Email for receipt (optional)</label>
-                <div class="quick-pay__input-wrapper">
-                  <input
-                    type="email"
-                    id="quickPayEmail"
-                    name="email"
-                    class="quick-pay__input"
-                    autocomplete="email"
-                    inputmode="email"
-                  />
-                </div>
-              </div>
-              <div class="quick-pay__field quick-pay__field--card">
-                <label for="quickPayCardElement">Card details</label>
-                <div
-                  id="quickPayCardElement"
-                  class="quick-pay__card-element"
-                  role="group"
-                  aria-label="Card details"
-                  aria-describedby="quickPayCardErrors quickPayStatus"
-                ></div>
-                <p class="mini quick-pay__error" id="quickPayCardErrors" role="alert" aria-live="polite"></p>
-              </div>
-              <div class="quick-pay__actions">
-                <button type="submit" class="btn btn-jeton" id="quickPaySubmit">Buy</button>
-                <p class="mini quick-pay__status" id="quickPayStatus" role="status" aria-live="polite"></p>
-                <p class="mini quick-pay__error" id="quickPayError" role="alert"></p>
-              </div>
-            </form>
+            <stripe-buy-button
+              buy-button-id="buy_btn_1SByhQ2dSpsiXnOLd7LObOHQ"
+              publishable-key="pk_live_51S7wAs2dSpsiXnOLBxKLtF0iAkgXgMr7QMn0TAo9fDIbiJXbfCOwyNzMErUJ5OcIUWityN0FaXjjRh2KyxRBFNNo00RheMkkDi"
+            >
+            </stripe-buy-button>
           </article>
         </div>
 
-        <div class="payment-support-grid">
-          <article class="jeton-card support-card">
-            <h3>Next step: project brief</h3>
-            <p>
-              Once the deposit is complete, share your goals, floor plan notes, and room photos so our team can start concepting.
-            </p>
-            <a class="btn btn-outline" href="project-brief.html">Fill out the project brief</a>
-            <p class="mini">You can return to the brief anytime to update or add details.</p>
-          </article>
-
-          <article class="jeton-card support-card">
-            <h3>Need a hand?</h3>
-            <p>Unsure what amount to enter or need a different payment schedule? Let us know.</p>
-            <a class="btn btn-outline" href="index.html#contact">Message the studio</a>
-          </article>
-
-          <details class="jeton-card support-card service-summary" id="serviceSummaryCard">
-            <summary>See what each service includes</summary>
-            <div class="service-summary__inner">
-              <ul class="service-summary-list" id="serviceSummaryList"></ul>
-              <h4>Popular add-ons</h4>
-              <ul class="service-summary-list" id="addonSummaryList"></ul>
-              <p class="mini" id="serviceStatus" aria-live="polite"></p>
-            </div>
-          </details>
+        <div class="jeton-card support-card">
+          <h3>What happens after you pay?</h3>
+          <ul class="payment-checklist">
+            <li><span>Confirmation email:</span> Contains your receipt and the onboarding questionnaire.</li>
+            <li><span>Project kickoff:</span> We schedule your welcome call once the deposit clears.</li>
+            <li><span>Final invoice:</span> Remaining 50% is due at design delivery or install.</li>
+          </ul>
         </div>
       </section>
     </main>
   </div>
+
   <footer class="site-footer">
     <p>&copy; 2025 Ømnilon Interiors — Atlanta, GA</p>
   </footer>
 
   <script defer src="script.js"></script>
   <script>
-  const PAYMENT_LINK = '#quickPayPortal';
-  const CHECKOUT_ENDPOINT = '/api/checkout';
-  const PAYMENT_INTENT_ENDPOINT = '/api/create-payment-intent';
-  const stripePublishableKeyMeta = document.querySelector('meta[name="stripe-publishable-key"]');
-  let STRIPE_PUBLISHABLE_KEY = stripePublishableKeyMeta?.content?.trim() || '';
-  const SERVICE_SNAPSHOT = Object.freeze({
-    core: [
-      {
-        name: 'E‑Design (Virtual)',
-        desc: 'A fast, mood‑board‑to‑makeover plan you can execute on your timeline—layout, palette, shoppable list, and a step‑by‑step setup guide.',
-        price: 450
-      },
-      {
-        name: 'Residential Room Refresh',
-        desc: 'A precision tune‑up for one room—new paint and lighting, scaled furniture, curated textiles, and styling that makes what you already own feel intentional.',
-        priceFrom: 1500
-      },
-      {
-        name: 'Full Residential Design (Turnkey)',
-        desc: 'Concept through install—materials, custom pieces, trades and deliveries handled for you—so you leave a ‘before’ and come home to the ‘after.’',
-        priceFrom: 5000
-      },
-      {
-        name: 'Home Staging',
-        desc: 'Market‑ready rooms styled to photograph beautifully and show even better—edited furniture, art, and accents that spotlight light, space, and flow.',
-        priceFrom: 2500
-      },
-      {
-        name: 'Small Commercial / Boutique',
-        desc: 'Brand‑minded interiors for salons, cafés, and studios—optimized floor plans, durable finishes, and ‘stop‑and‑shoot’ moments that convert foot traffic.',
-        priceFrom: 7500
-      }
-    ],
-    addons: [
-      {
-        name: 'Move‑In Styling',
-        desc: 'Unpack, edit, and arrange what you own—then layer key pieces for a finished, livable feel by your first weekend in.',
-        priceFrom: 200
-      },
-      {
-        name: 'Paint & Color Direction',
-        desc: 'A cohesive palette for walls, trim, ceilings, and key finishes—with sheen specs and room‑by‑room placement so painters just roll.',
-        priceFrom: 200
-      },
-      {
-        name: 'Personal Sourcing Day',
-        desc: 'A designer on your arm—showrooms to checkout—pulling options, securing trade pricing, and leaving you with a ready‑to‑order cart.',
-        priceFrom: 75
-      },
-      {
-        name: 'Art Curation & Gallery Walls',
-        desc: 'A curated art plan with scaled mockups and a hanging map—so every piece lands at the right height and tells the right story.',
-        priceFrom: 200
-      },
-      {
-        name: 'Holiday / Event Styling',
-        desc: 'One‑day transformation for photos, parties, or rentals—tablescapes, mantel moments, florals, and layered lighting you can recreate next season.',
-        priceFrom: 500
-      },
-      {
-        name: 'Space Planning & Layout',
-        desc: 'Scaled floor plans that unlock sightlines and circulation—right‑sized furniture, clear dimensions, and a map for confident buying.',
-        priceFrom: 200
-      },
-      {
-        name: 'Finish & Fixture Selections (Kitchen/Bath)',
-        desc: 'Clean, cohesive specs—countertops, tile, plumbing, hardware, and paint that play together beautifully from sample to install.',
-        priceFrom: 200
-      },
-      {
-        name: 'Lighting Plan',
-        desc: 'Ambient, task, and accent layers plotted room by room—with fixture types, counts, and switch logic for flattering, functional light.',
-        priceFrom: 200
-      },
-      {
-        name: 'Window Treatments',
-        desc: 'Tailored drapery and shades—fabric and hardware pairings, measurements, and privacy/light control calibrated to each room.',
-        priceFrom: 200
-      }
-    ]
-  });
-  const fallbackLinks = document.querySelectorAll('[data-fallback-link]');
-  const quickPayCard = document.querySelector('.payment-card.quick-pay');
-  const quickPayNote = document.getElementById('quickPayNote');
-  const quickPayForm = document.getElementById('quickPayForm');
-  const quickPayAmountInput = document.getElementById('quickPayAmount');
-  const quickPaySubmitButton = document.getElementById('quickPaySubmit');
-  const quickPayErrorEl = document.getElementById('quickPayError');
-  const quickPayStatusEl = document.getElementById('quickPayStatus');
-  const quickPayCardElementContainer = document.getElementById('quickPayCardElement');
-  const quickPayCardErrorEl = document.getElementById('quickPayCardErrors');
-  const quickPaySelection = document.getElementById('quickPaySelection');
-  const quickPayServiceNameEl = document.getElementById('quickPayServiceName');
-  const quickPayHelper = document.getElementById('quickPayHelper');
-  const quickPayNameInput = document.getElementById('quickPayName');
-  const quickPayEmailInput = document.getElementById('quickPayEmail');
-  const serviceLinkButton = document.getElementById('serviceLink');
-  const helperTextEl = document.getElementById('serviceHelperText');
-  const defaultServiceButtonLabel = serviceLinkButton ? serviceLinkButton.textContent.trim() : '';
-  const defaultQuickPayButtonLabel = quickPaySubmitButton ? quickPaySubmitButton.textContent.trim() : '';
-  let quickPayHighlightTimer;
-  let stripeClient = null;
-  let stripeElements = null;
-  let cardElement = null;
-  let cardElementReadyPromise = null;
-  let checkoutInFlight = false;
+    const serviceSelect = document.getElementById('serviceSelect');
+    const selectedService = document.getElementById('selectedService');
+    const fullPrice = document.getElementById('fullPrice');
+    const depositAmount = document.getElementById('depositAmount');
 
-  function setFallbackLinks(url) {
-    fallbackLinks.forEach((link) => {
-      if (url) {
-        link.href = url;
-        link.hidden = false;
-        if (!link.textContent.trim()) {
-          link.textContent = 'open the secure Stripe portal';
-        }
-      } else {
-        link.removeAttribute('href');
-        link.hidden = true;
+    const currency = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+
+    function updateServiceDetails(option) {
+      if (!option || !option.value) {
+        selectedService.textContent = '';
+        fullPrice.textContent = '';
+        depositAmount.textContent = '';
+        return;
       }
+
+      const price = parseFloat(option.dataset.price || '0');
+      const deposit = price * 0.5;
+
+      selectedService.textContent = option.value;
+      fullPrice.textContent = `Full price: ${currency.format(price)}`;
+      depositAmount.textContent = `Deposit due today (50%): ${currency.format(deposit)}`;
+    }
+
+    serviceSelect?.addEventListener('change', (event) => {
+      const option = event.target.selectedOptions[0];
+      updateServiceDetails(option);
     });
-  }
 
-  setFallbackLinks(PAYMENT_LINK);
-  // Preload the Stripe publishable key so it is ready when users interact with the page.
-  getStripePublishableKey();
-
-  function formatCurrency(value) {
-    const number = Number(value);
-    if (Number.isNaN(number)) return '';
-    const hasCents = Math.round(number * 100) % 100 !== 0;
-    return number.toLocaleString(undefined, {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: hasCents ? 2 : 0,
-      maximumFractionDigits: hasCents ? 2 : 0
-    });
-  }
-
-  function formatAmountForInput(value) {
-    if (typeof value !== 'number' || Number.isNaN(value)) return '';
-    const cents = Math.round(value * 100);
-    if (cents % 100 === 0) {
-      return String(cents / 100);
+    if (serviceSelect && serviceSelect.selectedIndex > 0) {
+      updateServiceDetails(serviceSelect.selectedOptions[0]);
     }
-    return (cents / 100).toFixed(2);
-  }
-
-  function isValidHttpUrl(value) {
-    if (typeof value !== 'string' || !value.trim()) return false;
-    try {
-      const url = new URL(value);
-      return url.protocol === 'https:' || url.protocol === 'http:';
-    } catch (error) {
-      return false;
-    }
-  }
-
-  function buildPaymentUrl(baseUrl = PAYMENT_LINK) {
-    if (!baseUrl) return '';
-    try {
-      return new URL(baseUrl).toString();
-    } catch (error) {
-      console.warn('Could not construct payment URL', error);
-      return baseUrl;
-    }
-  }
-
-  function setServiceButtonLoading(isLoading) {
-    if (!serviceLinkButton) return;
-    if (isLoading) {
-      serviceLinkButton.textContent = 'Preparing checkout…';
-      serviceLinkButton.setAttribute('aria-busy', 'true');
-      serviceLinkButton.classList.add('is-loading');
-    } else {
-      serviceLinkButton.textContent = defaultServiceButtonLabel || 'Start instant checkout';
-      serviceLinkButton.removeAttribute('aria-busy');
-      serviceLinkButton.classList.remove('is-loading');
-    }
-  }
-
-  function setQuickPayButtonLoading(isLoading) {
-    if (!quickPaySubmitButton) return;
-    if (isLoading) {
-      quickPaySubmitButton.textContent = 'Processing…';
-      quickPaySubmitButton.setAttribute('aria-busy', 'true');
-      quickPaySubmitButton.classList.add('is-loading');
-      quickPaySubmitButton.disabled = true;
-    } else {
-      quickPaySubmitButton.textContent = defaultQuickPayButtonLabel || 'Buy';
-      quickPaySubmitButton.removeAttribute('aria-busy');
-      quickPaySubmitButton.classList.remove('is-loading');
-      quickPaySubmitButton.disabled = false;
-    }
-  }
-
-  function reportCheckoutError(message) {
-    if (helperTextEl && message) {
-      helperTextEl.textContent = message;
-    }
-  }
-
-  function reportQuickPayError(message) {
-    if (quickPayErrorEl) {
-      quickPayErrorEl.textContent = message || '';
-    }
-    if (message) {
-      reportQuickPayStatus('');
-    }
-  }
-
-  function reportQuickPayStatus(message) {
-    if (quickPayStatusEl) {
-      quickPayStatusEl.textContent = message || '';
-    }
-  }
-
-  function reportQuickPayCardError(message) {
-    if (quickPayCardErrorEl) {
-      quickPayCardErrorEl.textContent = message || '';
-    }
-    if (message) {
-      reportQuickPayStatus('');
-    }
-  }
-
-  async function getStripePublishableKey() {
-    if (STRIPE_PUBLISHABLE_KEY) {
-      return STRIPE_PUBLISHABLE_KEY;
-    }
-
-    try {
-      const response = await fetch('/api/stripe-publishable-key', { headers: { 'Accept': 'application/json' } });
-      if (!response.ok) {
-        throw new Error(`Failed to load publishable key: ${response.status}`);
-      }
-
-      const payload = await response.json();
-      const key = payload?.publishableKey?.trim();
-
-      if (!key) {
-        throw new Error('Publishable key missing in response');
-      }
-
-      STRIPE_PUBLISHABLE_KEY = key;
-      if (stripePublishableKeyMeta) {
-        stripePublishableKeyMeta.content = key;
-      }
-
-      return STRIPE_PUBLISHABLE_KEY;
-    } catch (error) {
-      console.error('Unable to fetch Stripe publishable key', error);
-      return '';
-    }
-  }
-
-  async function ensureStripeClient() {
-    if (stripeClient) return stripeClient;
-
-    if (!STRIPE_PUBLISHABLE_KEY) {
-      STRIPE_PUBLISHABLE_KEY = await getStripePublishableKey();
-    }
-
-    if (!STRIPE_PUBLISHABLE_KEY) {
-      console.warn('Stripe publishable key is not configured.');
-      return null;
-    }
-    if (typeof Stripe !== 'function') {
-      console.error('Stripe.js is not available.');
-      return null;
-    }
-    try {
-      stripeClient = Stripe(STRIPE_PUBLISHABLE_KEY);
-      return stripeClient;
-    } catch (error) {
-      console.error('Failed to initialise Stripe.js', error);
-      return null;
-    }
-  }
-
-  async function ensureCardElement() {
-    if (cardElement) return cardElement;
-    if (!quickPayCardElementContainer) return null;
-
-    if (cardElementReadyPromise) {
-      return cardElementReadyPromise;
-    }
-
-    cardElementReadyPromise = (async () => {
-      try {
-        const stripe = await ensureStripeClient();
-        if (!stripe) return null;
-
-        if (!stripeElements) {
-          stripeElements = stripe.elements({
-            appearance: {
-              theme: 'night',
-              variables: {
-                colorPrimary: '#ffb547',
-                colorText: '#e8ecec',
-                colorTextPlaceholder: '#9aa5a1',
-                colorDanger: '#ffb8b8',
-                colorBackground: '#0f1217',
-                borderRadius: '10px'
-              }
-            }
-          });
-        }
-
-        const element = stripeElements.create('card', {
-          style: {
-            base: {
-              color: '#e8ecec',
-              fontFamily: '"Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
-              fontSize: '16px',
-              '::placeholder': { color: '#9aa5a1' }
-            },
-            invalid: {
-              color: '#ffb8b8'
-            }
-          }
-        });
-        element.mount(quickPayCardElementContainer);
-        element.on('change', (event) => {
-          reportQuickPayCardError(event.error?.message || '');
-        });
-
-        return element;
-      } catch (error) {
-        console.error('Failed to initialise Stripe card element', error);
-        return null;
-      }
-    })();
-
-    cardElement = await cardElementReadyPromise;
-    if (!cardElement) {
-      cardElementReadyPromise = null;
-    }
-    return cardElement;
-  }
-
-  async function launchServiceCheckout({ amount, serviceName }) {
-    if (!serviceLinkButton) return;
-
-    if (typeof amount !== 'number' || Number.isNaN(amount) || amount <= 0) {
-      reportCheckoutError('Use the quick pay portal below and enter the amount shown to finish booking.');
-      return;
-    }
-
-    const stripe = await ensureStripeClient();
-    if (!stripe) {
-      if (!STRIPE_PUBLISHABLE_KEY) {
-        reportCheckoutError('Use the quick pay portal below to finish booking while we refresh the instant checkout link.');
-      } else {
-        reportCheckoutError('We couldn’t initialise Stripe. Use the quick pay portal below to finish booking.');
-      }
-      return;
-    }
-
-    if (checkoutInFlight) return;
-    checkoutInFlight = true;
-    setServiceButtonLoading(true);
-
-    try {
-      const response = await fetch(CHECKOUT_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: `${serviceName || 'Design Project'} Deposit`,
-          amount,
-          metadata: {
-            service: serviceName || '',
-            source: 'service-picker'
-          }
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Checkout request failed: ${response.status}`);
-      }
-
-      const payload = await response.json();
-      if (payload?.url) {
-        window.location.href = payload.url;
-        return;
-      }
-
-      if (payload?.id) {
-        const { error } = await stripe.redirectToCheckout({ sessionId: payload.id });
-        if (error) throw error;
-      } else {
-        throw new Error('Missing checkout session data');
-      }
-    } catch (error) {
-      console.error('Service checkout failed', error);
-      reportCheckoutError('We couldn’t open Stripe automatically. Use the quick pay portal below to finish booking.');
-    } finally {
-      checkoutInFlight = false;
-      setServiceButtonLoading(false);
-    }
-  }
-
-  function updateQuickPayPortal({ amount, serviceName, highlight = false, baseLink }) {
-    const paymentUrl = buildPaymentUrl(baseLink || PAYMENT_LINK);
-    setFallbackLinks(paymentUrl);
-
-    const hasAmount = typeof amount === 'number' && !Number.isNaN(amount) && amount > 0;
-
-    if (quickPayAmountInput) {
-      quickPayAmountInput.value = hasAmount ? formatAmountForInput(amount) : '';
-    }
-
-    if (quickPayForm) {
-      quickPayForm.dataset.serviceName = serviceName || '';
-    }
-
-    if (quickPayServiceNameEl && quickPaySelection) {
-      if (serviceName) {
-        quickPaySelection.hidden = false;
-        quickPayServiceNameEl.textContent = serviceName;
-      } else {
-        quickPaySelection.hidden = true;
-        quickPayServiceNameEl.textContent = '';
-      }
-    }
-
-    if (quickPayNote) {
-      if (hasAmount) {
-        const label = serviceName || 'your selection';
-        quickPayNote.textContent = `We’ll route you through the quick pay portal with a ${formatCurrency(amount)} deposit for ${label}. You can adjust the amount before continuing.`;
-      } else {
-        quickPayNote.textContent = 'Enter your deposit or invoice total in the quick pay portal to continue to Stripe.';
-      }
-    }
-
-    if (quickPayHelper) {
-      if (hasAmount) {
-        quickPayHelper.textContent = 'Need to tweak it? Edit the amount before tapping Buy.';
-      } else {
-        quickPayHelper.textContent = 'You can adjust the amount before continuing if needed.';
-      }
-    }
-
-    if (quickPayCard) {
-      if (highlight) {
-        quickPayCard.classList.add('is-active');
-        if (quickPayHighlightTimer) clearTimeout(quickPayHighlightTimer);
-        quickPayHighlightTimer = setTimeout(() => {
-          quickPayCard.classList.remove('is-active');
-        }, 3200);
-      } else {
-        quickPayCard.classList.remove('is-active');
-      }
-    }
-
-    if (hasAmount) {
-      reportQuickPayError('');
-      reportQuickPayCardError('');
-    }
-
-    if (quickPayCardElementContainer) {
-      ensureCardElement();
-    }
-
-    return paymentUrl;
-  }
-
-  if (serviceLinkButton) {
-    serviceLinkButton.addEventListener('click', async (event) => {
-      const amountValue = parseFloat(serviceLinkButton.dataset.checkoutAmount || '');
-      const serviceName = serviceLinkButton.dataset.serviceName || '';
-      const checkoutUrl = serviceLinkButton.dataset.checkoutUrl || '';
-      const mode = serviceLinkButton.dataset.checkoutMode || (checkoutUrl ? 'direct' : 'session');
-      const hasAmount = !Number.isNaN(amountValue) && amountValue > 0;
-      updateQuickPayPortal({
-        amount: hasAmount ? amountValue : null,
-        serviceName,
-        highlight: true,
-        baseLink: checkoutUrl
-      });
-
-      if (quickPayCard) {
-        quickPayCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
-
-      if (mode === 'direct' && checkoutUrl) {
-        return;
-      }
-
-      event.preventDefault();
-      await launchServiceCheckout({
-        amount: hasAmount ? amountValue : null,
-        serviceName
-      });
-    });
-  }
-
-  if (quickPayForm) {
-    quickPayForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-
-      if (!quickPayAmountInput) return;
-
-      const rawAmount = quickPayAmountInput.value || '';
-      const amount = parseFloat(rawAmount);
-      const serviceName = quickPayForm.dataset.serviceName || '';
-      const payerName = quickPayNameInput?.value?.trim() || '';
-      const payerEmail = quickPayEmailInput?.value?.trim() || '';
-
-      reportQuickPayError('');
-      reportQuickPayStatus('');
-      reportQuickPayCardError('');
-
-      if (Number.isNaN(amount) || amount <= 0) {
-        reportQuickPayError('Enter a valid amount above to continue.');
-        quickPayAmountInput.focus();
-        return;
-      }
-
-      const stripe = await ensureStripeClient();
-      const card = await ensureCardElement();
-      if (!stripe || !card) {
-        reportQuickPayError('The secure card form is unavailable. Use the instant checkout link above while we refresh it.');
-        return;
-      }
-
-      if (checkoutInFlight) return;
-      checkoutInFlight = true;
-      setQuickPayButtonLoading(true);
-
-      try {
-        const response = await fetch(PAYMENT_INTENT_ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            amount,
-            serviceName,
-            name: payerName,
-            email: payerEmail
-          })
-        });
-
-        const payload = await response.json().catch(() => ({}));
-        if (!response.ok) {
-          const serverMessage = typeof payload?.message === 'string' ? payload.message : '';
-          const isClientError = response.status >= 400 && response.status < 500;
-          const message = isClientError && serverMessage
-            ? serverMessage
-            : 'Payment could not be initiated. Try again in a moment.';
-          throw new Error(message);
-        }
-
-        const clientSecret = payload?.clientSecret;
-        if (!clientSecret) {
-          throw new Error('Missing payment credentials from the server.');
-        }
-
-        const confirmation = await stripe.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card,
-            billing_details: {
-              name: payerName || undefined,
-              email: payerEmail || undefined
-            }
-          }
-        });
-
-        if (confirmation.error) {
-          throw confirmation.error;
-        }
-
-        const status = confirmation.paymentIntent?.status;
-        if (status === 'succeeded') {
-          const successMessage = payerEmail
-            ? 'Payment complete! Check your email for the receipt.'
-            : 'Payment complete! We will follow up with a receipt shortly.';
-          reportQuickPayStatus(successMessage);
-          reportQuickPayCardError('');
-          if (quickPayAmountInput) quickPayAmountInput.value = '';
-          if (quickPayNameInput) quickPayNameInput.value = '';
-          if (quickPayEmailInput) quickPayEmailInput.value = '';
-          if (typeof card.clear === 'function') {
-            card.clear();
-          }
-          return;
-        }
-
-        if (status === 'processing') {
-          reportQuickPayStatus('Payment is processing. We’ll email you as soon as it completes.');
-          reportQuickPayCardError('');
-          return;
-        }
-
-        throw new Error('We couldn’t confirm the payment. Try again or message the studio for help.');
-      } catch (error) {
-        console.error('Quick pay checkout failed', error);
-        if (error?.type === 'card_error') {
-          reportQuickPayCardError(error.message || 'There was a problem with your card details.');
-          reportQuickPayError('Update the card details above and try again.');
-        } else {
-          const message = typeof error?.message === 'string' && error.message.trim()
-            ? error.message
-            : 'We couldn’t confirm the payment. Try again or message the studio for help.';
-          reportQuickPayError(message);
-        }
-      } finally {
-        checkoutInFlight = false;
-        setQuickPayButtonLoading(false);
-      }
-    });
-  }
-
-  function initServicePicker(data) {
-    const select = document.getElementById('serviceSelect');
-    const details = document.getElementById('serviceDetails');
-    const nameEl = document.getElementById('serviceName');
-    const descEl = document.getElementById('serviceDescription');
-    const priceEl = document.getElementById('servicePrice');
-    const depositEl = document.getElementById('serviceDeposit');
-    const linkEl = document.getElementById('serviceLink');
-    const helperEl = helperTextEl;
-
-    if (!select || !details) return;
-
-    if (!data?.core?.length) {
-      select.innerHTML = '<option>Pricing is currently unavailable</option>';
-      select.disabled = true;
-      details.hidden = true;
-      if (helperEl) {
-        helperEl.textContent = 'We’re refreshing our pricing. Reach out if you need a custom quote.';
-      }
-      return;
-    }
-
-    const previousHandler = select.__serviceChangeHandler;
-    if (previousHandler) {
-      select.removeEventListener('change', previousHandler);
-    }
-
-    const previousValue = select.value;
-    select.innerHTML = data.core.map((service, index) => `
-      <option value="${index}">${service.name}</option>
-    `).join('');
-    select.disabled = false;
-
-    function updateService(index, { highlight = false } = {}) {
-      const service = data.core[index];
-      if (!service) {
-        details.hidden = true;
-        return;
-      }
-
-      details.hidden = false;
-      if (nameEl) nameEl.textContent = service.name || '';
-      if (descEl) descEl.textContent = service.desc || '';
-
-      if (priceEl) {
-        if (service.price) {
-          priceEl.textContent = `Project fee: ${formatCurrency(service.price)}`;
-          priceEl.hidden = false;
-        } else if (service.priceFrom) {
-          priceEl.textContent = `Project fee: from ${formatCurrency(service.priceFrom)}`;
-          priceEl.hidden = false;
-        } else {
-          priceEl.hidden = true;
-        }
-      }
-
-      if (depositEl) {
-        if (service.price) {
-          depositEl.textContent = `50% deposit: ${formatCurrency(service.price * 0.5)}`;
-          depositEl.hidden = false;
-        } else if (service.priceFrom) {
-          depositEl.textContent = `Estimated deposit from ${formatCurrency(service.priceFrom * 0.5)}`;
-          depositEl.hidden = false;
-        } else {
-          depositEl.hidden = true;
-        }
-      }
-
-      const preciseDeposit = service.price
-        ? service.price * 0.5
-        : service.priceFrom
-          ? service.priceFrom * 0.5
-          : null;
-
-      const depositAmount = typeof preciseDeposit === 'number' && !Number.isNaN(preciseDeposit) && preciseDeposit > 0
-        ? preciseDeposit
-        : null;
-
-      const hasDirectLink = isValidHttpUrl(service.link);
-      const baseLink = hasDirectLink ? service.link : '';
-      const paymentUrl = updateQuickPayPortal({
-        amount: depositAmount,
-        serviceName: service.name,
-        baseLink,
-        highlight
-      });
-
-      if (linkEl) {
-        const hasCheckoutOption = Boolean(paymentUrl) || (depositAmount && depositAmount > 0);
-        if (hasCheckoutOption) {
-          linkEl.hidden = false;
-          linkEl.textContent = 'Start instant checkout';
-          linkEl.href = paymentUrl || PAYMENT_LINK;
-          if (hasDirectLink) {
-            linkEl.target = '_blank';
-            linkEl.rel = 'noopener';
-          } else {
-            linkEl.removeAttribute('target');
-          }
-          linkEl.dataset.checkoutAmount = depositAmount ? depositAmount.toString() : '';
-          linkEl.dataset.serviceName = service.name || '';
-          linkEl.dataset.checkoutUrl = hasDirectLink ? baseLink : '';
-          linkEl.dataset.checkoutMode = hasDirectLink ? 'direct' : 'session';
-        } else {
-          linkEl.hidden = true;
-          linkEl.removeAttribute('data-checkout-amount');
-          linkEl.removeAttribute('data-service-name');
-          linkEl.removeAttribute('data-checkout-url');
-          linkEl.removeAttribute('data-checkout-mode');
-        }
-      }
-
-      if (helperEl) {
-        if (depositAmount) {
-          helperEl.textContent = hasDirectLink
-            ? 'Click “Start instant checkout” to queue the quick pay portal and open Stripe in a new tab. We’ll prefill the deposit for you.'
-            : 'Click “Start instant checkout” to launch a secure Stripe checkout. We’ll also highlight the quick pay portal with the deposit prefilled in case you need it.';
-        } else {
-          helperEl.textContent = 'Use the quick pay portal below and enter the amount shown to finish booking.';
-        }
-      }
-    }
-
-    const initialIndex = (() => {
-      const candidate = Number(previousValue);
-      if (!Number.isNaN(candidate) && data.core[candidate]) {
-        return candidate;
-      }
-      return Number(select.value) || 0;
-    })();
-
-    select.value = String(initialIndex);
-    updateService(initialIndex);
-
-    const handleChange = (event) => {
-      updateService(Number(event.target.value), { highlight: true });
-    };
-
-    select.addEventListener('change', handleChange);
-    select.__serviceChangeHandler = handleChange;
-  }
-
-  function renderServices(data) {
-    const summaryList = document.getElementById('serviceSummaryList');
-    const addonList = document.getElementById('addonSummaryList');
-    const statusEl = document.getElementById('serviceStatus');
-    if (!summaryList && !addonList && !statusEl) return;
-
-    if (!data) {
-      if (statusEl) {
-        statusEl.textContent = 'We could not load the service snapshots right now. Let us know if you need a refresher.';
-      }
-      return;
-    }
-
-    const formatPrice = (item) => {
-      if (item.price) return formatCurrency(item.price);
-      if (item.priceFrom) return `From ${formatCurrency(item.priceFrom)}`;
-      return '';
-    };
-
-    if (summaryList) {
-      summaryList.innerHTML = data.core.map((service) => {
-        const price = formatPrice(service);
-        return `
-          <li>
-            <div class="service-summary__title">
-              <strong>${service.name}</strong>
-              ${price ? `<span class="service-summary__price">${price}</span>` : ''}
-            </div>
-            <p>${service.desc}</p>
-          </li>
-        `;
-      }).join('');
-    }
-
-    if (addonList) {
-      addonList.innerHTML = data.addons.map((addon) => {
-        const price = formatPrice(addon);
-        return `
-          <li>
-            <div class="service-summary__title">
-              <strong>${addon.name}</strong>
-              ${price ? `<span class="service-summary__price">${price}</span>` : ''}
-            </div>
-            <p>${addon.desc}</p>
-          </li>
-        `;
-      }).join('');
-    }
-
-    if (statusEl) {
-      statusEl.textContent = 'Hover or tap a line item to quickly revisit what we deliver.';
-    }
-  }
-
-  function mergeWithSnapshot(data) {
-    if (!data) return SERVICE_SNAPSHOT;
-    const merged = {
-      ...SERVICE_SNAPSHOT,
-      ...data,
-      core: Array.isArray(data.core) && data.core.length ? data.core : SERVICE_SNAPSHOT.core,
-      addons: Array.isArray(data.addons) && data.addons.length ? data.addons : SERVICE_SNAPSHOT.addons
-    };
-    return merged;
-  }
-
-  async function fetchServiceData() {
-    try {
-      const res = await fetch('data/services.json');
-      if (!res.ok) throw new Error('Network error');
-      return await res.json();
-    } catch (error) {
-      console.error('Service summary failed', error);
-      return null;
-    }
-  }
-
-  async function loadServiceData() {
-    const remote = await fetchServiceData();
-    return mergeWithSnapshot(remote);
-  }
-
-  (async function initPaymentPage() {
-    renderServices(SERVICE_SNAPSHOT);
-    initServicePicker(SERVICE_SNAPSHOT);
-    await ensureCardElement();
-
-    const serviceData = await loadServiceData();
-    if (serviceData !== SERVICE_SNAPSHOT) {
-      renderServices(serviceData);
-      initServicePicker(serviceData);
-    }
-  })();
   </script>
 </body>
 </html>
