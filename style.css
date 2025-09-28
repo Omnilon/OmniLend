@@ -1149,6 +1149,24 @@ body.experience-security .menu-toggle span{ background:#9fe8f5; }
 .payment-card::after{ content:""; position:absolute; inset:0; border-radius:18px; border:1px solid rgba(255,255,255,.06); pointer-events:none; mix-blend-mode:screen; opacity:.35; z-index:-1; }
 .payment-card--selector .service-picker,.payment-card--selector .service-details{ width:100%; }
 .payment-card--selector .service-details{ margin-top:4px; }
+.payment-card--selector .service-details{ display:grid; gap:10px; }
+.payment-card--selector .service-name{ font-size:18px; font-family:'Playfair Display',serif; letter-spacing:.02em; color:#fff; }
+.payment-card--selector .service-price{ font-weight:500; color:#ffe0b0; }
+.payment-card--selector .deposit-callout{ display:inline-flex; align-items:center; justify-content:flex-start; gap:10px; padding:14px 18px; border-radius:14px; background:linear-gradient(120deg, rgba(255,181,71,.18), rgba(255,122,24,.32)); color:#0e1117; font-weight:600; letter-spacing:.02em; box-shadow:0 16px 36px rgba(0,0,0,.38); border:1px solid rgba(255,255,255,.08); text-transform:none; }
+.payment-card--selector .deposit-callout span{ display:block; font-size:11px; text-transform:uppercase; letter-spacing:.14em; color:rgba(11,13,18,.72); }
+.payment-card--selector .deposit-callout strong{ display:block; font-size:18px; color:#0b0d12; }
+.payment-card--selector .deposit-callout:empty{ display:none; }
+.payment-card--selector .deposit-callout::before{ content:"50%"; display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:12px; background:linear-gradient(135deg, #ffb547, #ff7a18); color:#0e1117; font-family:'Playfair Display',serif; font-size:16px; letter-spacing:.06em; box-shadow:0 12px 30px rgba(255,122,24,.32); }
+.payment-card--selector .service-picker{ font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:rgba(255,255,255,.72); margin-bottom:8px; display:block; }
+.service-select-wrap{ position:relative; }
+.payment-card--selector .service-select{ appearance:none; -webkit-appearance:none; width:100%; padding:14px 48px 14px 18px; border-radius:16px; border:1px solid rgba(255,255,255,.16); font-size:15px; letter-spacing:.01em; color:#f5f7f6; background:
+    linear-gradient(135deg, rgba(255,122,24,.32), rgba(255,181,71,.08)) padding-box,
+    linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.04)) border-box; box-shadow:0 18px 40px rgba(0,0,0,.35); backdrop-filter:blur(18px); cursor:pointer; transition:border-color .2s ease, box-shadow .3s ease, transform .3s ease; }
+.payment-card--selector .service-select:focus-visible{ outline:none; border-color:rgba(255,181,71,.55); box-shadow:0 0 0 3px rgba(255,181,71,.28),0 18px 40px rgba(0,0,0,.35); }
+.payment-card--selector .service-select:hover{ transform:translateY(-1px); box-shadow:0 20px 46px rgba(0,0,0,.42); }
+.payment-card--selector .service-select option{ color:#0e1117; background:#fff; }
+.service-select-wrap::after{ content:""; position:absolute; top:50%; right:18px; width:12px; height:12px; pointer-events:none; transform:translateY(-50%); background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 12 8'%3E%3Cpath stroke='%23ffe0b0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-size:12px 8px; opacity:.86; transition:opacity .3s ease; }
+.service-select-wrap:focus-within::after{ opacity:1; }
 .payment-card--checkout{ align-items:center; text-align:center; gap:18px; }
 .payment-card--checkout p{ max-width:38ch; }
 .payment-security{ font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:#ffe0b0; background:rgba(255,181,71,.12); border:1px solid rgba(255,181,71,.35); border-radius:999px; padding:10px 18px; align-self:center; box-shadow:0 8px 22px rgba(255,181,71,.18); }
