@@ -148,7 +148,7 @@
   const PAYMENT_LINK = '#quickPayPortal';
   const CHECKOUT_ENDPOINT = '/api/checkout';
   const stripePublishableKeyMeta = document.querySelector('meta[name="stripe-publishable-key"]');
-  const STRIPE_PUBLISHABLE_KEY = stripePublishableKeyMeta?.content?.trim() || '';
+  let STRIPE_PUBLISHABLE_KEY = stripePublishableKeyMeta?.content?.trim() || '';
   const SERVICE_SNAPSHOT = Object.freeze({
     core: [
       {
@@ -259,6 +259,8 @@
   }
 
   setFallbackLinks(PAYMENT_LINK);
+  // Preload the Stripe publishable key so it is ready when users interact with the page.
+  getStripePublishableKey();
 
   function formatCurrency(value) {
     const number = Number(value);
@@ -341,8 +343,43 @@
     }
   }
 
+  async function getStripePublishableKey() {
+    if (STRIPE_PUBLISHABLE_KEY) {
+      return STRIPE_PUBLISHABLE_KEY;
+    }
+
+    try {
+      const response = await fetch('/api/stripe-publishable-key', { headers: { 'Accept': 'application/json' } });
+      if (!response.ok) {
+        throw new Error(`Failed to load publishable key: ${response.status}`);
+      }
+
+      const payload = await response.json();
+      const key = payload?.publishableKey?.trim();
+
+      if (!key) {
+        throw new Error('Publishable key missing in response');
+      }
+
+      STRIPE_PUBLISHABLE_KEY = key;
+      if (stripePublishableKeyMeta) {
+        stripePublishableKeyMeta.content = key;
+      }
+
+      return STRIPE_PUBLISHABLE_KEY;
+    } catch (error) {
+      console.error('Unable to fetch Stripe publishable key', error);
+      return '';
+    }
+  }
+
   async function ensureStripeClient() {
     if (stripeClient) return stripeClient;
+
+    if (!STRIPE_PUBLISHABLE_KEY) {
+      STRIPE_PUBLISHABLE_KEY = await getStripePublishableKey();
+    }
+
     if (!STRIPE_PUBLISHABLE_KEY) {
       console.warn('Stripe publishable key is not configured.');
       return null;
