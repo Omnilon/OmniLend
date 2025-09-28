@@ -789,14 +789,14 @@ body {
 }
 
 .contact-meta a {
-    color: #9a5b0a;
+    color: #cc5a1f;
     text-decoration: underline;
     font-weight: 600;
 }
 
 .contact-meta a:hover,
 .contact-meta a:focus-visible {
-    color: #c97712;
+    color: #e87428;
 }
 
 body.experience-interiors .experience-pill[data-switch-experience="security"] {
