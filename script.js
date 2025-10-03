@@ -397,14 +397,28 @@ document.addEventListener('DOMContentLoaded', () => {
 // Experience selector + multi-nav toggle handling
 document.addEventListener('DOMContentLoaded', () => {
     const selector = document.getElementById('experienceSelector');
-    const experiences = {
-        interiors: document.getElementById('interiorsExperience'),
-        security: document.getElementById('securityExperience')
+    const experienceConfig = {
+        interiors: {
+            wrapper: document.getElementById('interiorsExperience'),
+            navId: 'siteNav',
+            bodyClass: 'experience-interiors'
+        },
+        security: {
+            wrapper: document.getElementById('securityExperience'),
+            navId: 'securityNav',
+            bodyClass: 'experience-security'
+        },
+        ink: {
+            wrapper: document.getElementById('inkExperience'),
+            navId: 'inkNav',
+            bodyClass: 'experience-ink'
+        }
     };
+    const experiences = Object.fromEntries(Object.entries(experienceConfig).map(([name, config]) => [name, config.wrapper]));
     const toggles = Array.from(document.querySelectorAll('[data-menu-toggle]'));
 
     const closeNavs = () => {
-        ['nav-open', 'nav-open-security'].forEach(cls => document.body.classList.remove(cls));
+        ['nav-open', 'nav-open-security', 'nav-open-ink'].forEach(cls => document.body.classList.remove(cls));
         toggles.forEach(btn => btn.setAttribute('aria-expanded', 'false'));
     };
 
@@ -437,14 +451,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const activateExperience = (name) => {
-        if (!experiences[name]) return;
+        const config = experienceConfig[name];
+        if (!config || !config.wrapper) return;
         setExperienceVisibility(name);
         document.body.classList.add('experience-active');
-        document.body.classList.remove('experience-interiors', 'experience-security');
-        document.body.classList.add(name === 'security' ? 'experience-security' : 'experience-interiors');
+        Object.values(experienceConfig).forEach(cfg => {
+            if (cfg.bodyClass) {
+                document.body.classList.remove(cfg.bodyClass);
+            }
+        });
+        if (config.bodyClass) {
+            document.body.classList.add(config.bodyClass);
+        }
         document.body.dataset.experience = name;
         document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
-        const navEl = document.getElementById(name === 'security' ? 'securityNav' : 'siteNav');
+        const navEl = config.navId ? document.getElementById(config.navId) : null;
         const firstLink = navEl ? navEl.querySelector('a[href^="#"]') : null;
         if (firstLink) firstLink.classList.add('active');
         closeNavs();
@@ -483,6 +504,8 @@ document.addEventListener('DOMContentLoaded', () => {
         initial = requested;
     } else if (/^#security-/.test(hash)) {
         initial = 'security';
+    } else if (/^#ink-/.test(hash)) {
+        initial = 'ink';
     } else if (/^#(home|services|portfolio|about|contact)/i.test(hash)) {
         initial = 'interiors';
     }

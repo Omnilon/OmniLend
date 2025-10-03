@@ -18,7 +18,7 @@
         <div class="selector-inner reveal fx-rise">
             <span class="selector-badge">ØMNILON</span>
             <h1 id="experienceTitle">Select your experience</h1>
-            <p class="selector-copy">One house, two disciplines. Choose interiors for calm spatial design, or security to uncover profit-eating vulnerabilities with our Secret Lifters.</p>
+            <p class="selector-copy">One house, three disciplines. Choose interiors for calm spatial design, security intelligence to uncover vulnerabilities, or ink to plan your next tattoo session.</p>
             <div class="selector-grid">
                 <button class="selector-card" data-target="interiors">
                     <span class="selector-heading">Ømnilon Interiors</span>
@@ -29,6 +29,11 @@
                     <span class="selector-heading">Ømnilon Security</span>
                     <span class="selector-text">Our new asset protection intelligence unit. Secret Lifters simulate organized theft—online and in-store—so you can close the gaps first.</span>
                     <span class="selector-cta">Deploy a Secret Lifter</span>
+                </button>
+                <button class="selector-card" data-target="ink">
+                    <span class="selector-heading">Ømnilon Ink</span>
+                    <span class="selector-text">Flash tattoos, custom line work, and apprentice-friendly pricing with transparent deposits and a clear waiver.</span>
+                    <span class="selector-cta">Book a tattoo session</span>
                 </button>
             </div>
         </div>
@@ -48,6 +53,7 @@
                     <span class="brand-title">ØMNILON</span>
                 </a>
                 <div class="header-actions">
+                    <button class="experience-pill" data-switch-experience="ink">Book Ømnilon Ink</button>
                     <button class="experience-pill" data-switch-experience="security">Explore Security</button>
                     <button id="menuToggle" class="menu-toggle" data-menu-toggle="siteNav" data-menu-class="nav-open" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
                         <span></span><span></span><span></span>
@@ -236,6 +242,7 @@
                 </a>
                 <div class="header-actions">
                     <button class="experience-pill" data-switch-experience="interiors">Return to Interiors</button>
+                    <button class="experience-pill" data-switch-experience="ink">Book Ømnilon Ink</button>
                     <button id="securityMenuToggle" class="menu-toggle" data-menu-toggle="securityNav" data-menu-class="nav-open-security" aria-label="Open menu" aria-expanded="false" aria-controls="securityNav">
                         <span></span><span></span><span></span>
                     </button>
@@ -406,6 +413,183 @@
         </div>
         <footer class="site-footer">
             <p>&copy; 2025 Ømnilon Security — Asset Protection Intelligence</p>
+        </footer>
+    </div>
+
+    <div id="inkExperience" class="experience experience-ink" hidden aria-hidden="true">
+        <div class="wrapper">
+            <header class="brand-header reveal fade">
+                <a href="#ink-home" class="brand" aria-label="Ømnilon Ink">
+                    <span class="brand-title">ØMNILON</span>
+                </a>
+                <div class="header-actions">
+                    <button class="experience-pill" data-switch-experience="interiors">Return to Interiors</button>
+                    <button class="experience-pill" data-switch-experience="security">Explore Security</button>
+                    <button id="inkMenuToggle" class="menu-toggle" data-menu-toggle="inkNav" data-menu-class="nav-open-ink" aria-label="Open menu" aria-expanded="false" aria-controls="inkNav">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </header>
+            <nav id="inkNav">
+                <a href="#ink-home" class="active">Overview</a>
+                <a href="#ink-flash">Flash Specials</a>
+                <a href="#ink-pricing">Pricing</a>
+                <a href="#ink-waiver">Waiver</a>
+                <a href="#ink-booking">Book</a>
+            </nav>
+
+            <main class="onepage">
+                <section id="ink-home" class="hero hero-ink reveal fx-clip" style="position:relative;">
+                    <div class="bg-grid"></div>
+                    <div class="orb orb-1" data-parallax-y="0.05"></div>
+                    <div class="orb orb-2" data-parallax-y="0.09"></div>
+                    <div class="hero-inner fx-rise" data-parallax="0.12">
+                        <h1 class="grad-text">Intentional tattoos with apprentice-accessible pricing.</h1>
+                        <p>Ømnilon Ink is the home for my tattoo apprenticeship—meaning you receive fresh flash, thoughtful placement, and transparent pricing while I continue to hone my craft.</p>
+                        <div class="cta-row">
+                            <a class="btn btn-jeton" href="#ink-booking">Request a session</a>
+                            <a class="btn btn-outline" href="#ink-flash">Browse flash specials</a>
+                        </div>
+                    </div>
+                    <div class="mock-window reveal from-right" aria-hidden="true">
+                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1600&auto=format&fit=crop" alt="Tattoo artist working on a client's arm" loading="lazy" />
+                    </div>
+                    <a class="scroll-cue" href="#ink-flash" aria-label="Scroll to flash specials"></a>
+                </section>
+
+                <section id="ink-flash" class="section feature-grid stagger features-ink" data-stagger-step="0.08">
+                    <article class="feature ink-card fx-rise">
+                        <h3>Flash queue</h3>
+                        <p>Curated, ready-to-go flash sheets refreshed every month. Simple line work and micro pieces stay at apprentice pricing.</p>
+                    </article>
+                    <article class="feature ink-card fx-rise">
+                        <h3>Sticker discount</h3>
+                        <p>Bring any sticker to the appointment and your flash piece drops from $39.99 to $29.99—my thanks for supporting the journey.</p>
+                    </article>
+                    <article class="feature ink-card fx-rise">
+                        <h3>Thoughtful placements</h3>
+                        <p>We’ll map tattoos using real-world objects so you know exactly what fits comfortably and heals clean.</p>
+                    </article>
+                    <article class="feature ink-card fx-rise">
+                        <h3>Aftercare guidance</h3>
+                        <p>Every session includes a custom aftercare PDF, healing check-ins, and product suggestions.</p>
+                    </article>
+                </section>
+
+                <section id="ink-pricing" class="section ink-pricing reveal">
+                    <div class="ink-pricing-intro fx-rise">
+                        <h2>Transparent pricing & deposits</h2>
+                        <p>Flash tattoos are $39.99—or $29.99 when you bring me a sticker. Larger or more complex tattoos scale from $59.99 to $499.99 depending on coverage, detail, and placement. Every appointment requires a 50% deposit that goes toward your final total.</p>
+                    </div>
+                    <div class="ink-pricing-grid">
+                        <article class="ink-price-card fx-rise">
+                            <h3>Flash tier</h3>
+                            <p>Anything the size of an AirPods Pro case or smaller. Perfect for line work, minis, or script.</p>
+                            <ul>
+                                <li>$39.99 standard rate</li>
+                                <li>$29.99 with sticker discount</li>
+                                <li>30–45 minute seat time</li>
+                            </ul>
+                        </article>
+                        <article class="ink-price-card fx-rise">
+                            <h3>Custom tier</h3>
+                            <p>Pieces larger than the flash tier or with shading, color, or complex line work.</p>
+                            <ul>
+                                <li>$59.99–$199.99 for palm-sized work</li>
+                                <li>$199.99–$499.99 for multi-session or highly detailed pieces</li>
+                                <li>Priced collaboratively after consult</li>
+                            </ul>
+                        </article>
+                        <article class="ink-price-card fx-rise">
+                            <h3>Deposits</h3>
+                            <p>All bookings require a 50% deposit to reserve the slot. Deposits are non-refundable but transferable once with 48 hours’ notice.</p>
+                            <ul>
+                                <li>Applied directly to your final balance</li>
+                                <li>Secure online payment link provided after consult</li>
+                                <li>Reschedules beyond one incur a new deposit</li>
+                            </ul>
+                        </article>
+                    </div>
+                </section>
+
+                <section id="ink-waiver" class="section ink-waiver reveal">
+                    <div class="ink-waiver-copy fx-rise">
+                        <h2>Waiver & apprentice transparency</h2>
+                        <p>Please review this waiver before booking. Agreeing affirms that you understand my current apprenticeship status and the pricing advantages it provides.</p>
+                        <ul>
+                            <li>You acknowledge Ømnilon Ink operates under an apprenticeship; discounted pricing reflects this stage of practice.</li>
+                            <li>You consent to receive a tattoo from an apprentice and understand I may decline designs beyond my present abilities.</li>
+                            <li>You release Ømnilon Ink and affiliated parties from liability for adverse reactions, including allergic responses, infections, or healing complications.</li>
+                            <li>You confirm you are 18+ (or have the legally required documentation) and are not under the influence of drugs or alcohol.</li>
+                            <li>You agree to follow aftercare instructions provided during your appointment.</li>
+                        </ul>
+                        <p class="ink-size-note">We’ll size each tattoo using real-life objects for clarity. <a href="images/airpods-pro-reference.svg" target="_blank" rel="noopener">See the AirPods Pro case size reference</a>—anything at or below that footprint stays in the flash tier. Larger pieces will be priced collaboratively based on complexity.</p>
+                    </div>
+                </section>
+
+                <section id="ink-booking" class="section contact-form reveal ink-booking">
+                    <h2>Request your Ømnilon Ink session</h2>
+                    <form id="inkBookingForm" data-contact-form data-experience="ink">
+                        <label for="inkName">Name:</label>
+                        <input type="text" id="inkName" name="name" required>
+
+                        <label for="inkEmail">Email:</label>
+                        <input type="email" id="inkEmail" name="email" required>
+
+                        <label for="inkPhone">Phone (optional):</label>
+                        <input type="tel" id="inkPhone" name="phone" placeholder="For quick confirmations">
+
+                        <label for="inkPlacement">Desired placement:</label>
+                        <input type="text" id="inkPlacement" name="placement" placeholder="Forearm, calf, ankle, etc." required>
+
+                        <label for="inkSize">Estimated size:</label>
+                        <select id="inkSize" name="size" required>
+                            <option value="AirPods-case-or-smaller">AirPods Pro case or smaller (flash tier)</option>
+                            <option value="Sticker-discount">Flash tier with sticker discount</option>
+                            <option value="Palm-sized">Palm-sized (approx 2"–4")</option>
+                            <option value="Half-sheet">Half-sheet or multiple elements</option>
+                            <option value="Large-scale">Larger or multi-session concept</option>
+                        </select>
+
+                        <label for="inkIdea">Tell me about the artwork:</label>
+                        <textarea id="inkIdea" name="idea" placeholder="Share flash number or describe your custom concept." required></textarea>
+
+                        <label for="inkAvailability">Preferred days/times:</label>
+                        <input type="text" id="inkAvailability" name="availability" placeholder="e.g., Weeknights after 6pm or Sundays">
+
+                        <div class="ink-consent-group">
+                            <label class="ink-checkbox">
+                                <input type="checkbox" name="sticker" value="yes">
+                                I’m bringing a sticker for the flash discount ($10 off flash tier).
+                            </label>
+                            <label class="ink-checkbox">
+                                <input type="checkbox" name="deposit" value="agree" required>
+                                I understand a 50% deposit is required to hold my appointment and will be applied to the total.
+                            </label>
+                            <label class="ink-checkbox">
+                                <input type="checkbox" name="waiver" value="agree" required>
+                                I have read the waiver above, acknowledge the apprenticeship status, and consent to proceed.
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-jeton">Submit request</button>
+                    </form>
+                    <p class="form-status" data-form-status aria-live="polite" role="status"></p>
+                    <div class="ink-meta fx-rise">
+                        <h3>Studio details</h3>
+                        <ul class="contact-meta">
+                            <li>Email: <a href="mailto:omnilend.co@gmail.com">omnilend.co@gmail.com</a></li>
+                            <li>Text line: <a href="tel:4049198026">404-919-8026</a></li>
+                            <li>Studio: Atlanta, GA (exact address provided after booking)</li>
+                            <li>Follow apprentice progress: <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram updates</a></li>
+                        </ul>
+                        <p class="ink-prep">Please arrive sober, well rested, and hydrated. Wear clothing that gives easy access to the placement area, and eat within two hours of your appointment.</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+        <footer class="site-footer">
+            <p>&copy; 2025 Ømnilon Ink — Tattoo Apprenticeship Studio</p>
         </footer>
     </div>
 
