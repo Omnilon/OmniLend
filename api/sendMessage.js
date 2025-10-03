@@ -1,11 +1,128 @@
 import { safeTrim, getTelegramToken, resolveChatId, sendTelegramMessage } from './_telegram.js';
 
+const buildInteriorsPayload = ({
+    nameValue,
+    emailValue,
+    serviceValue,
+    budgetValue,
+    messageValue,
+}) => {
+    if (!messageValue) {
+        throw new Error('Please include a project summary.');
+    }
+
+    const text = [
+        'ømnilon Int. — New Interiors Inquiry',
+        '',
+        `Name: ${nameValue}`,
+        `Email: ${emailValue}`,
+        `Service: ${serviceValue || 'n/a'}`,
+        `Budget: ${budgetValue || 'n/a'}`,
+        '',
+        'Project details:',
+        messageValue,
+    ].join('\n');
+
+    return text;
+};
+
+const buildSecurityPayload = ({
+    nameValue,
+    emailValue,
+    assetValue,
+    serviceValue,
+    budgetValue,
+    messageValue,
+}) => {
+    if (!messageValue) {
+        throw new Error('Please include briefing intel for the assessment.');
+    }
+
+    const text = [
+        'ømnilon sec. — Secret Lifter Briefing',
+        '',
+        `Name: ${nameValue}`,
+        `Email: ${emailValue}`,
+        `Primary location/URL: ${assetValue || 'n/a'}`,
+        `Engagement focus: ${serviceValue || 'n/a'}`,
+        `Portfolio scale: ${budgetValue || 'n/a'}`,
+        '',
+        'Intel:',
+        messageValue,
+    ].join('\n');
+
+    return text;
+};
+
+const buildInkPayload = ({
+    nameValue,
+    emailValue,
+    phoneValue,
+    placementValue,
+    sizeValue,
+    ideaValue,
+    availabilityValue,
+    stickerValue,
+    depositValue,
+    waiverValue,
+}) => {
+    if (!ideaValue) {
+        throw new Error('Tell me about the artwork or flash you have in mind.');
+    }
+
+    if (depositValue !== 'agree') {
+        throw new Error('Please confirm the deposit requirement before submitting.');
+    }
+
+    if (waiverValue !== 'agree') {
+        throw new Error('Please confirm you have read and agree to the waiver.');
+    }
+
+    const text = [
+        'ømnilon ink — Booking request',
+        '',
+        `Name: ${nameValue}`,
+        `Email: ${emailValue}`,
+        `Phone: ${phoneValue || 'n/a'}`,
+        `Preferred placement: ${placementValue || 'n/a'}`,
+        `Estimated size: ${sizeValue || 'n/a'}`,
+        '',
+        'Artwork concept:',
+        ideaValue,
+        '',
+        'Preferred availability:',
+        availabilityValue || 'n/a',
+        '',
+        `Sticker discount: ${stickerValue === 'yes' ? 'Bringing sticker' : 'No sticker'}`,
+        'Deposit acknowledgement: confirmed',
+        'Waiver consent: confirmed',
+    ].join('\n');
+
+    return text;
+};
+
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
 
-    const { name, email, message, service, budget, asset, experience } = req.body || {};
+    const {
+        name,
+        email,
+        message,
+        service,
+        budget,
+        asset,
+        experience,
+        phone,
+        placement,
+        size,
+        idea,
+        availability,
+        sticker,
+        deposit,
+        waiver,
+    } = req.body || {};
 
     const nameValue = safeTrim(name);
     const emailValue = safeTrim(email);
@@ -14,9 +131,17 @@ export default async function handler(req, res) {
     const budgetValue = safeTrim(budget);
     const assetValue = safeTrim(asset);
     const experienceValue = safeTrim(experience).toLowerCase();
+    const phoneValue = safeTrim(phone);
+    const placementValue = safeTrim(placement);
+    const sizeValue = safeTrim(size);
+    const ideaValue = safeTrim(idea);
+    const availabilityValue = safeTrim(availability);
+    const stickerValue = safeTrim(sticker).toLowerCase();
+    const depositValue = safeTrim(deposit).toLowerCase();
+    const waiverValue = safeTrim(waiver).toLowerCase();
 
-    if (!nameValue || !emailValue || !messageValue) {
-        return res.status(400).json({ message: 'Name, email, and a project summary are required.' });
+    if (!nameValue || !emailValue) {
+        return res.status(400).json({ message: 'Name and email are required.' });
     }
 
     const telegramToken = getTelegramToken();
@@ -32,35 +157,49 @@ export default async function handler(req, res) {
         return res.status(500).json({ message: err.message || 'Unable to resolve Telegram chat.' });
     }
 
-    const isSecurityExperience = experienceValue === 'security';
-    const messagePrefix = isSecurityExperience
-        ? 'ømnilon sec. — Secret Lifter Briefing'
-        : 'ømnilon Int. — New Interiors Inquiry';
-
-    const detailLines = [
-        `Name: ${nameValue}`,
-        `Email: ${emailValue}`,
-    ];
-
-    if (isSecurityExperience) {
-        detailLines.push(`Primary location/URL: ${assetValue || 'n/a'}`);
-        detailLines.push(`Engagement focus: ${serviceValue || 'n/a'}`);
-        detailLines.push(`Portfolio scale: ${budgetValue || 'n/a'}`);
-    } else {
-        detailLines.push(`Service: ${serviceValue || 'n/a'}`);
-        detailLines.push(`Budget: ${budgetValue || 'n/a'}`);
+    let text;
+    try {
+        switch (experienceValue) {
+            case 'security':
+                text = buildSecurityPayload({
+                    nameValue,
+                    emailValue,
+                    assetValue,
+                    serviceValue,
+                    budgetValue,
+                    messageValue,
+                });
+                break;
+            case 'ink':
+                text = buildInkPayload({
+                    nameValue,
+                    emailValue,
+                    phoneValue,
+                    placementValue,
+                    sizeValue,
+                    ideaValue,
+                    availabilityValue,
+                    stickerValue,
+                    depositValue,
+                    waiverValue,
+                });
+                break;
+            case 'interiors':
+            case '':
+            case null:
+            default:
+                text = buildInteriorsPayload({
+                    nameValue,
+                    emailValue,
+                    serviceValue,
+                    budgetValue,
+                    messageValue,
+                });
+                break;
+        }
+    } catch (validationError) {
+        return res.status(400).json({ message: validationError.message || 'Invalid submission.' });
     }
-
-    const summaryLabel = isSecurityExperience ? 'Intel:' : 'Project details:';
-
-    const text = [
-        messagePrefix,
-        '',
-        ...detailLines,
-        '',
-        summaryLabel,
-        messageValue || 'n/a'
-    ].join('\n');
 
     try {
         await sendTelegramMessage({ text, token: telegramToken, chatId });
