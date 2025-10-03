@@ -257,20 +257,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   const track = document.getElementById('testimonialTrack');
   if (!track) return;
 
-  const template = (t) => `
-    <article class="t-card fx-rise">
-      <div class="t-stars" aria-hidden="true"><span>★★★★★</span></div>
-      <span class="sr-only">Rated 5 out of 5</span>
-      <p class="t-quote">${t.quote}</p>
-      <div class="t-meta">
-        <img class="t-avatar" src="${t.avatar}" alt="Portrait of ${t.name}" loading="lazy" />
-        <div>
-          <strong>${t.name}</strong>
-          <span class="t-role">${t.role || ''}</span>
+  const template = (t) => {
+    const alt = t.avatarAlt || `Portrait of ${t.name}`;
+    return `
+      <article class="t-card fx-rise">
+        <div class="t-stars" aria-hidden="true"><span>★★★★★</span></div>
+        <span class="sr-only">Rated 5 out of 5</span>
+        <p class="t-quote">${t.quote}</p>
+        <div class="t-meta">
+          <img class="t-avatar" src="${t.avatar}" alt="${alt}" loading="lazy" />
+          <div>
+            <strong>${t.name}</strong>
+            <span class="t-role">${t.role || ''}</span>
+          </div>
         </div>
       </div>
     </article>
-  `;
+    `;
+  };
 
   const src = track.dataset.src;
   if (src) {
