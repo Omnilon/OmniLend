@@ -7,7 +7,6 @@ if (forms.length) {
 
             const statusEl = form.querySelector('[data-form-status]');
             const submitBtn = form.querySelector('button[type="submit"]');
-            if (submitBtn) submitBtn.disabled = true;
             if (statusEl) statusEl.textContent = 'Sending your request…';
 
             const formData = new FormData(form);
@@ -20,6 +19,22 @@ if (forms.length) {
                 }
             });
             payload.experience = form.getAttribute('data-experience') || 'general';
+
+            const captchaAnswerInput = form.querySelector('[data-captcha-answer]');
+            const captchaTokenInput = form.querySelector('[data-captcha-token]');
+            if (captchaAnswerInput && captchaTokenInput) {
+                payload.captchaAnswer = (captchaAnswerInput.value || '').trim();
+                payload.captchaToken = captchaTokenInput.value || '';
+
+                if (!payload.captchaAnswer || !payload.captchaToken) {
+                    if (statusEl) statusEl.textContent = 'Solve the quick math check before submitting.';
+                    if (submitBtn) submitBtn.disabled = false;
+                    form.dispatchEvent(new CustomEvent('captcha:reset'));
+                    return;
+                }
+            }
+
+            if (submitBtn) submitBtn.disabled = true;
 
             try {
                 const response = await fetch('/api/sendMessage', {
@@ -42,6 +57,7 @@ if (forms.length) {
                 if (statusEl) statusEl.textContent = 'We hit a network issue sending to Telegram. Please try again.';
             } finally {
                 if (submitBtn) submitBtn.disabled = false;
+                form.dispatchEvent(new CustomEvent('captcha:reset'));
             }
         });
     });

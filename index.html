@@ -196,7 +196,7 @@
 
                 <section id="contact" class="section contact-form reveal">
                     <h2>Let’s talk about your space</h2>
-                    <form id="interiorsContactForm" data-contact-form data-experience="interiors">
+                    <form id="interiorsContactForm" data-contact-form data-experience="interiors" data-captcha-form>
                         <label for="interiorName">Name:</label>
                         <input type="text" id="interiorName" name="name" required>
                         <label for="interiorEmail">Email:</label>
@@ -218,6 +218,15 @@
                         </select>
                         <label for="interiorMessage">Project details:</label>
                         <textarea id="interiorMessage" name="message" placeholder="Scope, timeline, and any links (Pinterest, Instagram, etc.)" required></textarea>
+                        <div class="captcha-group" data-captcha>
+                            <p class="captcha-question" id="interiorsCaptchaPrompt">Quick check: <span data-captcha-question></span></p>
+                            <div class="captcha-controls">
+                                <label class="sr-only" for="interiorsCaptchaAnswer">Enter the answer to the math question above</label>
+                                <input type="text" id="interiorsCaptchaAnswer" name="captchaAnswer" inputmode="numeric" pattern="[0-9]*" required data-captcha-answer aria-describedby="interiorsCaptchaPrompt" placeholder="Your answer" />
+                                <button type="button" class="captcha-refresh" data-captcha-refresh aria-label="Show a different question">↻</button>
+                            </div>
+                            <input type="hidden" name="captchaToken" data-captcha-token />
+                        </div>
                         <button type="submit" class="btn btn-jeton">Submit</button>
                     </form>
                     <p class="form-status" data-form-status aria-live="polite" role="status"></p>
@@ -376,7 +385,7 @@
 
                 <section id="security-contact" class="section contact-form reveal security-contact">
                     <h2>Book a Secret Lifter assessment</h2>
-                    <form id="securityContactForm" data-contact-form data-experience="security">
+                    <form id="securityContactForm" data-contact-form data-experience="security" data-captcha-form>
                         <label for="securityName">Name:</label>
                         <input type="text" id="securityName" name="name" required>
                         <label for="securityEmail">Email:</label>
@@ -400,6 +409,15 @@
                         </select>
                         <label for="securityMessage">What should we know?</label>
                         <textarea id="securityMessage" name="message" placeholder="Share loss pain points, known scams, or upcoming initiatives." required></textarea>
+                        <div class="captcha-group" data-captcha>
+                            <p class="captcha-question" id="securityCaptchaPrompt">Quick check: <span data-captcha-question></span></p>
+                            <div class="captcha-controls">
+                                <label class="sr-only" for="securityCaptchaAnswer">Enter the answer to the math question above</label>
+                                <input type="text" id="securityCaptchaAnswer" name="captchaAnswer" inputmode="numeric" pattern="[0-9]*" required data-captcha-answer aria-describedby="securityCaptchaPrompt" placeholder="Your answer" />
+                                <button type="button" class="captcha-refresh" data-captcha-refresh aria-label="Show a different question">↻</button>
+                            </div>
+                            <input type="hidden" name="captchaToken" data-captcha-token />
+                        </div>
                         <button type="submit" class="btn btn-jeton">Submit</button>
                     </form>
                     <p class="form-status" data-form-status aria-live="polite" role="status"></p>
@@ -529,7 +547,7 @@
 
                 <section id="ink-booking" class="section contact-form reveal ink-booking">
                     <h2>Request your Ømnilon Ink session</h2>
-                    <form id="inkBookingForm" data-contact-form data-experience="ink">
+                    <form id="inkBookingForm" data-contact-form data-experience="ink" data-captcha-form>
                         <label for="inkName">Name:</label>
                         <input type="text" id="inkName" name="name" required>
 
@@ -572,6 +590,15 @@
                             </label>
                         </div>
 
+                        <div class="captcha-group" data-captcha>
+                            <p class="captcha-question" id="inkCaptchaPrompt">Quick check: <span data-captcha-question></span></p>
+                            <div class="captcha-controls">
+                                <label class="sr-only" for="inkCaptchaAnswer">Enter the answer to the math question above</label>
+                                <input type="text" id="inkCaptchaAnswer" name="captchaAnswer" inputmode="numeric" pattern="[0-9]*" required data-captcha-answer aria-describedby="inkCaptchaPrompt" placeholder="Your answer" />
+                                <button type="button" class="captcha-refresh" data-captcha-refresh aria-label="Show a different question">↻</button>
+                            </div>
+                            <input type="hidden" name="captchaToken" data-captcha-token />
+                        </div>
                         <button type="submit" class="btn btn-jeton">Submit request</button>
                     </form>
                     <p class="form-status" data-form-status aria-live="polite" role="status"></p>
@@ -593,7 +620,8 @@
         </footer>
     </div>
 
-    <script src="script.js"></script>
-    <script src="contact.js"></script>
+    <script defer src="script.js"></script>
+    <script defer src="captcha.js"></script>
+    <script defer src="contact.js"></script>
 </body>
 </html>
