@@ -1,4 +1,5 @@
 import { safeTrim, getTelegramToken, resolveChatId, sendTelegramMessage } from './_telegram.js';
+import { verifyCaptcha } from './_captcha.js';
 
 const buildLine = (label, value) => {
     const trimmed = safeTrim(value);
@@ -34,10 +35,17 @@ export default async function handler(req, res) {
         extras,
         summary,
         photoNames = [],
+        captchaAnswer,
+        captchaToken,
     } = req.body || {};
 
     const nameValue = safeTrim(clientName);
     const emailValue = safeTrim(clientEmail);
+    const captchaValidation = verifyCaptcha(captchaToken, captchaAnswer);
+
+    if (!captchaValidation.valid) {
+        return res.status(400).json({ message: captchaValidation.message });
+    }
 
     if (!nameValue || !emailValue) {
         return res.status(400).json({ message: 'Name and email are required.' });

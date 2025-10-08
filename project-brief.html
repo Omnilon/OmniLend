@@ -47,7 +47,7 @@
           </ul>
         </div>
 
-        <form class="jeton-card brief-form" id="projectBriefForm">
+        <form class="jeton-card brief-form" id="projectBriefForm" data-captcha-form>
           <h2>Tell us about your project</h2>
           <div class="brief-grid">
             <label>
@@ -177,6 +177,25 @@
             <textarea name="extras" rows="3" placeholder="Allergies, security instructions, renovation context, etc."></textarea>
           </label>
 
+          <div class="captcha-group" data-captcha>
+            <p class="captcha-question" id="briefCaptchaPrompt">Quick check: <span data-captcha-question></span></p>
+            <div class="captcha-controls">
+              <label class="sr-only" for="briefCaptchaAnswer">Enter the answer to the math question above</label>
+              <input
+                type="text"
+                id="briefCaptchaAnswer"
+                name="captchaAnswer"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                required
+                data-captcha-answer
+                aria-describedby="briefCaptchaPrompt"
+                placeholder="Your answer"
+              />
+              <button type="button" class="captcha-refresh" data-captcha-refresh aria-label="Show a different question">↻</button>
+            </div>
+            <input type="hidden" name="captchaToken" data-captcha-token />
+          </div>
           <button class="btn btn-jeton" type="submit">Send project brief</button>
           <p class="mini" id="briefStatus" aria-live="polite"></p>
         </form>
@@ -201,6 +220,7 @@
   </footer>
 
   <script defer src="script.js"></script>
+  <script defer src="captcha.js"></script>
   <script defer src="questionnaire.js"></script>
 </body>
 </html>

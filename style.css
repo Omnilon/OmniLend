@@ -366,6 +366,57 @@ footer {
     font-family: 'Roboto', sans-serif;
 }
 
+.captcha-group {
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    border: 1px solid rgba(18, 24, 32, 0.14);
+    background: rgba(15, 20, 30, 0.04);
+    display: grid;
+    gap: 0.75rem;
+}
+
+.captcha-question {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: inherit;
+}
+
+.captcha-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.captcha-controls input {
+    margin: 0;
+    max-width: 160px;
+    text-align: center;
+}
+
+.captcha-refresh {
+    border-radius: 999px;
+    border: 1px solid rgba(18, 24, 32, 0.26);
+    background: rgba(18, 24, 32, 0.05);
+    color: inherit;
+    font-size: 0.85rem;
+    padding: 0.45rem 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.captcha-refresh:hover,
+.captcha-refresh:focus {
+    background: rgba(18, 24, 32, 0.12);
+    border-color: rgba(18, 24, 32, 0.32);
+}
+
+.captcha-refresh:active {
+    transform: scale(0.95);
+}
+
 .contact-form input:focus,
 .contact-form textarea:focus {
     border-color: var(--primary-color);
@@ -980,6 +1031,10 @@ body.experience-security #scrollProgress {
 #securityExperience .contact-form select:focus,
 #securityExperience .contact-form textarea:focus { border-color: #22ffd7; box-shadow: 0 0 0 2px rgba(34, 255, 215, 0.22); }
 #securityExperience .contact-form button { background: linear-gradient(90deg, #22ffd7, #17c6ff); color: #03141d; }
+#securityExperience .captcha-group { background: rgba(18, 36, 44, 0.68); border: 1px solid rgba(34, 255, 215, 0.18); }
+#securityExperience .captcha-refresh { border-color: rgba(34, 255, 215, 0.32); background: rgba(34, 255, 215, 0.12); }
+#securityExperience .captcha-refresh:hover,
+#securityExperience .captcha-refresh:focus { background: rgba(34, 255, 215, 0.22); border-color: rgba(34, 255, 215, 0.45); }
 #securityExperience .contact-meta { color: #96dce4; }
 #securityExperience .contact-meta a { color: #6fe3ff; }
 #securityExperience .contact-meta a:hover,
@@ -1035,6 +1090,10 @@ body.experience-security #scrollProgress {
 #inkExperience .contact-form select:focus,
 #inkExperience .contact-form textarea:focus { border-color: #64f5b3; box-shadow: 0 0 0 2px rgba(100, 245, 179, 0.22); }
 #inkExperience .contact-form button { background: linear-gradient(90deg, #64f5b3, #2ddc8d); color: #04291c; }
+#inkExperience .captcha-group { background: rgba(6, 26, 15, 0.76); border: 1px solid rgba(95, 244, 174, 0.26); }
+#inkExperience .captcha-refresh { border-color: rgba(95, 244, 174, 0.32); background: rgba(95, 244, 174, 0.12); }
+#inkExperience .captcha-refresh:hover,
+#inkExperience .captcha-refresh:focus { background: rgba(95, 244, 174, 0.22); border-color: rgba(95, 244, 174, 0.45); }
 
 .ink-consent-group { display: grid; gap: 12px; margin: 18px 0 24px; }
 .ink-checkbox { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; color: #c2f2d7; }

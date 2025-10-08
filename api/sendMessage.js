@@ -1,4 +1,5 @@
 import { safeTrim, getTelegramToken, resolveChatId, sendTelegramMessage } from './_telegram.js';
+import { verifyCaptcha } from './_captcha.js';
 
 const buildInteriorsPayload = ({
     nameValue,
@@ -122,6 +123,8 @@ export default async function handler(req, res) {
         sticker,
         deposit,
         waiver,
+        captchaAnswer,
+        captchaToken,
     } = req.body || {};
 
     const nameValue = safeTrim(name);
@@ -139,6 +142,11 @@ export default async function handler(req, res) {
     const stickerValue = safeTrim(sticker).toLowerCase();
     const depositValue = safeTrim(deposit).toLowerCase();
     const waiverValue = safeTrim(waiver).toLowerCase();
+    const captchaValidation = verifyCaptcha(captchaToken, captchaAnswer);
+
+    if (!captchaValidation.valid) {
+        return res.status(400).json({ message: captchaValidation.message });
+    }
 
     if (!nameValue || !emailValue) {
         return res.status(400).json({ message: 'Name and email are required.' });

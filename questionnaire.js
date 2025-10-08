@@ -101,6 +101,21 @@
       if (statusEl) {
         statusEl.textContent = 'Sending your brief to our studio…';
       }
+
+      const captchaAnswerInput = form.querySelector('[data-captcha-answer]');
+      const captchaTokenInput = form.querySelector('[data-captcha-token]');
+      if (captchaAnswerInput && captchaTokenInput) {
+        payload.captchaAnswer = (captchaAnswerInput.value || '').trim();
+        payload.captchaToken = captchaTokenInput.value || '';
+
+        if (!payload.captchaAnswer || !payload.captchaToken) {
+          if (statusEl) {
+            statusEl.textContent = 'Solve the quick math check before submitting.';
+          }
+          return;
+        }
+      }
+
       if (submitBtn) submitBtn.disabled = true;
 
       try {
@@ -136,6 +151,7 @@
         if (summarySection) summarySection.hidden = false;
       } finally {
         if (submitBtn) submitBtn.disabled = false;
+        form.dispatchEvent(new CustomEvent('captcha:reset'));
       }
     });
 
