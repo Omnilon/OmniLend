@@ -180,10 +180,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.createElement('div');
     overlay.id = 'lightbox';
     overlay.innerHTML = `
-        <button class="lb-close" aria-label="Close">Ã—</button>
-        <button class="lb-prev" aria-label="Previous">â€¹</button>
+        <button class="lb-close" aria-label="Close">&times;</button>
+        <button class="lb-prev" aria-label="Previous">&lsaquo;</button>
         <img class="lb-media" alt="" />
-        <button class="lb-next" aria-label="Next">â€º</button>
+        <button class="lb-next" aria-label="Next">&rsaquo;</button>
     `;
     document.body.appendChild(overlay);
 
