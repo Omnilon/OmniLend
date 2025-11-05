@@ -18,7 +18,9 @@
     "jsx": "preserve",
     "incremental": true,
     "types": [
-      "node"
+      "node",
+      "next",
+      "next/image-types/global"
     ],
     "baseUrl": ".",
     "paths": {
