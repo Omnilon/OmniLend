@@ -1,1 +1,0 @@
-self.__REACT_LOADABLE_MANIFEST="{\"components/GradientBG.tsx -> three\":{\"id\":\"components/GradientBG.tsx -> three\",\"files\":[\"static/chunks/_app-pages-browser_node_modules_three_build_three_module_js.js\"]}}"
