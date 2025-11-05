@@ -1,4 +1,3 @@
-import type { Metadata } from "next/types";
 import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { ReactNode } from "react";
 import { BrandProviders } from "@/components/BrandProviders";
@@ -17,7 +16,7 @@ const mono = JetBrains_Mono({
   display: "swap"
 });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "SITE_OWNER Brand System",
   description:
     "A high-contrast brand experience shell showcasing SITE_OWNER design DNA."
