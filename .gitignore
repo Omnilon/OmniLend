@@ -1,28 +1,12 @@
-# Node dependencies
-node_modules/
+.DS_Store
 
-# Logs
+node_modules/
+.npm/
+.next/
+out/
+dist/
+.vercel/
+
 npm-debug.log*
-yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-
-# OS-specific files
-.DS_Store
-Thumbs.db
-
-# Environment files
-.env
-.env.*
-
-# Build artifacts
-build/
-dist/
-coverage/
-*.log
-*.tmp
-*.temp
-tmp/
-
-# Others
-*.swp
