@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { SoundToggle } from "@/components/SoundToggle";
+import { SoundToggle } from "./SoundToggle";
 
 const navItems = [
   { href: "#guidelines", label: "Guidelines" },

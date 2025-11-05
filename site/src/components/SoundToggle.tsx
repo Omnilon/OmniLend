@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useSound } from "@/components/SoundProvider";
+import { useSound } from "./SoundProvider";
 
 export function SoundToggle() {
   const { enabled, toggle, play } = useSound();

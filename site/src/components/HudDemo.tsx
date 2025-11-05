@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { HudBracket } from "@/components/HudBracket";
-import { useSound } from "@/components/SoundProvider";
+import { HudBracket } from "./HudBracket";
+import { useSound } from "./SoundProvider";
 import { cn } from "@/lib/utils";
 
 const MODES = [

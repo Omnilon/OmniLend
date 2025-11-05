@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { BrandProviders } from "@/components/BrandProviders";
+import { BrandProviders } from "../components/BrandProviders";
 
 describe("BrandProviders", () => {
   it("renders children inside motion and sound contexts", () => {

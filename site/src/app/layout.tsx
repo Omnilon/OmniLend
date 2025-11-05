@@ -1,8 +1,9 @@
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
-import { ReactNode } from "react";
-import { BrandProviders } from "@/components/BrandProviders";
-import { NoiseOverlay } from "@/components/NoiseOverlay";
 import "../styles/globals.css";
+import { BrandProviders } from "../components/BrandProviders";
+import { NoiseOverlay } from "../components/NoiseOverlay";
 
 const grotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -16,7 +17,7 @@ const mono = JetBrains_Mono({
   display: "swap"
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "SITE_OWNER Brand System",
   description:
     "A high-contrast brand experience shell showcasing SITE_OWNER design DNA."

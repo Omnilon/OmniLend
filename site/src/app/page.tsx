@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { BrandPage } from "@/components/BrandPage";
+import { BrandPage } from "../components/BrandPage";
 
 export default function Home() {
   return (

@@ -2,7 +2,7 @@
 
 import { motion, useAnimationControls } from "framer-motion";
 import { useEffect, useState } from "react";
-import { SoundToggle } from "@/components/SoundToggle";
+import { SoundToggle } from "./SoundToggle";
 
 const STORAGE_KEY = "omnilend:preloader-seen";
 

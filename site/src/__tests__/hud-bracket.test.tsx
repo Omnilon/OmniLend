@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { HudBracket } from "@/components/HudBracket";
+import { HudBracket } from "../components/HudBracket";
 
 describe("HudBracket", () => {
   it("renders content with framing label", () => {

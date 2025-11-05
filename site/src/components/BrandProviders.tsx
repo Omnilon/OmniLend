@@ -2,8 +2,8 @@
 
 import { MotionConfig } from "framer-motion";
 import { ReactNode } from "react";
-import { SmoothScrollProvider } from "@/components/SmoothScrollProvider";
-import { SoundProvider } from "@/components/SoundProvider";
+import { SmoothScrollProvider } from "./SmoothScrollProvider";
+import { SoundProvider } from "./SoundProvider";
 
 type BrandProvidersProps = {
   children: ReactNode;

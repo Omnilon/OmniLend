@@ -2,16 +2,16 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BrandNavbar } from "@/components/BrandNavbar";
-import { HudBracket } from "@/components/HudBracket";
-import { HudDemo } from "@/components/HudDemo";
-import { PaletteGrid } from "@/components/PaletteGrid";
-import { GradientCard } from "@/components/GradientCard";
-import { Section } from "@/components/Section";
-import { TypeSpecimen } from "@/components/TypeSpecimen";
-import { SoundToggle } from "@/components/SoundToggle";
-import { HeroGate, hasEnteredGate } from "@/components/HeroGate";
-import { Preloader, hasSeenPreloader } from "@/components/Preloader";
+import { BrandNavbar } from "./BrandNavbar";
+import { HudBracket } from "./HudBracket";
+import { HudDemo } from "./HudDemo";
+import { PaletteGrid } from "./PaletteGrid";
+import { GradientCard } from "./GradientCard";
+import { Section } from "./Section";
+import { TypeSpecimen } from "./TypeSpecimen";
+import { SoundToggle } from "./SoundToggle";
+import { HeroGate, hasEnteredGate } from "./HeroGate";
+import { Preloader, hasSeenPreloader } from "./Preloader";
 
 const GUIDELINE_CARDS = [
   {

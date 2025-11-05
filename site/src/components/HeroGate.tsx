@@ -1,8 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useSound } from "@/components/SoundProvider";
-import { GradientBG } from "@/components/GradientBG";
+import { useSound } from "./SoundProvider";
+import { GradientBG } from "./GradientBG";
 
 const STORAGE_KEY = "omnilend:hero-entered";
 
