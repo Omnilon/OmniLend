@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata } from "next/types";
 import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { ReactNode } from "react";
 import { BrandProviders } from "@/components/BrandProviders";
