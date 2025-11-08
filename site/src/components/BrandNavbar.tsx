@@ -36,11 +36,8 @@ export function BrandNavbar() {
       style={isMounted ? { backdropFilter, backgroundColor, borderBottom } : undefined}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4 sm:px-6 lg:px-8">
-        <Link
-          href="#top"
-          className="font-grotesk text-sm font-semibold tracking-tight text-white"
-        >
-          SITE_OWNER • Brand Shell
+        <Link href="#top" className="font-grotesk text-sm font-semibold tracking-tight text-white">
+          ØMNILON • Brand Shell
         </Link>
         <div className="flex items-center gap-6">
           <ul className="hidden items-center gap-5 text-xs uppercase tracking-[0.3em] text-muted md:flex">

@@ -15,40 +15,40 @@ import { Preloader, hasSeenPreloader } from "./Preloader";
 
 const GUIDELINE_CARDS = [
   {
-    tag: "Light",
-    title: "Luminous Layers",
+    tag: "INTERIORS",
+    title: "Calm, livable spaces",
     description:
-      "Blend dark glass, subtle bloom, and precision glints to surface the moments that matter."
+      "Residential refreshes, staging, and boutique installs with milestone billing and client-funded purchasing."
   },
   {
-    tag: "Grid",
-    title: "Measured Rhythm",
+    tag: "SECURITY",
+    title: "Secret Lifter intel",
     description:
-      "Align data, copy, and controls on a high-contrast 8pt grid that flexes from HUD to mobile."
+      "Covert crews simulate organized theft, refund abuse, and policy loopholes so you can close the gaps first."
   },
   {
-    tag: "Iconography",
-    title: "Neutral Signals",
+    tag: "INK",
+    title: "Apprentice tattoo studio",
     description:
-      "Deploy sharp, minimal icon strokes that reinforce speed without stealing the narrative."
+      "Flash minis, sticker discounts, and thoughtful placements with transparent deposits and aftercare."
   },
   {
-    tag: "Emotional Tech",
-    title: "Human Pulse",
+    tag: "PROCESS",
+    title: "Momentum over mystery",
     description:
-      "Warm micro-animations and tone cues reassure SITE_OWNER customers in high-stakes flows."
+      "Quick replies, human updates, and scopes written in plain English keep every engagement grounded."
   },
   {
-    tag: "Focus",
-    title: "Guided Attention",
+    tag: "DEPOSITS",
+    title: "50% reserves resources",
     description:
-      "Corner brackets frame action zones, ensuring SITE_OWNER teams lock onto priority tasks."
+      "Deposits lock design time, Secret Lifter operatives, or tattoo seats so we never overbook or underdeliver."
   },
   {
-    tag: "Sound",
-    title: "Sensory Feedback",
+    tag: "ACCESS",
+    title: "Atlanta base + remote",
     description:
-      "Discrete toggles, chimes, and spatial cues signal state changes without overwhelming."
+      "On-site interiors in ATL, remote e-design nationwide, and security charters across any store or ecommerce stack."
   }
 ];
 
@@ -56,27 +56,27 @@ const COLOR_ITEMS = [
   {
     name: "Background",
     hex: "#0A0A0A",
-    description: "Primary canvas for 80% of surfaces."
+    description: "80% charcoal canvas that mirrors the interiors studio and security dashboards."
   },
   {
     name: "Interface",
     hex: "#101010",
-    description: "Secondary elevations and cards."
+    description: "Secondary cards for scopes, LP intel, and tattoo booking states."
   },
   {
     name: "Copy",
     hex: "#FFFFFF",
-    description: "High-contrast typography."
+    description: "High-contrast typography so clients, LP leads, and guests never guess."
   },
   {
     name: "Support",
     hex: "#A3A3A3",
-    description: "Muted labels for secondary data."
+    description: "Muted labels for secondary data, disclaimers, and aftercare notes."
   },
   {
     name: "Serenity Purple",
     hex: "#D4A0FF",
-    description: "Primary accent for glow states."
+    description: "Primary accent for flash promos, Secret Lifter wins, and CTA halos."
   }
 ];
 
@@ -84,17 +84,17 @@ const SIGNAL_ITEMS = [
   {
     name: "Safety Orange",
     hex: "#FF5300",
-    description: "High-energy CTA and alert surfaces."
+    description: "High-energy CTA hue for booking forms, fraud alerts, and rush requests."
   },
   {
     name: "Success Green",
     hex: "#6EC85C",
-    description: "Positive confirmation banners."
+    description: "Used for paid invoices, cleared installs, or tattoo healing check-ins."
   },
   {
     name: "Alert Red",
     hex: "#E40046",
-    description: "Blocking errors and urgency moments."
+    description: "Flags blocking issues—policy holes, double-bookings, or consent waivers."
   }
 ];
 
@@ -102,26 +102,26 @@ const TYPE_SAMPLES = [
   {
     label: "H1",
     description: "Space Grotesk 56/1.0",
-    sample: "Free From Compromise",
+    sample: "Intentional spaces. Decisive intel.",
     sizeClass: "text-[56px] leading-[1] tracking-tight font-bold"
   },
   {
     label: "H2",
     description: "Space Grotesk 32/1.0",
-    sample: "Command the Channel",
+    sample: "Secret Lifters, Interiors, Ink — one rhythm.",
     sizeClass: "text-[32px] leading-[1] font-bold"
   },
   {
     label: "Body",
     description: "Space Grotesk 14/1.5",
     sample:
-      "SITE_OWNER communicates clearly with crisp body copy, balancing authority with warmth.",
+      "Ømnilon answers fast, writes scopes in plain language, and keeps budgets transparent from deposit to delivery.",
     sizeClass: "text-[14px] leading-[1.5] tracking-tightest"
   },
   {
     label: "Label",
     description: "JetBrains Mono 10/1",
-    sample: "Telemetry Synced",
+    sample: "Secret Lifter run · Flash slot · Deposit locked",
     sizeClass: "font-mono text-[10px] uppercase tracking-[0.36em]"
   }
 ];
@@ -130,22 +130,22 @@ const VOICE_BLOCKS = [
   {
     title: "Overview",
     copy:
-      "SITE_OWNER speaks with precision and intent—never loud, always clear. Every interaction feels engineered and trustworthy."
+      "Ømnilon speaks plainly, even when the work is complex. Interiors clients, LP teams, and tattoo guests all deserve the same clarity."
   },
   {
     title: "The Voice",
     copy:
-      "We combine technical confidence with human clarity. We celebrate momentum, but we never hype beyond the data."
+      "Confident but never hyped. We share context, options, and consequences up front so every decision feels grounded."
   },
   {
     title: "The Tone",
     copy:
-      "Assertive, not aggressive. Calm, not cold. We lead with focus and give teams the confidence to execute."
+      "Calm, warm, and direct. Milestone emails, Secret Lifter reports, and studio reminders read like a trusted teammate."
   },
   {
     title: "Inclusive & Accessible",
     copy:
-      "We meet every operator where they are. Layered color contrast, motion control, and descriptive copy ensure equity."
+      "High contrast palettes, reduced-motion fallbacks, plain-language agreements, and aftercare PDFs keep everyone seen."
   }
 ];
 
@@ -195,9 +195,9 @@ export function BrandPage() {
         >
           <Section
             id="guidelines"
-            label="Guidelines"
-            title="Frame the future with SITE_OWNER"
-            intro="A modular system of brackets, signals, and sensory cues keeps the SITE_OWNER command center sharp, legible, and deeply human."
+            label="Experience Grid"
+            title="Pick your Ømnilon lane"
+            intro="One shell carries interiors installs, Secret Lifter field work, and the Ømnilon Ink studio. Start anywhere—each card shows how we scope, bill, and keep momentum."
           >
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {guidelines.map((card) => (
@@ -216,8 +216,8 @@ export function BrandPage() {
           <Section
             id="typography"
             label="Typography"
-            title="Type speaks velocity"
-            intro="Space Grotesk delivers confident statements, while JetBrains Mono keeps telemetry crisp. Download assets to integrate instantly."
+            title="Type locks in trust"
+            intro="Space Grotesk keeps headings warm yet decisive for interiors decks and tattoo promos, while JetBrains Mono handles Secret Lifter telemetry and booking labels."
           >
             <div className="grid gap-6 lg:grid-cols-2">
               {TYPE_SAMPLES.map((sample) => (
@@ -244,7 +244,7 @@ export function BrandPage() {
             id="color"
             label="Color"
             title="80/20 contrast discipline"
-            intro="SITE_OWNER lives in a world that is mostly black and white. Accents are purposeful bursts of Serenity Purple, Safety Orange, and a trio of status colors."
+            intro="Ømnilon keeps 80% of the canvas near-black for calm focus. Accents spotlight deposits, approvals, and Secret Lifter wins without overwhelming the page."
           >
             <PaletteGrid items={COLOR_ITEMS} />
             <div className="mt-8 grid gap-6 md:grid-cols-3">
@@ -264,7 +264,7 @@ export function BrandPage() {
             id="hud"
             label="HUD & 3D"
             title="Bracket brilliant decisions"
-            intro="Interactive HUD frames keep SITE_OWNER operators anchored. Cycle through modes to see how light, data, and environment respond."
+            intro="Interactive HUD frames mirror how we brief LP directors and interiors clients—highlighting threats, placements, or flash slots while the rest of the shell stays calm."
           >
             <HudDemo />
           </Section>
@@ -273,7 +273,7 @@ export function BrandPage() {
             id="voice"
             label="Voice"
             title="Design for confident calm"
-            intro="Our narrative architecture balances precision with warmth so SITE_OWNER always sounds trustworthy, efficient, and empathetic."
+            intro="Our copy keeps timelines honest, explains risk in plain language, and welcomes every guest into the process."
           >
             <div className="grid gap-6 md:grid-cols-2">
               {VOICE_BLOCKS.map((block) => (
@@ -288,9 +288,11 @@ export function BrandPage() {
             <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-4 px-4 py-10 text-sm text-muted sm:flex-row sm:px-6 lg:px-8">
               <div>
                 <span className="font-mono text-[10px] uppercase tracking-[0.36em] text-accent-purple">
-                  SITE_OWNER Command Center
+                  Ømnilon Studio
                 </span>
-                <p className="mt-2 text-sm text-muted">Gridline City • © {new Date().getFullYear()} SITE_OWNER</p>
+                <p className="mt-2 text-sm text-muted">
+                  Atlanta, GA &amp; Remote • © {new Date().getFullYear()} Ømnilon
+                </p>
               </div>
               <SoundToggle />
             </div>

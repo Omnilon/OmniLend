@@ -1,6 +1,6 @@
-# SITE_OWNER Brand Shell
+# Ømnilon Brand Shell
 
-An opt-in Next.js 14 microsite that applies the Ledger-inspired, high-contrast brand skin to the existing repository without touching existing static pages. The `/brand` route showcases guidelines, type, color, HUD interactions, voice, and supporting experience shell components.
+An opt-in Next.js 14 microsite that applies the high-contrast Ømnilon shell to any part of the repo without touching the legacy static pages. The `/brand` route now showcases the interiors studio, Secret Lifter security engagements, and the Ømnilon Ink apprenticeship inside one experience.
 
 ## Getting Started
 
@@ -24,17 +24,17 @@ An opt-in Next.js 14 microsite that applies the Ledger-inspired, high-contrast b
 
 ## Project Structure
 
-- `src/app` — Next.js App Router entry (`/brand` landing page lives in `page.tsx`).
-- `src/components` — Brand system building blocks (HUD brackets, typography specimens, preloader, smooth scroll, etc.).
-- `src/lib` — Shared utilities (`audio` tone helper).
+- `src/app` — Next.js App Router entry. `/brand`, `/about`, `/pricing`, `/contact` are powered by MDX content.
+- `src/components` — Brand system building blocks (HUD brackets, Hero gate, Secret Lifter demo, etc.).
+- `src/lib` — Shared utilities including the MDX loader.
 - `public/` — Static assets including noise overlay and HUD demo image.
 - `scripts/brand-codemod.mjs` — Stub to scan for brand-token replacements; extend to map legacy colors.
 
 ## Feature Flags & Persistence
 
 - Local storage keys:
-  - `omnilend:preloader-seen` — skips the preloader after the first visit.
-  - `omnilend:hero-entered` — bypasses the hero gate once “Enter Experience” is triggered.
+  - `omnilend:preloader-seen` — skips the Ømnilon calibration screen after the first visit.
+  - `omnilend:hero-entered` — bypasses the hero gate once “Enter Ømnilon” is triggered.
   - `omnilend:sound-enabled` — remembers the sound toggle state.
 
 ## Accessibility & Motion
@@ -45,6 +45,6 @@ An opt-in Next.js 14 microsite that applies the Ledger-inspired, high-contrast b
 
 ## Next Steps
 
-- Wire `BrandShell` (from `BrandProviders`) into product screens behind a feature flag.
+- Pipe `BrandShell` (from `BrandProviders`) into future product screens behind a feature flag.
 - Expand `brand-codemod` to replace legacy hex colors with CSS variables.
-- Swap placeholder assets with production imagery/audio once available.
+- Drop in production imagery/audio as interiors, Secret Lifter, and ink assets ship.

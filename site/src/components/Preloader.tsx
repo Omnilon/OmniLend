@@ -50,7 +50,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
     >
       <div className="flex flex-col items-center gap-4">
         <span className="font-mono text-[10px] uppercase tracking-[0.36em] text-muted">
-          Calibrating SITE_OWNER Shell
+          Calibrating Ømnilon Shell
         </span>
         <div className="relative h-1 w-64 overflow-hidden rounded-full border border-white/10">
           <motion.span

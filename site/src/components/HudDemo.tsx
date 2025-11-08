@@ -11,19 +11,19 @@ const MODES = [
   {
     id: "text",
     label: "Text Display",
-    description: "Data-rich overlays for lending intelligence dashboards.",
+    description: "Secret Lifter readouts with shrink deltas, blind spots, and recommended fixes.",
     accent: "var(--accent-purple)"
   },
   {
     id: "highlight",
     label: "Highlight",
-    description: "Focus user intent with precise glow and framing.",
+    description: "Call attention to fraud routes, ticket swaps, or VIP interventions instantly.",
     accent: "var(--accent-orange)"
   },
   {
     id: "environment",
     label: "Environment",
-    description: "Ambient cues reinforce trust without noise.",
+    description: "Ambient cues set the tone for calm interiors or late-night asset sweeps.",
     accent: "var(--accent-green)"
   }
 ] as const;
@@ -118,9 +118,9 @@ export function HudDemo() {
           ))}
         </div>
         <div className="rounded-xl border border-white/10 bg-white/5 p-6 text-sm text-muted">
-          Adjust HUD states to preview how SITE_OWNER deploys bracketed frames across
-          lending interfaces—highlighting rate shifts, environmental cues, and action
-          moments without overwhelming the operator.
+          Adjust HUD states to preview how Ømnilon briefs interiors clients, LP directors,
+          and tattoo guests—switching between dense intel, attention highlights, and
+          atmospheric calm without overwhelming anyone in the loop.
         </div>
       </div>
     </div>
