@@ -2,6 +2,132 @@
 
 // Shared UI helpers (kept minimal). Any slideshow code is guarded.
 
+document.addEventListener('DOMContentLoaded', () => {
+    const body = document.body;
+    const preloader = document.querySelector('[data-preloader]');
+    const gate = document.querySelector('[data-hero-gate]');
+    const storageKey = preloader ? preloader.getAttribute('data-storage-key') : null;
+    let completed = false;
+
+    const readStored = () => {
+        if (!storageKey) return false;
+        try {
+            return localStorage.getItem(storageKey) === '1';
+        } catch (_) {
+            return false;
+        }
+    };
+
+    const markStored = () => {
+        if (!storageKey) return;
+        try {
+            localStorage.setItem(storageKey, '1');
+        } catch (_) {
+            /* no-op */
+        }
+    };
+
+    const activateTarget = (target) => {
+        if (!target) return;
+        const api = window.omnilonExperience;
+        if (api && typeof api.activateExperience === 'function') {
+            api.activateExperience(target);
+        } else {
+            body.dataset.pendingExperience = target;
+        }
+    };
+
+    const enterShell = (target) => {
+        if (completed) return;
+        completed = true;
+        body.classList.add('shell-entered');
+        body.classList.remove('is-locked');
+        activateTarget(target);
+    };
+
+    const exitGate = (target) => {
+        if (completed) return;
+        markStored();
+        if (gate) {
+            gate.classList.remove('is-visible');
+            gate.classList.add('is-dismissed');
+            setTimeout(() => {
+                gate.hidden = true;
+                enterShell(target);
+            }, 360);
+        } else {
+            enterShell(target);
+        }
+    };
+
+    const revealGate = () => {
+        if (completed) return;
+        if (preloader) {
+            preloader.classList.add('is-complete');
+            setTimeout(() => preloader.remove(), 420);
+        }
+        if (gate) {
+            gate.hidden = false;
+            requestAnimationFrame(() => gate.classList.add('is-visible'));
+        } else {
+            enterShell();
+        }
+    };
+
+    if (readStored()) {
+        if (preloader) preloader.remove();
+        if (gate) gate.remove();
+        enterShell();
+        return;
+    }
+
+    if (gate) {
+        const enterButton = gate.querySelector('[data-gate-enter]');
+        enterButton?.addEventListener('click', () => exitGate());
+        gate.querySelectorAll('[data-gate-jump]').forEach((btn) => {
+            btn.addEventListener('click', (event) => {
+                event.preventDefault();
+                const target = btn.getAttribute('data-gate-jump');
+                exitGate(target || undefined);
+            });
+        });
+    }
+
+    if (!preloader) {
+        revealGate();
+        return;
+    }
+
+    const bar = preloader.querySelector('[data-progress-bar]');
+    const label = preloader.querySelector('[data-progress-label]');
+    let progress = 4;
+
+    const update = (value) => {
+        progress = Math.min(100, Math.max(value, 0));
+        const scale = Math.max(0.02, progress / 100);
+        if (bar) bar.style.transform = `scaleX(${scale})`;
+        if (label) label.textContent = `${Math.round(progress)}% calibrating signal`;
+    };
+
+    update(progress);
+
+    const tick = () => {
+        if (completed) return;
+        const step = 6 + Math.random() * 14;
+        update(progress + step);
+        if (progress >= 100) {
+            clearInterval(timer);
+            revealGate();
+        }
+    };
+
+    const timer = setInterval(tick, 180);
+    window.addEventListener('load', () => {
+        if (completed) return;
+        update(Math.max(progress, 92));
+    });
+});
+
 // Optional slideshow support (only runs if .slideshow exists)
 (() => {
     const slideshow = document.querySelector('.slideshow');
@@ -477,6 +603,8 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo(0, 0);
     };
 
+    window.omnilonExperience = { activateExperience };
+
     if (selector) {
         selector.querySelectorAll('[data-target]').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -519,6 +647,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             }
+        }
+    }
+
+    if (!initial) {
+        const pending = document.body.dataset.pendingExperience;
+        if (pending && experiences[pending]) {
+            activateExperience(pending);
+            document.body.dataset.pendingExperience = '';
         }
     }
 });
