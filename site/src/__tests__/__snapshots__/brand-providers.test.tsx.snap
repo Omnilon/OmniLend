@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`BrandProviders > renders children inside motion and sound contexts 1`] = `
+<DocumentFragment>
+  <div>
+    Shell Ready
+  </div>
+</DocumentFragment>
+`;
