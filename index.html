@@ -11,26 +11,51 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 </head>
-<body class="theme-ledger">
+<body class="theme-ledger is-locked">
+    <div class="noise-overlay" aria-hidden="true"></div>
+    <div id="brandPreloader" class="brand-preloader" data-preloader data-storage-key="omnilon:brand-shell" role="status" aria-live="polite">
+        <div class="preloader-inner hud-bracket">
+            <span class="mono-label">System boot</span>
+            <div class="preloader-progress" role="presentation">
+                <div class="preloader-bar" data-progress-bar></div>
+            </div>
+            <p class="preloader-meta" data-progress-label>0% calibrating signal</p>
+        </div>
+    </div>
+
+    <section id="heroGate" class="hero-gate" data-hero-gate hidden aria-labelledby="gateTitle">
+        <div class="gate-inner hud-bracket">
+            <span class="mono-label">Enter Ømnilon</span>
+            <h1 id="gateTitle">Three lines. One relentless standard.</h1>
+            <p>Ømnilon Interiors, Secret Lifters, and Ømnilon Ink share a single craft language: high-contrast clarity, precise process, and deposits that keep momentum.</p>
+            <button class="btn btn-ledger gate-enter" data-gate-enter>Enter the brand shell</button>
+            <div class="gate-actions">
+                <button class="gate-link" data-gate-jump="interiors">Jump to Interiors</button>
+                <button class="gate-link" data-gate-jump="security">Jump to Secret Lifters</button>
+                <button class="gate-link" data-gate-jump="ink">Jump to Ink</button>
+            </div>
+        </div>
+    </section>
+
     <div id="scrollProgress"></div>
 
     <div id="experienceSelector" class="experience-selector" aria-labelledby="experienceTitle">
-        <div class="selector-inner reveal fx-rise">
-            <span class="selector-badge">ØMNILON</span>
+        <div class="selector-inner reveal fx-rise hud-bracket">
+            <span class="selector-badge mono-label">ØMNILON</span>
             <h1 id="experienceTitle">Select your experience</h1>
             <p class="selector-copy">One house, three disciplines. Choose interiors for calm spatial design, security intelligence to uncover vulnerabilities, or ink to plan your next tattoo session.</p>
             <div class="selector-grid">
-                <button class="selector-card" data-target="interiors">
+                <button class="selector-card hud-bracket" data-target="interiors">
                     <span class="selector-heading">Ømnilon Interiors</span>
                     <span class="selector-text">Intentional residential, staging, and boutique spaces delivered with a modern, transparent process.</span>
                     <span class="selector-cta">Enter the design studio</span>
                 </button>
-                <button class="selector-card" data-target="security">
+                <button class="selector-card hud-bracket" data-target="security">
                     <span class="selector-heading">Ømnilon Security</span>
                     <span class="selector-text">Our new asset protection intelligence unit. Secret Lifters simulate organized theft—online and in-store—so you can close the gaps first.</span>
                     <span class="selector-cta">Deploy a Secret Lifter</span>
                 </button>
-                <button class="selector-card" data-target="ink">
+                <button class="selector-card hud-bracket" data-target="ink">
                     <span class="selector-heading">Ømnilon Ink</span>
                     <span class="selector-text">Flash tattoos, custom line work, and apprentice-friendly pricing with transparent deposits and a clear waiver.</span>
                     <span class="selector-cta">Book a tattoo session</span>
@@ -75,6 +100,7 @@
                     <div class="orb orb-2" data-parallax-y="0.1"></div>
                     <video id="heroVideo" class="hero-video" playsinline muted loop preload="metadata" poster="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop" data-img="https://images.unsplash.com/photo-1501183638710-841dd1904471?q=80&w=1600&auto=format&fit=crop" data-src="https://videos.pexels.com/video-files/2934978/2934978-uhd_3840_2160_24fps.mp4"></video>
                     <div class="hero-inner fx-rise" data-parallax="0.12">
+                        <span class="mono-label hero-label">ØMNILON INTERIORS</span>
                         <h1 class="grad-text">Design that works as beautifully as it looks.</h1>
                         <p>We combine material expertise with modern process to deliver interiors that feel intentional, calm, and effortless.</p>
                         <div class="cta-row">
@@ -89,19 +115,19 @@
                 </section>
 
                 <section id="services" class="section feature-grid stagger features-ledger" data-stagger-step="0.08">
-                    <article class="feature ledger-card fx-rise">
+                    <article class="feature ledger-card hud-bracket fx-rise">
                         <h3>E-Design</h3>
                         <p>Fast, flat-fee design boards with links, finish schedules, and a shopping list you can execute at your pace.</p>
                     </article>
-                    <article class="feature ledger-card fx-rise">
+                    <article class="feature ledger-card hud-bracket fx-rise">
                         <h3>Residential Refresh</h3>
                         <p>Room-by-room transformations with milestone billing. Client funds purchases so you never float materials.</p>
                     </article>
-                    <article class="feature ledger-card fx-rise">
+                    <article class="feature ledger-card hud-bracket fx-rise">
                         <h3>Staging</h3>
                         <p>Photo-ready staging that highlights your property’s strengths. Clear terms on inventory, timing, and care.</p>
                     </article>
-                    <article class="feature ledger-card fx-rise">
+                    <article class="feature ledger-card hud-bracket fx-rise">
                         <h3>Small Commercial</h3>
                         <p>Warm, durable finishes and layouts for boutiques, coffee shops, and creative offices.</p>
                     </article>
@@ -129,10 +155,10 @@
                 <section id="principles" class="section principles fx-rise">
                     <h2>Principles</h2>
                     <div class="principles-grid">
-                        <div class="p-card"><h4>Human</h4><p>Spaces that support daily life and rituals.</p></div>
-                        <div class="p-card"><h4>Material</h4><p>Durable finishes that age beautifully.</p></div>
-                        <div class="p-card"><h4>Clarity</h4><p>Simple scopes, clear budgets, no surprises.</p></div>
-                        <div class="p-card"><h4>Momentum</h4><p>Deposits + milestones keep projects on time.</p></div>
+                        <div class="p-card hud-bracket"><h4>Human</h4><p>Spaces that support daily life and rituals.</p></div>
+                        <div class="p-card hud-bracket"><h4>Material</h4><p>Durable finishes that age beautifully.</p></div>
+                        <div class="p-card hud-bracket"><h4>Clarity</h4><p>Simple scopes, clear budgets, no surprises.</p></div>
+                        <div class="p-card hud-bracket"><h4>Momentum</h4><p>Deposits + milestones keep projects on time.</p></div>
                     </div>
                 </section>
 
@@ -272,6 +298,7 @@
                     <div class="orb orb-1" data-parallax-y="0.05"></div>
                     <div class="orb orb-2" data-parallax-y="0.09"></div>
                     <div class="hero-inner fx-rise" data-parallax="0.12">
+                        <span class="mono-label hero-label">ØMNILON SECRET LIFTERS</span>
                         <h1 class="grad-text">Outsmart loss before it happens.</h1>
                         <p>Ømnilon Security trains covert Secret Lifters who behave like organized crews. We simulate theft, fraud, and policy abuse across every surface—physical or digital—so you can close the gaps with confidence.</p>
                         <div class="cta-row">
@@ -286,27 +313,27 @@
                 </section>
 
                 <section id="security-services" class="section feature-grid stagger features-ledger security-features" data-stagger-step="0.08">
-                    <article class="feature ledger-card fx-rise">
+                    <article class="feature ledger-card hud-bracket fx-rise">
                         <h3>In-Store Vulnerability Sweep</h3>
                         <p>Secret Lifters map blind spots, ticket swaps, and exit paths using the same playbooks as professional boosters.</p>
                     </article>
-                    <article class="feature ledger-card fx-rise">
+                    <article class="feature ledger-card hud-bracket fx-rise">
                         <h3>Policy & POS Penetration</h3>
                         <p>Stress test returns, overrides, coupon stacking, and self-checkout flows to surface exploitable loopholes.</p>
                     </article>
-                    <article class="feature ledger-card fx-rise">
+                    <article class="feature ledger-card hud-bracket fx-rise">
                         <h3>Loss Data & CCTV Sync</h3>
                         <p>Correlate shrink data with floor observations and video to prioritize high-yield remediation.</p>
                     </article>
-                    <article class="feature ledger-card fx-rise">
+                    <article class="feature ledger-card hud-bracket fx-rise">
                         <h3>Staff Readiness Drills</h3>
                         <p>Run live “caught-in-the-act” simulations to coach compliant, high-empathy intervention tactics.</p>
                     </article>
-                    <article class="feature ledger-card fx-rise">
+                    <article class="feature ledger-card hud-bracket fx-rise">
                         <h3>Ecommerce Exploit Hunt</h3>
                         <p>Simulate bots, refund abuse, affiliate fraud, and skimming to harden digital storefronts.</p>
                     </article>
-                    <article class="feature ledger-card fx-rise">
+                    <article class="feature ledger-card hud-bracket fx-rise">
                         <h3>Specialty & High-Risk Scenarios</h3>
                         <p>Cannabis, luxury, BOPIS, and dark stores—we build custom threat models for niche operations.</p>
                     </article>
@@ -325,15 +352,15 @@
                 <section id="security-coverage" class="section security-coverage fx-rise">
                     <h2>Full-spectrum coverage</h2>
                     <div class="coverage-grid">
-                        <div class="coverage-card">
+                        <div class="coverage-card hud-bracket">
                             <h3>Physical</h3>
                             <p>Merchandising, RFID, fitting rooms, exit routes, cash wraps, and back-of-house logistics audits.</p>
                         </div>
-                        <div class="coverage-card">
+                        <div class="coverage-card hud-bracket">
                             <h3>Digital</h3>
                             <p>Cart flows, loyalty, payments, BOPIS, and OMS integrations tested for fraud and automation abuse.</p>
                         </div>
-                        <div class="coverage-card">
+                        <div class="coverage-card hud-bracket">
                             <h3>People</h3>
                             <p>Associate readiness, vendor risk, third-party delivery, and policy compliance evaluations.</p>
                         </div>
@@ -352,15 +379,15 @@
                         </ul>
                     </div>
                     <div class="intel-metrics">
-                        <div class="metric-card">
+                        <div class="metric-card hud-bracket">
                             <span class="metric">48h</span>
                             <p>to deliver your first remediation actions after fieldwork.</p>
                         </div>
-                        <div class="metric-card">
+                        <div class="metric-card hud-bracket">
                             <span class="metric">30%</span>
                             <p>average shrink exposure uncovered in initial sweeps.</p>
                         </div>
-                        <div class="metric-card">
+                        <div class="metric-card hud-bracket">
                             <span class="metric">+6</span>
                             <p>channels assessed—storefront, ecom, social commerce, BOPIS, last-mile, and vendor access.</p>
                         </div>
@@ -462,6 +489,7 @@
                     <div class="orb orb-1" data-parallax-y="0.05"></div>
                     <div class="orb orb-2" data-parallax-y="0.09"></div>
                     <div class="hero-inner fx-rise" data-parallax="0.12">
+                        <span class="mono-label hero-label">ØMNILON INK</span>
                         <h1 class="grad-text">Intentional tattoos with apprentice-accessible pricing.</h1>
                         <p>Ømnilon Ink is the home for my tattoo apprenticeship—meaning you receive fresh flash, thoughtful placement, and transparent pricing while I continue to hone my craft.</p>
                         <div class="cta-row">
@@ -476,19 +504,19 @@
                 </section>
 
                 <section id="ink-flash" class="section feature-grid stagger features-ink" data-stagger-step="0.08">
-                    <article class="feature ink-card fx-rise">
+                    <article class="feature ink-card hud-bracket fx-rise">
                         <h3>Flash queue</h3>
                         <p>Curated, ready-to-go flash sheets refreshed every month. Simple line work and micro pieces stay at apprentice pricing.</p>
                     </article>
-                    <article class="feature ink-card fx-rise">
+                    <article class="feature ink-card hud-bracket fx-rise">
                         <h3>Sticker discount</h3>
                         <p>Bring any sticker to the appointment and your flash piece drops from $39.99 to $29.99—my thanks for supporting the journey.</p>
                     </article>
-                    <article class="feature ink-card fx-rise">
+                    <article class="feature ink-card hud-bracket fx-rise">
                         <h3>Thoughtful placements</h3>
                         <p>We’ll map tattoos using real-world objects so you know exactly what fits comfortably and heals clean.</p>
                     </article>
-                    <article class="feature ink-card fx-rise">
+                    <article class="feature ink-card hud-bracket fx-rise">
                         <h3>Aftercare guidance</h3>
                         <p>Every session includes a custom aftercare PDF, healing check-ins, and product suggestions.</p>
                     </article>
@@ -500,7 +528,7 @@
                         <p>Flash tattoos are $39.99—or $29.99 when you bring me a sticker. Larger or more complex tattoos scale from $59.99 to $499.99 depending on coverage, detail, and placement. Every appointment requires a 50% deposit that goes toward your final total.</p>
                     </div>
                     <div class="ink-pricing-grid">
-                        <article class="ink-price-card fx-rise">
+                        <article class="ink-price-card hud-bracket fx-rise">
                             <h3>Flash tier</h3>
                             <p>Anything the size of an AirPods Pro case or smaller. Perfect for line work, minis, or script.</p>
                             <ul>
@@ -509,7 +537,7 @@
                                 <li>30–45 minute seat time</li>
                             </ul>
                         </article>
-                        <article class="ink-price-card fx-rise">
+                        <article class="ink-price-card hud-bracket fx-rise">
                             <h3>Custom tier</h3>
                             <p>Pieces larger than the flash tier or with shading, color, or complex line work.</p>
                             <ul>
@@ -518,7 +546,7 @@
                                 <li>Priced collaboratively after consult</li>
                             </ul>
                         </article>
-                        <article class="ink-price-card fx-rise">
+                        <article class="ink-price-card hud-bracket fx-rise">
                             <h3>Deposits</h3>
                             <p>All bookings require a 50% deposit to reserve the slot. Deposits are non-refundable but transferable once with 48 hours’ notice.</p>
                             <ul>
@@ -531,7 +559,7 @@
                 </section>
 
                 <section id="ink-waiver" class="section ink-waiver reveal">
-                    <div class="ink-waiver-copy fx-rise">
+                    <div class="ink-waiver-copy fx-rise hud-bracket">
                         <h2>Waiver & apprentice transparency</h2>
                         <p>Please review this waiver before booking. Agreeing affirms that you understand my current apprenticeship status and the pricing advantages it provides.</p>
                         <ul>
@@ -602,7 +630,7 @@
                         <button type="submit" class="btn btn-ledger">Submit request</button>
                     </form>
                     <p class="form-status" data-form-status aria-live="polite" role="status"></p>
-                    <div class="ink-meta fx-rise">
+                    <div class="ink-meta fx-rise hud-bracket">
                         <h3>Studio details</h3>
                         <ul class="contact-meta">
                             <li>Email: <a href="mailto:omnilend.co@gmail.com">omnilend.co@gmail.com</a></li>
