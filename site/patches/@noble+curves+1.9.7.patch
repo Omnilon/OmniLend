@@ -1,0 +1,26 @@
+diff --git a/node_modules/@noble/curves/abstract/curve.js b/node_modules/@noble/curves/abstract/curve.js
+index 1a75714..281bf8c 100644
+--- a/node_modules/@noble/curves/abstract/curve.js
++++ b/node_modules/@noble/curves/abstract/curve.js
+@@ -404,7 +404,7 @@ function precomputeMSMUnsafe(c, fieldN, points, windowSize) {
+         let res = zero;
+         for (let i = 0; i < chunks; i++) {
+             // No need to double if accumulator is still zero.
+-            if (res !== zero)
++            if (!res.is0())
+                 for (let j = 0; j < windowSize; j++)
+                     res = res.double();
+             const shiftBy = BigInt(chunks * windowSize - (i + 1) * windowSize);
+diff --git a/node_modules/@noble/curves/esm/abstract/curve.js b/node_modules/@noble/curves/esm/abstract/curve.js
+index ed73357..a08ba07 100644
+--- a/node_modules/@noble/curves/esm/abstract/curve.js
++++ b/node_modules/@noble/curves/esm/abstract/curve.js
+@@ -393,7 +393,7 @@ export function precomputeMSMUnsafe(c, fieldN, points, windowSize) {
+         let res = zero;
+         for (let i = 0; i < chunks; i++) {
+             // No need to double if accumulator is still zero.
+-            if (res !== zero)
++            if (!res.is0())
+                 for (let j = 0; j < windowSize; j++)
+                     res = res.double();
+             const shiftBy = BigInt(chunks * windowSize - (i + 1) * windowSize);
