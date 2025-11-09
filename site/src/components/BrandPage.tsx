@@ -12,6 +12,7 @@ import { TypeSpecimen } from "./TypeSpecimen";
 import { SoundToggle } from "./SoundToggle";
 import { HeroGate, hasEnteredGate } from "./HeroGate";
 import { Preloader, hasSeenPreloader } from "./Preloader";
+import { ExperienceDeck } from "./ExperienceDeck";
 
 const GUIDELINE_CARDS = [
   {
@@ -193,6 +194,15 @@ export function BrandPage() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
+          <Section
+            id="experiences"
+            label="Entry Sequence"
+            title="Choose your Ømnilon world"
+            intro="The shell now mirrors Ledger’s cinematic choose screen—three divisions, one immersive language. Toggle each card to explore the art direction, copy posture, and onboarding beats for Interiors, Secret Lifters, and the tattoo studio."
+          >
+            <ExperienceDeck />
+          </Section>
+
           <Section
             id="guidelines"
             label="Experience Grid"
