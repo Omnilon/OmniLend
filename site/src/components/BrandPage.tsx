@@ -3,29 +3,72 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { BrandNavbar } from "./BrandNavbar";
+import { cn } from "@/lib/utils";
+import { BrandNavbar, BrandNavItem } from "./BrandNavbar";
 import { HudBracket } from "./HudBracket";
 import { Section } from "./Section";
 import { SoundToggle } from "./SoundToggle";
 import { HeroGate, hasEnteredGate } from "./HeroGate";
 import { Preloader, hasSeenPreloader } from "./Preloader";
-import { ExperienceDeck } from "./ExperienceDeck";
+import { ExperienceDeck, ExperienceId } from "./ExperienceDeck";
 
-const INTERIOR_SERVICES = [
+type ServiceData = {
+  id: string;
+  title: string;
+  summary: string;
+  description: string;
+  price: string;
+  deliverables: string[];
+};
+
+type Quote = {
+  quote: string;
+  author: string;
+  role: string;
+};
+
+const INTERIOR_SERVICES: ServiceData[] = [
   {
+    id: "e-design",
     title: "E-Design",
+    summary:
+      "Fast, flat-fee design boards with finish schedules and linked shopping lists you can execute on your timeline.",
     description:
-      "Fast, flat-fee design boards with finish schedules and linked shopping lists you can execute on your timeline."
+      "Collaborate virtually on mood boards, annotated floor plans, and sourced finishes. We package every selection with vendor links so you can implement from anywhere.",
+    price: "Flat packages from $749 per room",
+    deliverables: [
+      "Concept mood boards with palette notes",
+      "Scaled floor plan with furniture and lighting callouts",
+      "Clickable shopping list with lead times and alternates"
+    ]
   },
   {
+    id: "refresh",
     title: "Residential Refresh",
+    summary:
+      "Room-by-room transformations with milestone billing. Client-funded purchasing keeps budgets transparent.",
     description:
-      "Room-by-room transformations with milestone billing. Client-funded purchasing keeps budgets transparent."
+      "We layer materials, lighting, and styling with weekly checkpoints so your home evolves without chaos. Procurement stays in your name so every invoice is clear.",
+    price: "Projects typically $6k–$18k depending on scope",
+    deliverables: [
+      "Detailed scope and mood direction for every zone",
+      "Procurement tracker with budget status and receipts",
+      "Install day supervision with styling and photo ready reset"
+    ]
   },
   {
+    id: "staging",
     title: "Staging & Small Commercial",
+    summary:
+      "Photo-ready staging and durable layouts for boutiques, coffee shops, and creative offices.",
     description:
-      "Photo-ready staging and durable layouts for boutiques, coffee shops, and creative offices."
+      "Listings, pop-ups, and boutique spaces get curated inventory, signage, and styling plans that convert foot traffic while protecting your investment.",
+    price: "Custom proposals from $3,500 per engagement",
+    deliverables: [
+      "Merchandising and traffic flow maps",
+      "Curated rental inventory plan with care instructions",
+      "Opening-day styling team and reset checklist"
+    ]
   }
 ];
 
@@ -36,58 +79,21 @@ const INTERIOR_PROCESS = [
   },
   {
     title: "Design concepts",
-    description: "Boards and selections arrive with simple scopes and no-surprise budgets."
+    description:
+      "Boards, samples, and revisions land in a shared dashboard with transparent approvals."
   },
   {
     title: "Procurement",
-    description: "Client-funded purchasing keeps cash flow honest while we coordinate logistics."
+    description:
+      "Client-funded purchasing keeps cash flow honest while we coordinate logistics."
   },
   {
     title: "Install + styling",
-    description: "We handle install day so the space feels calm, warm, and functional."
+    description: "We manage install day so the space feels calm, warm, and functional."
   }
 ];
 
-const SECURITY_INTEL = [
-  {
-    title: "In-store vulnerability sweep",
-    description:
-      "Map blind spots, ticket swaps, and exit paths using the same playbooks as professional boosters."
-  },
-  {
-    title: "Policy & POS penetration",
-    description:
-      "Stress test returns, overrides, coupon stacking, and self-checkout flows to expose loopholes."
-  },
-  {
-    title: "Ecommerce exploit hunt",
-    description:
-      "Simulate bots, refund abuse, affiliate fraud, and skimming to harden your storefront."
-  }
-];
-
-const SECURITY_COVERAGE =
-  "Secret Lifters align on risk personas, deploy covert operatives, and debrief leadership with raw footage, data trails, and prioritized fixes across physical merchandising and digital commerce.";
-
-const INK_SPECIALS = [
-  {
-    title: "Flash queue",
-    description: "Ready-to-go flash refreshed monthly so you can pick a design and be in the chair fast."
-  },
-  {
-    title: "Sticker discount",
-    description: "Bring any sticker to drop flash pieces from $39.99 to $29.99—thanks for supporting the apprenticeship."
-  },
-  {
-    title: "Thoughtful placements",
-    description: "We map tattoos with real objects so you know what fits comfortably and heals clean, plus aftercare PDFs."
-  }
-];
-
-const INK_PRICING =
-  "Flash tattoos run $39.99—or $29.99 with the sticker discount. Larger custom work ranges from $59.99 to $499.99 depending on coverage and detail. Every appointment requires a 50% deposit applied to the final total with healing check-ins included.";
-
-const TESTIMONIALS = [
+const INTERIOR_TESTIMONIALS: Quote[] = [
   {
     quote: "Absolutely transformed our living room. Calm, warm, and practical.",
     author: "A. Rivera",
@@ -105,10 +111,239 @@ const TESTIMONIALS = [
   }
 ];
 
+const SECURITY_SERVICES: ServiceData[] = [
+  {
+    id: "sweep",
+    title: "In-store vulnerability sweep",
+    summary:
+      "Map blind spots, ticket swaps, and exit paths using the same playbooks as professional boosters.",
+    description:
+      "Secret Lifters blend into your floor, document every exploit, and capture POV footage so your team can see the exact moves boosters rely on.",
+    price: "Engagements from $2,500 per location",
+    deliverables: [
+      "Heat-mapped floor plan with blind spots and traffic leaks",
+      "Body cam footage with timestamps and narration",
+      "Priority remediation list aligned to effort and impact"
+    ]
+  },
+  {
+    id: "policy",
+    title: "Policy & POS penetration",
+    summary:
+      "Stress test returns, overrides, coupon stacking, and self-checkout flows to expose loopholes.",
+    description:
+      "We stress test returns, overrides, coupon stacking, and self-checkout flows to surface loopholes before crews iterate on them.",
+    price: "Multi-day investigations from $4,000",
+    deliverables: [
+      "Scenario scripts with risk ratings",
+      "POS and policy exploit recordings with receipts",
+      "Updated SOP recommendations for LP and associates"
+    ]
+  },
+  {
+    id: "ecommerce",
+    title: "Ecommerce exploit hunt",
+    summary:
+      "Simulate bots, refund abuse, affiliate fraud, and skimming to harden your storefront.",
+    description:
+      "We simulate bots, refund abuse, affiliate fraud, and skimming to harden digital touchpoints with actionable logging guidance.",
+    price: "Subscription sweeps from $3,200 per month",
+    deliverables: [
+      "Threat matrix covering bots, refunds, loyalty, and CX",
+      "Traffic replay files and compromised account evidence",
+      "Stack-ranked remediation roadmap with owner assignments"
+    ]
+  }
+];
+
+const SECURITY_PROCESS = [
+  {
+    title: "Threat intake",
+    description:
+      "Review shrink reports, POS data, and leadership goals to target the right personas."
+  },
+  {
+    title: "Covert deployment",
+    description:
+      "Secret Lifters run live scenarios in-store and online, recording every exploit without disrupting guests."
+  },
+  {
+    title: "Signal review",
+    description:
+      "Analysts tag footage, receipts, and digital trails to separate one-off issues from systemic gaps."
+  },
+  {
+    title: "Action brief",
+    description:
+      "Receive a 48-hour remediation brief with prioritized fixes, training points, and tech hardening guidance."
+  }
+];
+
+const SECURITY_COVERAGE = [
+  "Field-ready boosters that rotate across apparel, beauty, electronics, and grocery formats.",
+  "Digital recon covering ecommerce, OMS, loyalty, and customer support surfaces.",
+  "Leadership workshops that translate covert findings into training and KPI dashboards."
+];
+
+const SECURITY_PROOF: Quote[] = [
+  {
+    quote:
+      "The Secret Lifter debrief showed us exactly how crews were gutting promos and walking out clean.",
+    author: "Director of Loss Prevention",
+    role: "National Retailer"
+  },
+  {
+    quote:
+      "We closed three policy gaps in a week thanks to the annotated footage and scripts they delivered.",
+    author: "Regional LP Lead",
+    role: "Specialty Apparel"
+  }
+];
+
+const INK_SERVICES: ServiceData[] = [
+  {
+    id: "flash",
+    title: "Flash Queue",
+    summary:
+      "Ready-to-go flash refreshed monthly so you can pick a design and be in the chair fast.",
+    description:
+      "Reserve a slot, preview the piece at true scale, and review placement suggestions before you arrive.",
+    price: "Flash pieces start at $39.99 ($29.99 with sticker drop)",
+    deliverables: [
+      "Monthly flash sheet preview delivered to your inbox",
+      "Placement mockups sized to your selected area",
+      "15-minute aftercare briefing with product recs"
+    ]
+  },
+  {
+    id: "sticker",
+    title: "Sticker Discount Days",
+    summary:
+      "Bring any sticker to drop flash pieces from $39.99 to $29.99—thanks for supporting the apprenticeship.",
+    description:
+      "Sticker sessions keep the queue lively and help the apprenticeship fund new equipment while rewarding loyal supporters.",
+    price: "Limited slots weekly — $29.99 per flash piece",
+    deliverables: [
+      "Priority booking window during sticker hours",
+      "Complimentary touch-up within 60 days if needed",
+      "Photo set of your piece for socials"
+    ]
+  },
+  {
+    id: "custom",
+    title: "Custom Line Work",
+    summary:
+      "Intentional line work mapped with real objects so you know what fits comfortably and heals clean.",
+    description:
+      "We sketch alongside your references, test sizing with AR previews, and plan shading that fits your lifestyle and budget.",
+    price: "Custom sessions range from $59.99 to $499.99",
+    deliverables: [
+      "Collaborative sketch review with iteration feedback",
+      "Digital placement mockups at multiple scales",
+      "Follow-up check-in two weeks post appointment"
+    ]
+  }
+];
+
+const INK_PROCESS = [
+  {
+    title: "Select flash or request custom",
+    description:
+      "Browse the latest drop or send inspo so we can outline scope and timing."
+  },
+  {
+    title: "Deposit & design prep",
+    description:
+      "A 50% deposit locks your date while we refine sketches and placement."
+  },
+  {
+    title: "Session day",
+    description:
+      "Arrive to a staged station with sterilized equipment, playlist options, and hydration."
+  },
+  {
+    title: "Aftercare follow-up",
+    description:
+      "We check in with healing photos, product recs, and free touch-up windows if needed."
+  }
+];
+
+const INK_PRICING_DETAILS = [
+  "Flash tattoos start at $39.99 and drop to $29.99 with sticker sessions.",
+  "Custom work ranges from $59.99 to $499.99 depending on coverage and detail.",
+  "Every appointment requires a 50% deposit applied to the final total.",
+  "Healing check-ins and one touch-up within 60 days are included."
+];
+
+const INK_STORIES: Quote[] = [
+  {
+    quote: "The placement mockups took the guesswork out of my first tattoo.",
+    author: "R. Jackson",
+    role: "First-time client"
+  },
+  {
+    quote: "Transparent pricing and a chill vibe. Already booked my next flash.",
+    author: "K. Nguyen",
+    role: "Flash regular"
+  }
+];
+
+const EXPERIENCE_NAV: Record<ExperienceId, BrandNavItem[]> = {
+  interiors: [
+    { href: "#experiences", label: "Overview" },
+    { href: "#services", label: "Services" },
+    { href: "#process", label: "Process" },
+    { href: "#testimonials", label: "Testimonials" },
+    { href: "#cta", label: "Contact" }
+  ],
+  security: [
+    { href: "#experiences", label: "Overview" },
+    { href: "#services", label: "Operations" },
+    { href: "#process", label: "Engagement Flow" },
+    { href: "#coverage", label: "Coverage" },
+    { href: "#cta", label: "Deploy" }
+  ],
+  ink: [
+    { href: "#experiences", label: "Overview" },
+    { href: "#services", label: "Flash & Custom" },
+    { href: "#process", label: "Session Flow" },
+    { href: "#pricing", label: "Pricing" },
+    { href: "#cta", label: "Book" }
+  ]
+};
+
+const CTA_COPY: Record<
+  ExperienceId,
+  { intro: string; body: string; button: string }
+> = {
+  interiors: {
+    intro:
+      "Tell us what space needs attention and we’ll respond within one business day with next steps and a discovery slot.",
+    body:
+      "Interiors projects are available nationwide with an Atlanta-based install team.",
+    button: "Start an interiors project"
+  },
+  security: {
+    intro:
+      "Deploy a Secret Lifter team or scope a vulnerability audit. We tailor personas to your biggest shrink threats.",
+    body:
+      "Secret Lifters operate across the US with travel and intel deliverables built into each proposal.",
+    button: "Deploy Secret Lifters"
+  },
+  ink: {
+    intro:
+      "Reserve your flash slot or request custom line work. We’ll send the latest drop and schedule your consult.",
+    body: "Studio schedules drop monthly and deposits secure your seat.",
+    button: "Book Ømnilon Ink"
+  }
+};
+
 export function BrandPage() {
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [showPreloader, setShowPreloader] = useState(false);
   const [entered, setEntered] = useState(false);
+  const [activeExperience, setActiveExperience] = useState<ExperienceId>("interiors");
+  const [selectedServiceId, setSelectedServiceId] = useState<string | null>(null);
 
   useEffect(() => {
     const seen = hasSeenPreloader();
@@ -118,9 +353,39 @@ export function BrandPage() {
     setEntered(gate);
   }, []);
 
+  useEffect(() => {
+    setSelectedServiceId(null);
+  }, [activeExperience]);
+
+  const handleServiceSelect = (id: string | null) => {
+    setSelectedServiceId((current) => {
+      if (id === null) {
+        return null;
+      }
+
+      return current === id ? null : id;
+    });
+  };
+
+  const navItems = EXPERIENCE_NAV[activeExperience];
+  const cta = CTA_COPY[activeExperience];
+
+  const handleExperienceSelect = (experience: ExperienceId) => {
+    setActiveExperience(experience);
+
+    if (typeof window !== "undefined") {
+      window.requestAnimationFrame(() => {
+        document.getElementById("services")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      });
+    }
+  };
+
   return (
     <div id="top" className="relative min-h-screen bg-bg text-white">
-      <BrandNavbar />
+      <BrandNavbar items={navItems} />
       <AnimatePresence>
         {showPreloader && !preloaderDone ? (
           <Preloader
@@ -153,138 +418,274 @@ export function BrandPage() {
             title="Choose your Ømnilon world"
             intro="Pick the lane you need today—interior design, Secret Lifter intelligence, or apprentice-led ink. Each card shows how we scope the work, bill transparently, and keep you updated."
           >
-            <ExperienceDeck />
+            <ExperienceDeck
+              activeId={activeExperience}
+              onSelect={handleExperienceSelect}
+            />
           </Section>
 
-          <Section
-            id="interiors"
-            label="Interiors"
-            title="Interiors services"
-            intro="Intentional residential, staging, and boutique spaces with a transparent process from the first concept to install day."
-          >
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {INTERIOR_SERVICES.map((service) => (
-                <HudBracket key={service.title} className="min-h-[220px] bg-white/5 p-6" label="Service">
-                  <div className="flex h-full flex-col justify-between gap-4">
-                    <h3 className="font-grotesk text-xl font-semibold text-white">
-                      {service.title}
-                    </h3>
-                    <p className="text-sm text-muted">{service.description}</p>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeExperience}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -24 }}
+              transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+            >
+              {activeExperience === "interiors" ? (
+                <>
+                  <Section
+                    id="services"
+                    label="Interiors"
+                    title="Interiors services"
+                    intro="Intentional residential, staging, and boutique spaces with a transparent process from the first concept to install day."
+                  >
+                    <ServicesGrid
+                      services={INTERIOR_SERVICES}
+                      selectedId={selectedServiceId}
+                      onSelect={handleServiceSelect}
+                    />
+                  </Section>
+
+                  <Section
+                    id="process"
+                    label="Process"
+                    title="How interior projects move"
+                    intro="Every engagement stays grounded with milestone billing, client-funded purchasing, and calm communication."
+                  >
+                    <div className="grid gap-6 md:grid-cols-2">
+                      {INTERIOR_PROCESS.map((step, index) => (
+                        <HudBracket
+                          key={step.title}
+                          className="h-full bg-white/5 p-6"
+                          label={`Step ${index + 1}`}
+                        >
+                          <div className="flex h-full flex-col gap-4">
+                            <h3 className="font-grotesk text-xl font-semibold text-white">
+                              {step.title}
+                            </h3>
+                            <p className="text-sm text-muted">{step.description}</p>
+                          </div>
+                        </HudBracket>
+                      ))}
+                    </div>
+                  </Section>
+
+                  <Section
+                    id="testimonials"
+                    label="Client Notes"
+                    title="What interiors clients say"
+                    intro="A few quick wins from interiors clients who trusted Ømnilon to handle every detail."
+                  >
+                    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                      {INTERIOR_TESTIMONIALS.map((testimonial) => (
+                        <HudBracket
+                          key={testimonial.quote}
+                          className="h-full bg-white/5 p-6"
+                          label={testimonial.role}
+                        >
+                          <blockquote className="flex h-full flex-col justify-between gap-4">
+                            <p className="text-sm text-muted">“{testimonial.quote}”</p>
+                            <footer className="text-sm font-semibold text-white">
+                              {testimonial.author}
+                            </footer>
+                          </blockquote>
+                        </HudBracket>
+                      ))}
+                    </div>
+                  </Section>
+                </>
+              ) : null}
+
+              {activeExperience === "security" ? (
+                <>
+                  <Section
+                    id="services"
+                    label="Secret Lifters"
+                    title="Asset protection intelligence"
+                    intro="Covert operatives simulate organized theft, policy abuse, and ecommerce exploits so you can shore up weak points before crews ever arrive."
+                  >
+                    <ServicesGrid
+                      services={SECURITY_SERVICES}
+                      selectedId={selectedServiceId}
+                      onSelect={handleServiceSelect}
+                    />
+                  </Section>
+
+                  <Section
+                    id="process"
+                    label="Engagement Flow"
+                    title="How investigations unfold"
+                    intro="We align on personas, deploy covert teams, and surface remediation in under 48 hours."
+                  >
+                    <div className="grid gap-6 md:grid-cols-2">
+                      {SECURITY_PROCESS.map((step, index) => (
+                        <HudBracket
+                          key={step.title}
+                          className="h-full bg-white/5 p-6"
+                          label={`Phase ${index + 1}`}
+                        >
+                          <div className="flex h-full flex-col gap-4">
+                            <h3 className="font-grotesk text-xl font-semibold text-white">
+                              {step.title}
+                            </h3>
+                            <p className="text-sm text-muted">{step.description}</p>
+                          </div>
+                        </HudBracket>
+                      ))}
+                    </div>
+                  </Section>
+
+                  <Section
+                    id="coverage"
+                    label="Coverage"
+                    title="What you receive"
+                    intro="Secret Lifters align on risk personas, deploy covert operatives, and debrief leadership with raw footage, data trails, and prioritized fixes."
+                  >
+                    <HudBracket className="bg-white/5 p-6" label="Deliverables">
+                      <ul className="space-y-3 text-sm text-muted">
+                        {SECURITY_COVERAGE.map((item) => (
+                          <li key={item} className="flex items-start gap-3">
+                            <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-accent-purple" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </HudBracket>
+                    <div className="mt-6 grid gap-6 md:grid-cols-2">
+                      {SECURITY_PROOF.map((testimonial) => (
+                        <HudBracket
+                          key={testimonial.quote}
+                          className="h-full bg-white/5 p-6"
+                          label={testimonial.role}
+                        >
+                          <blockquote className="flex h-full flex-col justify-between gap-4">
+                            <p className="text-sm text-muted">“{testimonial.quote}”</p>
+                            <footer className="text-sm font-semibold text-white">
+                              {testimonial.author}
+                            </footer>
+                          </blockquote>
+                        </HudBracket>
+                      ))}
+                    </div>
+                  </Section>
+                </>
+              ) : null}
+
+              {activeExperience === "ink" ? (
+                <>
+                  <Section
+                    id="services"
+                    label="Ømnilon Ink"
+                    title="Flash, custom, and apprenticeship offerings"
+                    intro="Apprentice-led flash, custom line work, and transparent aftercare so every session feels intentional."
+                  >
+                    <ServicesGrid
+                      services={INK_SERVICES}
+                      selectedId={selectedServiceId}
+                      onSelect={handleServiceSelect}
+                    />
+                  </Section>
+
+                  <Section
+                    id="process"
+                    label="Session Flow"
+                    title="What the studio experience feels like"
+                    intro="Warm check-ins, steady pacing, and clear aftercare support every appointment."
+                  >
+                    <div className="grid gap-6 md:grid-cols-2">
+                      {INK_PROCESS.map((step, index) => (
+                        <HudBracket
+                          key={step.title}
+                          className="h-full bg-white/5 p-6"
+                          label={`Phase ${index + 1}`}
+                        >
+                          <div className="flex h-full flex-col gap-4">
+                            <h3 className="font-grotesk text-xl font-semibold text-white">
+                              {step.title}
+                            </h3>
+                            <p className="text-sm text-muted">{step.description}</p>
+                          </div>
+                        </HudBracket>
+                      ))}
+                    </div>
+                  </Section>
+
+                  <Section
+                    id="pricing"
+                    label="Pricing & Deposits"
+                    title="Transparent tattoo pricing"
+                    intro="Healing support and deposit structure keep the apprenticeship sustainable without surprises."
+                  >
+                    <HudBracket className="bg-white/5 p-6" label="What to know">
+                      <ul className="space-y-3 text-sm text-muted">
+                        {INK_PRICING_DETAILS.map((item) => (
+                          <li key={item} className="flex items-start gap-3">
+                            <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-accent-purple" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </HudBracket>
+                    <div className="mt-6 grid gap-6 md:grid-cols-2">
+                      {INK_STORIES.map((testimonial) => (
+                        <HudBracket
+                          key={testimonial.quote}
+                          className="h-full bg-white/5 p-6"
+                          label={testimonial.role}
+                        >
+                          <blockquote className="flex h-full flex-col justify-between gap-4">
+                            <p className="text-sm text-muted">“{testimonial.quote}”</p>
+                            <footer className="text-sm font-semibold text-white">
+                              {testimonial.author}
+                            </footer>
+                          </blockquote>
+                        </HudBracket>
+                      ))}
+                    </div>
+                  </Section>
+                </>
+              ) : null}
+
+              <Section
+                id="cta"
+                label="Next Steps"
+                title="Tell us where to start."
+                intro={cta.intro}
+              >
+                <HudBracket className="bg-white/5 p-6" label="Contact">
+                  <div className="flex flex-col gap-4 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+                    <p>
+                      Email
+                      {" "}
+                      <a
+                        href="mailto:omnilend.co@gmail.com"
+                        className="underline decoration-dotted underline-offset-4 hover:text-white"
+                      >
+                        omnilend.co@gmail.com
+                      </a>
+                      {" "}
+                      or call
+                      {" "}
+                      <a
+                        href="tel:14049198026"
+                        className="underline decoration-dotted underline-offset-4 hover:text-white"
+                      >
+                        404-919-8026
+                      </a>
+                      . {cta.body}
+                    </p>
+                    <Link
+                      href="/contact"
+                      className="inline-flex shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 py-3 font-mono text-[10px] uppercase tracking-[0.36em] text-white transition duration-300 ease-brand hover:border-accent-purple hover:text-accent-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-purple focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+                    >
+                      {cta.button}
+                    </Link>
                   </div>
                 </HudBracket>
-              ))}
-            </div>
-          </Section>
-
-          <Section
-            id="process"
-            label="Process"
-            title="How interior projects move"
-            intro="Every engagement stays grounded with milestone billing, client-funded purchasing, and calm communication."
-          >
-            <div className="grid gap-6 md:grid-cols-2">
-              {INTERIOR_PROCESS.map((step, index) => (
-                <HudBracket
-                  key={step.title}
-                  className="h-full bg-white/5 p-6"
-                  label={`Step ${index + 1}`}
-                >
-                  <div className="flex h-full flex-col gap-4">
-                    <h3 className="font-grotesk text-xl font-semibold text-white">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm text-muted">{step.description}</p>
-                  </div>
-                </HudBracket>
-              ))}
-            </div>
-          </Section>
-
-          <Section
-            id="security"
-            label="Asset Protection"
-            title="Secret Lifter intelligence"
-            intro="Covert operatives simulate organized theft, policy abuse, and ecommerce exploits so you can shore up weak points before crews ever arrive."
-          >
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {SECURITY_INTEL.map((intel) => (
-                <HudBracket key={intel.title} className="min-h-[220px] bg-white/5 p-6" label="Engagement">
-                  <div className="flex h-full flex-col justify-between gap-4">
-                    <h3 className="font-grotesk text-xl font-semibold text-white">
-                      {intel.title}
-                    </h3>
-                    <p className="text-sm text-muted">{intel.description}</p>
-                  </div>
-                </HudBracket>
-              ))}
-            </div>
-            <HudBracket className="mt-6 bg-white/5 p-6" label="Coverage">
-              <p className="text-sm text-muted">{SECURITY_COVERAGE}</p>
-            </HudBracket>
-          </Section>
-
-          <Section
-            id="ink"
-            label="Ømnilon Ink"
-            title="Ømnilon Ink specials"
-            intro="Apprentice-led flash, custom line work, and transparent aftercare so every session feels intentional."
-          >
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {INK_SPECIALS.map((special) => (
-                <HudBracket key={special.title} className="min-h-[220px] bg-white/5 p-6" label="Studio">
-                  <div className="flex h-full flex-col justify-between gap-4">
-                    <h3 className="font-grotesk text-xl font-semibold text-white">
-                      {special.title}
-                    </h3>
-                    <p className="text-sm text-muted">{special.description}</p>
-                  </div>
-                </HudBracket>
-              ))}
-            </div>
-            <HudBracket className="mt-6 bg-white/5 p-6" label="Pricing & Deposits">
-              <p className="text-sm text-muted">{INK_PRICING}</p>
-            </HudBracket>
-          </Section>
-
-          <Section
-            id="testimonials"
-            label="Proof"
-            title="Client notes"
-            intro="A few quick wins from interiors clients who trusted Ømnilon to handle every detail."
-          >
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {TESTIMONIALS.map((testimonial) => (
-                <HudBracket key={testimonial.quote} className="h-full bg-white/5 p-6" label={testimonial.role}>
-                  <blockquote className="flex h-full flex-col justify-between gap-4">
-                    <p className="text-sm text-muted">“{testimonial.quote}”</p>
-                    <footer className="text-sm font-semibold text-white">{testimonial.author}</footer>
-                  </blockquote>
-                </HudBracket>
-              ))}
-            </div>
-          </Section>
-
-          <Section
-            id="cta"
-            label="Next Steps"
-            title="Tell us where to start."
-            intro="Share whether you need interiors, security intelligence, or an ink session and we’ll respond within one business day."
-          >
-            <HudBracket className="bg-white/5 p-6" label="Contact">
-              <div className="flex flex-col gap-4 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
-                <p>
-                  Email <a className="underline decoration-dotted underline-offset-4 hover:text-white" href="mailto:omnilend.co@gmail.com">omnilend.co@gmail.com</a>{" "}
-                  or call <a className="underline decoration-dotted underline-offset-4 hover:text-white" href="tel:14049198026">404-919-8026</a>. Interiors projects are available nationwide with an Atlanta-based install team, and Secret Lifters deploy wherever loss prevention needs backup.
-                </p>
-                <Link
-                  href="/contact"
-                  className="inline-flex shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 py-3 font-mono text-[10px] uppercase tracking-[0.36em] text-white transition duration-300 ease-brand hover:border-accent-purple hover:text-accent-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-purple focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
-                >
-                  Contact Ømnilon
-                </Link>
-              </div>
-            </HudBracket>
-          </Section>
+              </Section>
+            </motion.div>
+          </AnimatePresence>
 
           <footer className="border-t border-white/10 bg-black/40">
             <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-4 px-4 py-10 text-sm text-muted sm:flex-row sm:px-6 lg:px-8">
@@ -302,5 +703,111 @@ export function BrandPage() {
         </motion.main>
       ) : null}
     </div>
+  );
+}
+
+type ServicesGridProps = {
+  services: ServiceData[];
+  selectedId: string | null;
+  onSelect: (id: string | null) => void;
+};
+
+function ServicesGrid({ services, selectedId, onSelect }: ServicesGridProps) {
+  const activeService = services.find((service) => service.id === selectedId);
+
+  return (
+    <>
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {services.map((service) => {
+          const isActive = selectedId === service.id;
+
+          return (
+            <motion.button
+              key={service.id}
+              type="button"
+              onClick={() => onSelect(service.id)}
+              className={cn(
+                "group relative flex h-full flex-col justify-between rounded-3xl border border-white/10 bg-white/5 p-6 text-left transition duration-300 ease-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-purple focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
+                isActive
+                  ? "border-accent-purple/70 bg-white/10 shadow-[0_0_30px_rgba(129,140,248,0.35)]"
+                  : "hover:border-accent-purple/60 hover:bg-white/10"
+              )}
+              whileHover={{ translateY: -4 }}
+              whileTap={{ scale: 0.98 }}
+              aria-expanded={isActive}
+            >
+              <div className="space-y-3">
+                <span className="font-mono text-[10px] uppercase tracking-[0.36em] text-white/60">
+                  {service.price}
+                </span>
+                <h3 className="font-grotesk text-xl font-semibold text-white">
+                  {service.title}
+                </h3>
+                <p className="text-sm text-muted">{service.summary}</p>
+              </div>
+              <span className="mt-6 inline-flex items-center gap-2 text-sm text-white/80">
+                <span className="h-2 w-2 rounded-full bg-accent-purple" />
+                Learn more
+              </span>
+            </motion.button>
+          );
+        })}
+      </div>
+      <AnimatePresence mode="wait">
+        {activeService ? (
+          <motion.div
+            key={activeService.id}
+            initial={{ opacity: 0, scale: 0.95, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 10 }}
+            transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+            className="relative mt-6 overflow-hidden rounded-3xl border border-white/20 bg-white/5 backdrop-blur-2xl"
+          >
+            <div
+              className="pointer-events-none absolute inset-0 bg-gradient-to-br from-rose-400/40 via-sky-400/30 to-violet-500/40"
+              aria-hidden
+            />
+            <div
+              className="pointer-events-none absolute -left-24 -top-24 h-48 w-48 rounded-full bg-accent-purple/30 blur-3xl"
+              aria-hidden
+            />
+            <button
+              type="button"
+              onClick={() => onSelect(null)}
+              className="absolute right-5 top-5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-black/40 text-lg text-white/80 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-purple focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+              aria-label={`Close ${activeService.title} details`}
+            >
+              ×
+            </button>
+            <div className="relative z-10 grid gap-6 p-6 sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] sm:p-10">
+              <div className="space-y-4">
+                <span className="font-mono text-[10px] uppercase tracking-[0.36em] text-white/70">
+                  {activeService.price}
+                </span>
+                <h3 className="text-3xl font-semibold text-white sm:text-4xl">
+                  {activeService.title}
+                </h3>
+                <p className="text-sm text-white/80 sm:text-base">
+                  {activeService.description}
+                </p>
+              </div>
+              <div className="flex flex-col gap-3 text-sm text-white/80">
+                <span className="font-mono text-[10px] uppercase tracking-[0.36em] text-white/70">
+                  What’s included
+                </span>
+                <ul className="space-y-2">
+                  {activeService.deliverables.map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-white/70" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </>
   );
 }

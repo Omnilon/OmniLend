@@ -5,15 +5,16 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SoundToggle } from "./SoundToggle";
 
-const navItems = [
-  { href: "#guidelines", label: "Guidelines" },
-  { href: "#typography", label: "Typography" },
-  { href: "#color", label: "Color" },
-  { href: "#hud", label: "HUD & 3D" },
-  { href: "#voice", label: "Voice" }
-];
+export type BrandNavItem = {
+  href: string;
+  label: string;
+};
 
-export function BrandNavbar() {
+type BrandNavbarProps = {
+  items: BrandNavItem[];
+};
+
+export function BrandNavbar({ items }: BrandNavbarProps) {
   const { scrollY } = useScroll();
   const [isMounted, setIsMounted] = useState(false);
   const blurValue = useTransform(scrollY, [0, 120], [0, 16]);
@@ -41,7 +42,7 @@ export function BrandNavbar() {
         </Link>
         <div className="flex items-center gap-6">
           <ul className="hidden items-center gap-5 text-xs uppercase tracking-[0.3em] text-muted md:flex">
-            {navItems.map((item) => (
+            {items.map((item) => (
               <li key={item.href}>
                 <a
                   href={item.href}
