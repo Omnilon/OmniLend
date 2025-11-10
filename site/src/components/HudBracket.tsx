@@ -11,10 +11,26 @@ type HudBracketProps = {
 };
 
 const cornerPositions = [
-  { key: "tl", className: "left-0 top-0", rotate: 0 },
-  { key: "tr", className: "right-0 top-0", rotate: 90 },
-  { key: "br", className: "right-0 bottom-0", rotate: 180 },
-  { key: "bl", className: "left-0 bottom-0", rotate: 270 }
+  {
+    key: "tl",
+    className: "left-0 top-0 -translate-x-[1px] -translate-y-[1px] border-l-2 border-t-2",
+    origin: "top left"
+  },
+  {
+    key: "tr",
+    className: "right-0 top-0 translate-x-[1px] -translate-y-[1px] border-r-2 border-t-2",
+    origin: "top right"
+  },
+  {
+    key: "br",
+    className: "right-0 bottom-0 translate-x-[1px] translate-y-[1px] border-r-2 border-b-2",
+    origin: "bottom right"
+  },
+  {
+    key: "bl",
+    className: "left-0 bottom-0 -translate-x-[1px] translate-y-[1px] border-l-2 border-b-2",
+    origin: "bottom left"
+  }
 ];
 
 export function HudBracket({ children, className, label }: HudBracketProps) {
@@ -43,11 +59,11 @@ export function HudBracket({ children, className, label }: HudBracketProps) {
           key={corner.key}
           aria-hidden
           className={cn(
-            "pointer-events-none absolute h-8 w-8 border-2 border-accent-purple",
+            "pointer-events-none absolute h-6 w-6 border-accent-purple",
             corner.className,
             prefersReducedMotion ? "opacity-40" : "opacity-0"
           )}
-          style={{ rotate: `${corner.rotate}deg`, transformOrigin: "left top" }}
+          style={{ transformOrigin: corner.origin }}
           variants={{
             rest: { scale: 0.6, opacity: prefersReducedMotion ? 0.4 : 0 },
             hover: { scale: 1, opacity: 1 }

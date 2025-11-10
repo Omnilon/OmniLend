@@ -138,17 +138,38 @@ export function ExperienceDeck() {
       </div>
 
       <div className="flex flex-col gap-4">
-        <HudBracket label="Entry Flow" className="h-full w-full bg-white/5 p-6">
-          <p className="text-sm text-muted">
-            Each experience inherits the Ømnilon shell: the hero gate fades into a tailored world,
-            hover reveals surface microcopy, and motion respects prefers-reduced-motion while still
-            delivering a Ledger-level intro.
-          </p>
-          <p className="mt-4 text-sm text-muted">
-            Use these toggles to storyboard the onboarding moment for interiors clients, Secret
-            Lifter partners, or ink guests. The active frame mirrors the cinematic camera pan and HUD
-            overlays planned for production.
-          </p>
+        <HudBracket label="Why Ømnilon" className="h-full w-full bg-white/5 p-6">
+          <div className="flex h-full flex-col justify-between gap-4">
+            <p className="text-sm text-muted">
+              One studio handles calm interiors, covert loss-prevention intel, and apprentice-led ink.
+              Deposits secure time on the calendar, every scope stays in plain language, and updates land fast.
+            </p>
+            <p className="text-sm text-muted">
+              Ready to plan your project? Email
+              {" "}
+              <a
+                href="mailto:omnilend.co@gmail.com"
+                className="underline decoration-dotted underline-offset-4 hover:text-white"
+              >
+                omnilend.co@gmail.com
+              </a>{" "}
+              or call
+              {" "}
+              <a
+                href="tel:14049198026"
+                className="underline decoration-dotted underline-offset-4 hover:text-white"
+              >
+                404-919-8026
+              </a>
+              .
+            </p>
+            <a
+              href="/contact"
+              className="inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 py-3 text-center font-mono text-[10px] uppercase tracking-[0.36em] text-white transition duration-300 ease-brand hover:border-accent-purple hover:text-accent-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-purple focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+            >
+              Start a project
+            </a>
+          </div>
         </HudBracket>
       </div>
     </div>
