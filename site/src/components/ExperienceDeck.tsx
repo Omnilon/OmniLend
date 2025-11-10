@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { HudBracket } from "./HudBracket";
 import { useSound } from "./SoundProvider";
@@ -52,12 +52,18 @@ const EXPERIENCES = [
     image:
       "https://images.unsplash.com/photo-1504292008362-316e7ebbeb1f?q=80&w=1600&auto=format&fit=crop"
   }
-] as const;
+];
+
+export type ExperienceId = (typeof EXPERIENCES)[number]["id"];
 
 type Experience = (typeof EXPERIENCES)[number];
 
-export function ExperienceDeck() {
-  const [activeId, setActiveId] = useState<Experience["id"]>("interiors");
+type ExperienceDeckProps = {
+  activeId: ExperienceId;
+  onSelect: (id: ExperienceId) => void;
+};
+
+export function ExperienceDeck({ activeId, onSelect }: ExperienceDeckProps) {
   const { play } = useSound();
 
   const activeExperience = useMemo(
@@ -120,7 +126,7 @@ export function ExperienceDeck() {
               key={experience.id}
               type="button"
               onClick={() => {
-                setActiveId(experience.id);
+                onSelect(experience.id);
                 play("hover");
               }}
               className={cn(
