@@ -538,13 +538,18 @@ document.addEventListener('DOMContentLoaded', () => {
             wrapper: document.getElementById('inkExperience'),
             navId: 'inkNav',
             bodyClass: 'experience-ink'
+        },
+        finance: {
+            wrapper: document.getElementById('financeExperience'),
+            navId: 'financeNav',
+            bodyClass: 'experience-finance'
         }
     };
     const experiences = Object.fromEntries(Object.entries(experienceConfig).map(([name, config]) => [name, config.wrapper]));
     const toggles = Array.from(document.querySelectorAll('[data-menu-toggle]'));
 
     const closeNavs = () => {
-        ['nav-open', 'nav-open-security', 'nav-open-ink'].forEach(cls => document.body.classList.remove(cls));
+        ['nav-open', 'nav-open-security', 'nav-open-ink', 'nav-open-finance'].forEach(cls => document.body.classList.remove(cls));
         toggles.forEach(btn => btn.setAttribute('aria-expanded', 'false'));
     };
 
@@ -634,6 +639,8 @@ document.addEventListener('DOMContentLoaded', () => {
         initial = 'security';
     } else if (/^#ink-/.test(hash)) {
         initial = 'ink';
+    } else if (/^#finance-/.test(hash)) {
+        initial = 'finance';
     } else if (/^#(home|services|portfolio|about|contact)/i.test(hash)) {
         initial = 'interiors';
     }
@@ -657,4 +664,86 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.dataset.pendingExperience = '';
         }
     }
+});
+
+// Finance calculator: APR + margin modeling
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('financeCalculatorForm');
+    if (!form) return;
+
+    const principalInput = document.getElementById('financePrincipal');
+    const aprInput = document.getElementById('financeApr');
+    const termInput = document.getElementById('financeTerm');
+    const marginInput = document.getElementById('financeMargin');
+
+    const monthlyEl = document.querySelector('[data-finance-monthly]');
+    const totalEl = document.querySelector('[data-finance-total]');
+    const interestEl = document.querySelector('[data-finance-interest]');
+    const marginEl = document.querySelector('[data-finance-margin]');
+    const targetAprEl = document.querySelector('[data-finance-target-apr]');
+
+    const parseVal = (input, fallback = 0) => {
+        const val = parseFloat(input?.value || '');
+        return Number.isFinite(val) ? val : fallback;
+    };
+
+    const paymentFor = (principal, apr, months) => {
+        if (!months || principal <= 0) return { monthly: 0, total: 0 };
+        const monthlyRate = (apr / 100) / 12;
+        if (monthlyRate <= 0) {
+            const monthly = principal / months;
+            return { monthly, total: monthly * months };
+        }
+        const factor = Math.pow(1 + monthlyRate, months);
+        const monthly = principal * (monthlyRate * factor) / (factor - 1);
+        return { monthly, total: monthly * months };
+    };
+
+    const aprForTargetMargin = (principal, marginPct, months) => {
+        const targetTotal = principal * (1 + marginPct / 100);
+        if (targetTotal <= principal || !months) return 0;
+        let low = 0;
+        let high = 0.6; // 60% monthly (~720% APR) upper bound just for solving
+        for (let i = 0; i < 36; i += 1) {
+            const mid = (low + high) / 2;
+            const factor = Math.pow(1 + mid, months);
+            const monthly = principal * (mid * factor) / (factor - 1);
+            const total = monthly * months;
+            if (total < targetTotal) {
+                low = mid;
+            } else {
+                high = mid;
+            }
+        }
+        return ((low + high) / 2) * 12 * 100;
+    };
+
+    const formatCurrency = (value) => `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    const formatPercent = (value) => `${value.toFixed(2)}%`;
+
+    const update = (event) => {
+        event?.preventDefault();
+        const principal = parseVal(principalInput, 0);
+        const apr = Math.max(0, parseVal(aprInput, 0));
+        const months = parseInt(termInput?.value || '0', 10) || 0;
+        const margin = Math.max(0, parseVal(marginInput, 0));
+
+        const { monthly, total } = paymentFor(principal, apr, months);
+        const interest = Math.max(0, total - principal);
+        const marginPct = principal > 0 ? (interest / principal) * 100 : 0;
+        const targetApr = aprForTargetMargin(principal, margin, months);
+
+        if (monthlyEl) monthlyEl.textContent = formatCurrency(monthly || 0);
+        if (totalEl) totalEl.textContent = formatCurrency(total || 0);
+        if (interestEl) interestEl.textContent = formatCurrency(interest || 0);
+        if (marginEl) marginEl.textContent = formatPercent(marginPct || 0);
+        if (targetAprEl) targetAprEl.textContent = targetApr > 0 ? formatPercent(targetApr) : '—';
+    };
+
+    ['input', 'change'].forEach(evt => {
+        form.addEventListener(evt, update);
+    });
+    form.addEventListener('submit', update);
+
+    update();
 });
