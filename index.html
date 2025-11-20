@@ -33,6 +33,7 @@
                 <button class="gate-link" data-gate-jump="interiors">Jump to Interiors</button>
                 <button class="gate-link" data-gate-jump="security">Jump to Secret Lifters</button>
                 <button class="gate-link" data-gate-jump="ink">Jump to Ink</button>
+                <button class="gate-link" data-gate-jump="finance">Jump to Finance</button>
             </div>
         </div>
     </section>
@@ -60,6 +61,11 @@
                     <span class="selector-text">Flash tattoos, custom line work, and apprentice-friendly pricing with transparent deposits and a clear waiver.</span>
                     <span class="selector-cta">Book a tattoo session</span>
                 </button>
+                <button class="selector-card hud-bracket" data-target="finance">
+                    <span class="selector-heading">Ømnilon Finance</span>
+                    <span class="selector-text">Embedded financing for electronics, gaming rigs, transport, and home tech with clear APR-based profit modeling.</span>
+                    <span class="selector-cta">Offer flexible payments</span>
+                </button>
             </div>
         </div>
     </div>
@@ -80,6 +86,7 @@
                 <div class="header-actions">
                     <button class="experience-pill" data-switch-experience="ink">Book Ømnilon Ink</button>
                     <button class="experience-pill" data-switch-experience="security">Explore Security</button>
+                    <button class="experience-pill" data-switch-experience="finance">Offer Finance</button>
                     <button id="menuToggle" class="menu-toggle" data-menu-toggle="siteNav" data-menu-class="nav-open" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
                         <span></span><span></span><span></span>
                     </button>
@@ -278,6 +285,7 @@
                 <div class="header-actions">
                     <button class="experience-pill" data-switch-experience="interiors">Return to Interiors</button>
                     <button class="experience-pill" data-switch-experience="ink">Book Ømnilon Ink</button>
+                    <button class="experience-pill" data-switch-experience="finance">Offer Finance</button>
                     <button id="securityMenuToggle" class="menu-toggle" data-menu-toggle="securityNav" data-menu-class="nav-open-security" aria-label="Open menu" aria-expanded="false" aria-controls="securityNav">
                         <span></span><span></span><span></span>
                     </button>
@@ -470,6 +478,7 @@
                 <div class="header-actions">
                     <button class="experience-pill" data-switch-experience="interiors">Return to Interiors</button>
                     <button class="experience-pill" data-switch-experience="security">Explore Security</button>
+                    <button class="experience-pill" data-switch-experience="finance">Offer Finance</button>
                     <button id="inkMenuToggle" class="menu-toggle" data-menu-toggle="inkNav" data-menu-class="nav-open-ink" aria-label="Open menu" aria-expanded="false" aria-controls="inkNav">
                         <span></span><span></span><span></span>
                     </button>
@@ -645,6 +654,209 @@
         </div>
         <footer class="site-footer">
             <p>&copy; 2025 Ømnilon Ink — Tattoo Apprenticeship Studio</p>
+        </footer>
+    </div>
+
+    <div id="financeExperience" class="experience experience-finance" hidden aria-hidden="true">
+        <div class="wrapper">
+            <header class="brand-header reveal fade">
+                <a href="#finance-home" class="brand" aria-label="Ømnilon Finance">
+                    <span class="brand-title">ØMNILON</span>
+                </a>
+                <div class="header-actions">
+                    <button class="experience-pill" data-switch-experience="interiors">Return to Interiors</button>
+                    <button class="experience-pill" data-switch-experience="security">Explore Security</button>
+                    <button class="experience-pill" data-switch-experience="ink">Book Ømnilon Ink</button>
+                    <button id="financeMenuToggle" class="menu-toggle" data-menu-toggle="financeNav" data-menu-class="nav-open-finance" aria-label="Open menu" aria-expanded="false" aria-controls="financeNav">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </header>
+            <nav id="financeNav">
+                <a href="#finance-home" class="active">Overview</a>
+                <a href="#finance-offers">What we finance</a>
+                <a href="#finance-rates">Rates</a>
+                <a href="#finance-calculator">Calculator</a>
+                <a href="#finance-contact">Apply</a>
+            </nav>
+
+            <main class="onepage">
+                <section id="finance-home" class="hero hero-finance reveal fx-clip" style="position:relative;">
+                    <div class="bg-grid"></div>
+                    <div class="orb orb-1" data-parallax-y="0.05"></div>
+                    <div class="orb orb-2" data-parallax-y="0.09"></div>
+                    <div class="hero-inner fx-rise" data-parallax="0.12">
+                        <span class="mono-label hero-label">ØMNILON FINANCE</span>
+                        <h1 class="grad-text">Embedded financing that protects your margin.</h1>
+                        <p>Offer fast approvals on the things your customers actually want—Nintendo Switch bundles, Xbox consoles, gaming PCs, cameras, mobility gear, mopeds, and more—while keeping APR and fees tuned for profit.</p>
+                        <div class="cta-row">
+                            <a class="btn btn-ledger" href="#finance-calculator">Run the margin model</a>
+                            <a class="btn btn-outline" href="#finance-contact">Open financing</a>
+                        </div>
+                    </div>
+                    <div class="mock-window reveal from-right" aria-hidden="true">
+                        <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1600&auto=format&fit=crop" alt="Laptop, console controller, and card reader on a desk" loading="lazy" />
+                    </div>
+                    <a class="scroll-cue" href="#finance-offers" aria-label="Scroll to finance services"></a>
+                </section>
+
+                <section id="finance-offers" class="section feature-grid stagger finance-features" data-stagger-step="0.08">
+                    <article class="feature finance-card hud-bracket fx-rise">
+                        <h3>Electronics & consoles</h3>
+                        <p>Nintendo Switch, PlayStation, and Xbox bundles with accessories rolled into one ticket. Up to 24-month terms keep monthly payments approachable.</p>
+                    </article>
+                    <article class="feature finance-card hud-bracket fx-rise">
+                        <h3>PCs & creator rigs</h3>
+                        <p>Custom PCs, gaming laptops, monitors, and streaming kits financed together. Optional service plans increase financed principal.</p>
+                    </article>
+                    <article class="feature finance-card hud-bracket fx-rise">
+                        <h3>Mobility & mopeds</h3>
+                        <p>E-bikes, scooters, and mopeds with theft protection add-ons. Tiered APR by risk band keeps you profitable on rolling stock.</p>
+                    </article>
+                    <article class="feature finance-card hud-bracket fx-rise">
+                        <h3>Home & studio upgrades</h3>
+                        <p>Smart home bundles, pro audio, and content studio gear. Bundle accessories to lift ticket size without hurting affordability.</p>
+                    </article>
+                    <article class="feature finance-card hud-bracket fx-rise">
+                        <h3>Fast settlement</h3>
+                        <p>Instant estimates plus same-day payouts on approved deals so you keep inventory moving without floating costs.</p>
+                    </article>
+                    <article class="feature finance-card hud-bracket fx-rise">
+                        <h3>Transparent protection</h3>
+                        <p>Clear late-fee logic, autopay incentives, and prepayment options designed to keep customers happy while you capture APR yield.</p>
+                    </article>
+                </section>
+
+                <section id="finance-rates" class="section finance-rates reveal">
+                    <div class="finance-rates-copy fx-rise hud-bracket">
+                        <h2>Rate playbook</h2>
+                        <p>Align APR and term to preserve healthy gross profit on financed hardware.</p>
+                        <ul class="finance-rate-list">
+                            <li><strong>Baseline APR:</strong> 14.99%–26.99% depending on category and risk band.</li>
+                            <li><strong>Standard terms:</strong> 12, 18, or 24 months for electronics; up to 36 months for mobility.</li>
+                            <li><strong>Deposit targets:</strong> 10–20% down on higher-risk items (mopeds, open-box gear).</li>
+                            <li><strong>Fee levers:</strong> Optional $29–$59 origination can offset processing while keeping payments low.</li>
+                        </ul>
+                    </div>
+                    <div class="finance-rate-metrics fx-rise">
+                        <div class="metric-card hud-bracket">
+                            <span class="metric">$1,200</span>
+                            <p>Average ticket after bundling accessories and protection plans.</p>
+                        </div>
+                        <div class="metric-card hud-bracket">
+                            <span class="metric">$320</span>
+                            <p>Interest captured on an 18-month, 19.99% console bundle.</p>
+                        </div>
+                        <div class="metric-card hud-bracket">
+                            <span class="metric">+24%</span>
+                            <p>Margin lift when adding extended coverage to financed mobility devices.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="finance-calculator" class="section finance-calculator reveal">
+                    <div class="finance-calculator-head fx-rise">
+                        <h2>Finance margin calculator</h2>
+                        <p>Model APR, term length, and target margin to see monthly payments and projected profit per agreement.</p>
+                    </div>
+                    <div class="finance-calculator-grid">
+                        <article class="finance-calc-card hud-bracket fx-rise">
+                            <h3>Deal inputs</h3>
+                            <form id="financeCalculatorForm">
+                                <label for="financePrincipal">Financed amount (after down payment)</label>
+                                <input type="number" id="financePrincipal" name="principal" min="50" step="10" value="1200" required>
+
+                                <label for="financeApr">APR (%)</label>
+                                <input type="number" id="financeApr" name="apr" min="0" max="99" step="0.01" value="19.99" required>
+
+                                <label for="financeTerm">Term length (months)</label>
+                                <select id="financeTerm" name="term">
+                                    <option value="12">12 months</option>
+                                    <option value="18" selected>18 months</option>
+                                    <option value="24">24 months</option>
+                                    <option value="36">36 months</option>
+                                </select>
+
+                                <label for="financeMargin">Target profit margin on principal (%)</label>
+                                <input type="number" id="financeMargin" name="margin" min="5" max="80" step="1" value="20" required>
+
+                                <button type="submit" class="btn btn-ledger">Run calculation</button>
+                            </form>
+                        </article>
+                        <article class="finance-calc-results hud-bracket fx-rise" aria-live="polite" aria-atomic="true">
+                            <h3>Profit outlook</h3>
+                            <ul class="finance-calc-stats">
+                                <li><span class="label">Monthly payment</span><span class="value" data-finance-monthly>$0.00</span></li>
+                                <li><span class="label">Total repaid</span><span class="value" data-finance-total>$0.00</span></li>
+                                <li><span class="label">Interest captured</span><span class="value" data-finance-interest>$0.00</span></li>
+                                <li><span class="label">Margin from APR</span><span class="value" data-finance-margin>0%</span></li>
+                                <li><span class="label">APR to hit target margin</span><span class="value" data-finance-target-apr>—</span></li>
+                            </ul>
+                            <p class="finance-calc-note">Use the recommended APR as a guardrail; you can blend origination fees or higher down payments to reduce risk without harming profitability.</p>
+                        </article>
+                    </div>
+                </section>
+
+                <section id="finance-contact" class="section contact-form reveal finance-contact">
+                    <h2>Open financing with Ømnilon</h2>
+                    <form id="financeContactForm" data-contact-form data-experience="finance" data-captcha-form>
+                        <label for="financeName">Name:</label>
+                        <input type="text" id="financeName" name="name" required>
+
+                        <label for="financeEmail">Email:</label>
+                        <input type="email" id="financeEmail" name="email" required>
+
+                        <label for="financePhone">Phone (optional):</label>
+                        <input type="tel" id="financePhone" name="phone" placeholder="For quick approvals">
+
+                        <label for="financeItem">What are you financing?</label>
+                        <input type="text" id="financeItem" name="item" placeholder="e.g., Nintendo Switch bundle, gaming PC, moped" required>
+
+                        <label for="financeTermSelect">Preferred term length</label>
+                        <select id="financeTermSelect" name="term">
+                            <option value="12">12 months</option>
+                            <option value="18">18 months</option>
+                            <option value="24">24 months</option>
+                            <option value="36">36 months</option>
+                        </select>
+
+                        <label for="financeBudget">Ticket size</label>
+                        <select id="financeBudget" name="budget">
+                            <option value="$300-$800">$300–$800 (handhelds & accessories)</option>
+                            <option value="$800-$1500" selected>$800–$1,500 (consoles & PCs)</option>
+                            <option value="$1500-$3000">$1,500–$3,000 (creator rigs)</option>
+                            <option value="$3000+">$3,000+ (mobility & custom builds)</option>
+                        </select>
+
+                        <label for="financeMessage">Notes</label>
+                        <textarea id="financeMessage" name="message" placeholder="Tell us about the customer, down payment, or risk controls." required></textarea>
+
+                        <div class="captcha-group" data-captcha>
+                            <p class="captcha-question" id="financeCaptchaPrompt">Quick check: <span data-captcha-question></span></p>
+                            <div class="captcha-controls">
+                                <label class="sr-only" for="financeCaptchaAnswer">Enter the answer to the math question above</label>
+                                <input type="text" id="financeCaptchaAnswer" name="captchaAnswer" inputmode="numeric" pattern="[0-9]*" required data-captcha-answer aria-describedby="financeCaptchaPrompt" placeholder="Your answer" />
+                                <button type="button" class="captcha-refresh" data-captcha-refresh aria-label="Show a different question">↻</button>
+                            </div>
+                            <input type="hidden" name="captchaToken" data-captcha-token />
+                        </div>
+                        <button type="submit" class="btn btn-ledger">Submit</button>
+                    </form>
+                    <p class="form-status" data-form-status aria-live="polite" role="status"></p>
+                    <div class="finance-meta hud-bracket fx-rise">
+                        <h3>Finance desk</h3>
+                        <ul class="contact-meta">
+                            <li>Email: <a href="mailto:omnilend.co@gmail.com">omnilend.co@gmail.com</a></li>
+                            <li>Phone: <a href="tel:4049198026">404-919-8026</a></li>
+                            <li>Availability: Mon–Sat, 8am–8pm ET</li>
+                        </ul>
+                        <p class="finance-meta-note">We’ll share recommended APR bands and risk controls tailored to your product list so you can launch offers with confidence.</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+        <footer class="site-footer">
+            <p>&copy; 2025 Ømnilon Finance — Embedded consumer financing</p>
         </footer>
     </div>
 
