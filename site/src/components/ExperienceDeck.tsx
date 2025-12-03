@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useMemo, useState, type PointerEvent } from "react";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { HudBracket } from "./HudBracket";
 import { useSound } from "./SoundProvider";
 import { cn } from "@/lib/utils";
@@ -65,11 +65,53 @@ type ExperienceDeckProps = {
 
 export function ExperienceDeck({ activeId, onSelect }: ExperienceDeckProps) {
   const { play } = useSound();
+  const [highlightIndex, setHighlightIndex] = useState(0);
+  const pointerX = useMotionValue(0);
+  const pointerY = useMotionValue(0);
+  const rotateX = useSpring(useTransform(pointerY, [-0.6, 0.6], [10, -10]), {
+    stiffness: 120,
+    damping: 14
+  });
+  const rotateY = useSpring(useTransform(pointerX, [-0.6, 0.6], [-10, 10]), {
+    stiffness: 120,
+    damping: 14
+  });
+  const lift = useSpring(useTransform(pointerY, [-0.6, 0.6], [12, -4]), {
+    stiffness: 90,
+    damping: 15
+  });
 
   const activeExperience = useMemo(
     () => EXPERIENCES.find((item) => item.id === activeId) ?? EXPERIENCES[0],
     [activeId]
   );
+
+  useEffect(() => {
+    setHighlightIndex(0);
+    const total = activeExperience.highlights.length || 1;
+    const id = window.setInterval(() => {
+      setHighlightIndex((prev) => (prev + 1) % total);
+    }, 2600);
+    return () => window.clearInterval(id);
+  }, [activeExperience]);
+
+  const activeHighlight = useMemo(() => {
+    if (!activeExperience.highlights.length) return "";
+    return activeExperience.highlights[highlightIndex % activeExperience.highlights.length];
+  }, [activeExperience.highlights, highlightIndex]);
+
+  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const px = ((event.clientX - bounds.left) / bounds.width - 0.5) * 1.2;
+    const py = ((event.clientY - bounds.top) / bounds.height - 0.5) * 1.2;
+    pointerX.set(px);
+    pointerY.set(py);
+  };
+
+  const handlePointerLeave = () => {
+    pointerX.set(0);
+    pointerY.set(0);
+  };
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
@@ -82,6 +124,14 @@ export function ExperienceDeck({ activeId, onSelect }: ExperienceDeckProps) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+            onPointerMove={handlePointerMove}
+            onPointerLeave={handlePointerLeave}
+            style={{
+              transformStyle: "preserve-3d",
+              rotateX,
+              rotateY,
+              translateZ: lift
+            }}
           >
             <div
               aria-hidden
@@ -91,9 +141,15 @@ export function ExperienceDeck({ activeId, onSelect }: ExperienceDeckProps) {
             <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-black/40 to-transparent" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(212,160,255,0.25),transparent_55%)] mix-blend-screen" />
             <div className="relative z-10 flex h-full flex-col justify-end gap-4 p-6 sm:p-10">
-              <span className="font-mono text-[10px] uppercase tracking-[0.36em] text-white/70">
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-[10px] uppercase tracking-[0.36em] text-white/70">
                 {activeExperience.tagline}
               </span>
+                <span className="hidden items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.3em] text-white/70 sm:inline-flex">
+                  <span className="h-2 w-2 rounded-full bg-accent-purple shadow-glow" aria-hidden />
+                  HUD Live
+                </span>
+              </div>
               <div className="space-y-2">
                 <h3 className="text-3xl font-semibold text-white sm:text-4xl">
                   {activeExperience.title}
@@ -101,6 +157,24 @@ export function ExperienceDeck({ activeId, onSelect }: ExperienceDeckProps) {
                 <p className="max-w-xl text-sm text-white/80 sm:text-base">
                   {activeExperience.description}
                 </p>
+              </div>
+              <div className="rounded-full border border-white/10 bg-black/40 px-3 py-2 text-left text-[10px] font-mono uppercase tracking-[0.32em] text-white/60">
+                <span className="inline-flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-accent-green" aria-hidden />
+                  Mission feed:
+                </span>
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={activeHighlight}
+                    className="ml-2 inline-block rounded-full bg-white/10 px-3 py-1 text-[10px] font-medium normal-case tracking-tight text-white"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                  >
+                    {activeHighlight}
+                  </motion.span>
+                </AnimatePresence>
               </div>
               <div className="grid gap-2 text-sm text-white/80 sm:max-w-lg">
                 {activeExperience.highlights.map((item) => (

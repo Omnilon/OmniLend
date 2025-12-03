@@ -338,6 +338,12 @@ const CTA_COPY: Record<
   }
 };
 
+const EXPERIENCE_LABELS: Record<ExperienceId, string> = {
+  interiors: "Interiors",
+  security: "Secret Lifters",
+  ink: "Ømnilon Ink"
+};
+
 export function BrandPage() {
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [showPreloader, setShowPreloader] = useState(false);
@@ -385,7 +391,11 @@ export function BrandPage() {
 
   return (
     <div id="top" className="relative min-h-screen bg-bg text-white">
-      <BrandNavbar items={navItems} />
+      <BrandNavbar
+        items={navItems}
+        activeExperienceLabel={EXPERIENCE_LABELS[activeExperience]}
+        interfaceUnlocked={entered}
+      />
       <AnimatePresence>
         {showPreloader && !preloaderDone ? (
           <Preloader
@@ -403,6 +413,7 @@ export function BrandPage() {
           onEnter={() => {
             setEntered(true);
           }}
+          activeExperienceLabel={EXPERIENCE_LABELS[activeExperience]}
         />
       ) : null}
       {entered ? (
