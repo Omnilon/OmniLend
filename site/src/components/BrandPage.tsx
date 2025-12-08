@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { BrandNavbar, BrandNavItem } from "./BrandNavbar";
@@ -19,6 +19,7 @@ type ServiceData = {
   description: string;
   price: string;
   deliverables: string[];
+  image?: string;
 };
 
 type Quote = {
@@ -36,6 +37,8 @@ const INTERIOR_SERVICES: ServiceData[] = [
     description:
       "Collaborate virtually on mood boards, annotated floor plans, and sourced finishes. We package every selection with vendor links so you can implement from anywhere.",
     price: "Flat packages from $749 per room",
+    image:
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop",
     deliverables: [
       "Concept mood boards with palette notes",
       "Scaled floor plan with furniture and lighting callouts",
@@ -50,6 +53,8 @@ const INTERIOR_SERVICES: ServiceData[] = [
     description:
       "We layer materials, lighting, and styling with weekly checkpoints so your home evolves without chaos. Procurement stays in your name so every invoice is clear.",
     price: "Projects typically $6k–$18k depending on scope",
+    image:
+      "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?q=80&w=1600&auto=format&fit=crop",
     deliverables: [
       "Detailed scope and mood direction for every zone",
       "Procurement tracker with budget status and receipts",
@@ -64,6 +69,8 @@ const INTERIOR_SERVICES: ServiceData[] = [
     description:
       "Listings, pop-ups, and boutique spaces get curated inventory, signage, and styling plans that convert foot traffic while protecting your investment.",
     price: "Custom proposals from $3,500 per engagement",
+    image:
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1600&auto=format&fit=crop&sat=-10",
     deliverables: [
       "Merchandising and traffic flow maps",
       "Curated rental inventory plan with care instructions",
@@ -209,6 +216,8 @@ const INK_SERVICES: ServiceData[] = [
     description:
       "Reserve a slot, preview the piece at true scale, and review placement suggestions before you arrive.",
     price: "Flash pieces start at $39.99 ($29.99 with sticker drop)",
+    image:
+      "https://images.unsplash.com/photo-1517233899337-2d0c46345a6d?q=80&w=1400&auto=format&fit=crop",
     deliverables: [
       "Monthly flash sheet preview delivered to your inbox",
       "Placement mockups sized to your selected area",
@@ -223,6 +232,8 @@ const INK_SERVICES: ServiceData[] = [
     description:
       "Sticker sessions keep the queue lively and help the apprenticeship fund new equipment while rewarding loyal supporters.",
     price: "Limited slots weekly — $29.99 per flash piece",
+    image:
+      "https://images.unsplash.com/photo-1519904981063-b0cf448d4794?q=80&w=1400&auto=format&fit=crop",
     deliverables: [
       "Priority booking window during sticker hours",
       "Complimentary touch-up within 60 days if needed",
@@ -237,6 +248,8 @@ const INK_SERVICES: ServiceData[] = [
     description:
       "We sketch alongside your references, test sizing with AR previews, and plan shading that fits your lifestyle and budget.",
     price: "Custom sessions range from $59.99 to $499.99",
+    image:
+      "https://images.unsplash.com/photo-1551727974-8af20a3322e0?q=80&w=1400&auto=format&fit=crop",
     deliverables: [
       "Collaborative sketch review with iteration feedback",
       "Digital placement mockups at multiple scales",
@@ -294,6 +307,7 @@ const EXPERIENCE_NAV: Record<ExperienceId, BrandNavItem[]> = {
     { href: "#services", label: "Services" },
     { href: "#process", label: "Process" },
     { href: "#testimonials", label: "Testimonials" },
+    { href: "#financing", label: "Financing" },
     { href: "#cta", label: "Contact" }
   ],
   security: [
@@ -301,6 +315,7 @@ const EXPERIENCE_NAV: Record<ExperienceId, BrandNavItem[]> = {
     { href: "#services", label: "Operations" },
     { href: "#process", label: "Engagement Flow" },
     { href: "#coverage", label: "Coverage" },
+    { href: "#financing", label: "Financing" },
     { href: "#cta", label: "Deploy" }
   ],
   ink: [
@@ -308,6 +323,7 @@ const EXPERIENCE_NAV: Record<ExperienceId, BrandNavItem[]> = {
     { href: "#services", label: "Flash & Custom" },
     { href: "#process", label: "Session Flow" },
     { href: "#pricing", label: "Pricing" },
+    { href: "#financing", label: "Financing" },
     { href: "#cta", label: "Book" }
   ]
 };
@@ -344,6 +360,88 @@ const EXPERIENCE_LABELS: Record<ExperienceId, string> = {
   ink: "Ømnilon Ink"
 };
 
+const EXPERIENCE_ORDER: ExperienceId[] = ["interiors", "security", "ink"];
+
+const FINANCING: Record<
+  ExperienceId,
+  {
+    title: string;
+    intro: string;
+    options: { title: string; body: string; tag: string }[];
+    footnote: string;
+  }
+> = {
+  interiors: {
+    title: "Payment & financing",
+    intro:
+      "Simple deposits and transparent billing so your project keeps moving without guesswork.",
+    options: [
+      {
+        title: "Milestone billing",
+        body: "Pay as we clear phases: discovery, concepts, procurement, and install. No surprise invoices.",
+        tag: "50% deposit"
+      },
+      {
+        title: "Client-funded purchasing",
+        body: "All materials are bought in your name with receipts and trackers—no hidden markups.",
+        tag: "Zero float"
+      },
+      {
+        title: "Flexible scheduling",
+        body: "Split work across months; we lock pricing and suppliers after your deposit lands.",
+        tag: "Timeline guardrails"
+      }
+    ],
+    footnote: "Deposits are refundable until sourcing starts; receipts and budgets live in your tracker."
+  },
+  security: {
+    title: "Engagement billing",
+    intro:
+      "Transparent pricing for covert sweeps and intel drops, with fast approvals for remediation.",
+    options: [
+      {
+        title: "Scoped engagements",
+        body: "Each sweep comes with a fixed bid and clear deliverables—no time-and-materials surprises.",
+        tag: "Fixed bid"
+      },
+      {
+        title: "Rush deployments",
+        body: "Expedite a Secret Lifter squad with a rapid start fee; the balance clears on delivery.",
+        tag: "48h start"
+      },
+      {
+        title: "Retainers",
+        body: "Monthly intel drops with rotating personas for ecommerce, POS, and in-store coverage.",
+        tag: "Quarterly terms"
+      }
+    ],
+    footnote: "All pricing includes footage, receipts, and prioritized remediation briefs."
+  },
+  ink: {
+    title: "Deposits & aftercare",
+    intro:
+      "Apprentice-friendly pricing with clear deposits so you know exactly what you’re paying for.",
+    options: [
+      {
+        title: "Flash deposits",
+        body: "Reserve flash with a small deposit; balances due in-studio after placement approval.",
+        tag: "$10 hold"
+      },
+      {
+        title: "Custom holds",
+        body: "50% deposit locks your date while we iterate on sketches and sizing.",
+        tag: "50% hold"
+      },
+      {
+        title: "Touch-up policy",
+        body: "One complimentary touch-up within 60 days is baked into pricing.",
+        tag: "Included care"
+      }
+    ],
+    footnote: "Deposits transfer once if you reschedule 48 hours ahead; aftercare kits available in-studio."
+  }
+};
+
 export function BrandPage() {
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [showPreloader, setShowPreloader] = useState(false);
@@ -376,7 +474,7 @@ export function BrandPage() {
   const navItems = EXPERIENCE_NAV[activeExperience];
   const cta = CTA_COPY[activeExperience];
 
-  const handleExperienceSelect = (experience: ExperienceId) => {
+  const handleExperienceSelect = useCallback((experience: ExperienceId) => {
     setActiveExperience(experience);
 
     if (typeof window !== "undefined") {
@@ -387,7 +485,54 @@ export function BrandPage() {
         });
       });
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    const handler = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      const isTyping =
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable);
+      if (isTyping) return;
+      if (!preloaderDone) return;
+
+      if (!entered && event.key === "Enter") {
+        event.preventDefault();
+        window.localStorage.setItem("omnilend:hero-entered", "true");
+        setEntered(true);
+        return;
+      }
+
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        const idx = EXPERIENCE_ORDER.indexOf(activeExperience);
+        const next = EXPERIENCE_ORDER[(idx + 1) % EXPERIENCE_ORDER.length];
+        handleExperienceSelect(next);
+        return;
+      }
+
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        const idx = EXPERIENCE_ORDER.indexOf(activeExperience);
+        const next = EXPERIENCE_ORDER[(idx - 1 + EXPERIENCE_ORDER.length) % EXPERIENCE_ORDER.length];
+        handleExperienceSelect(next);
+        return;
+      }
+
+      if (["1", "2", "3"].includes(event.key)) {
+        const next = EXPERIENCE_ORDER[Number(event.key) - 1];
+        if (next) {
+          event.preventDefault();
+          handleExperienceSelect(next);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [activeExperience, entered, handleExperienceSelect, preloaderDone]);
 
   return (
     <div id="top" className="relative min-h-screen bg-bg text-white">
@@ -433,6 +578,17 @@ export function BrandPage() {
               activeId={activeExperience}
               onSelect={handleExperienceSelect}
             />
+            <div className="mt-6 flex flex-wrap gap-3 text-[10px] font-mono uppercase tracking-[0.32em] text-white/60">
+              <span className="rounded-full border border-white/10 px-3 py-1">
+                1 / 2 / 3 or ← → switch experiences
+              </span>
+              <span className="rounded-full border border-white/10 px-3 py-1">
+                Enter unlocks shell
+              </span>
+              <span className="rounded-full border border-white/10 px-3 py-1">
+                Hover cards for parallax HUD
+              </span>
+            </div>
           </Section>
 
           <AnimatePresence mode="wait">
@@ -480,6 +636,31 @@ export function BrandPage() {
                         </HudBracket>
                       ))}
                     </div>
+                  </Section>
+
+                  <Section
+                    id="financing"
+                    label="Billing"
+                    title={FINANCING.interiors.title}
+                    intro={FINANCING.interiors.intro}
+                  >
+                    <div className="grid gap-4 md:grid-cols-3">
+                      {FINANCING.interiors.options.map((option) => (
+                        <HudBracket
+                          key={option.title}
+                          className="h-full bg-white/5 p-5"
+                          label={option.tag}
+                        >
+                          <div className="flex h-full flex-col gap-3">
+                            <h4 className="font-grotesk text-lg font-semibold text-white">
+                              {option.title}
+                            </h4>
+                            <p className="text-sm text-muted">{option.body}</p>
+                          </div>
+                        </HudBracket>
+                      ))}
+                    </div>
+                    <p className="mt-4 text-sm text-muted">{FINANCING.interiors.footnote}</p>
                   </Section>
 
                   <Section
@@ -545,6 +726,31 @@ export function BrandPage() {
                         </HudBracket>
                       ))}
                     </div>
+                  </Section>
+
+                  <Section
+                    id="financing"
+                    label="Billing"
+                    title={FINANCING.security.title}
+                    intro={FINANCING.security.intro}
+                  >
+                    <div className="grid gap-4 md:grid-cols-3">
+                      {FINANCING.security.options.map((option) => (
+                        <HudBracket
+                          key={option.title}
+                          className="h-full bg-white/5 p-5"
+                          label={option.tag}
+                        >
+                          <div className="flex h-full flex-col gap-3">
+                            <h4 className="font-grotesk text-lg font-semibold text-white">
+                              {option.title}
+                            </h4>
+                            <p className="text-sm text-muted">{option.body}</p>
+                          </div>
+                        </HudBracket>
+                      ))}
+                    </div>
+                    <p className="mt-4 text-sm text-muted">{FINANCING.security.footnote}</p>
                   </Section>
 
                   <Section
@@ -620,6 +826,31 @@ export function BrandPage() {
                         </HudBracket>
                       ))}
                     </div>
+                  </Section>
+
+                  <Section
+                    id="financing"
+                    label="Billing"
+                    title={FINANCING.ink.title}
+                    intro={FINANCING.ink.intro}
+                  >
+                    <div className="grid gap-4 md:grid-cols-3">
+                      {FINANCING.ink.options.map((option) => (
+                        <HudBracket
+                          key={option.title}
+                          className="h-full bg-white/5 p-5"
+                          label={option.tag}
+                        >
+                          <div className="flex h-full flex-col gap-3">
+                            <h4 className="font-grotesk text-lg font-semibold text-white">
+                              {option.title}
+                            </h4>
+                            <p className="text-sm text-muted">{option.body}</p>
+                          </div>
+                        </HudBracket>
+                      ))}
+                    </div>
+                    <p className="mt-4 text-sm text-muted">{FINANCING.ink.footnote}</p>
                   </Section>
 
                   <Section
@@ -801,19 +1032,55 @@ function ServicesGrid({ services, selectedId, onSelect }: ServicesGridProps) {
                 <p className="text-sm text-white/80 sm:text-base">
                   {activeService.description}
                 </p>
+                <div className="grid gap-3 text-sm text-muted sm:grid-cols-2">
+                  {activeService.deliverables.map((item) => (
+                    <div
+                      key={item}
+                      className="flex items-start gap-2 rounded-2xl border border-white/10 bg-black/40 p-3"
+                    >
+                      <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-accent-purple" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
               <div className="flex flex-col gap-3 text-sm text-white/80">
-                <span className="font-mono text-[10px] uppercase tracking-[0.36em] text-white/70">
-                  What’s included
-                </span>
-                <ul className="space-y-2">
-                  {activeService.deliverables.map((item) => (
-                    <li key={item} className="flex items-start gap-3">
-                      <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-white/70" />
-                      <span>{item}</span>
+                {activeService.image ? (
+                  <div className="relative overflow-hidden rounded-2xl border border-white/10">
+                    <div
+                      className="absolute inset-0 bg-cover bg-center"
+                      style={{ backgroundImage: `url(${activeService.image})` }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    <div className="relative z-10 flex h-full flex-col justify-end gap-2 p-4">
+                      <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/70">
+                        Visual reference
+                      </p>
+                      <p className="text-sm text-white/90">
+                        Imagery matches the service vibe—material palettes, staged sets, or flash closeups.
+                      </p>
+                    </div>
+                  </div>
+                ) : null}
+                <div className="space-y-2 rounded-2xl border border-white/10 bg-black/50 p-4">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.36em] text-white/70">
+                    Booking checklist
+                  </p>
+                  <ul className="space-y-2 text-sm text-white/80">
+                    <li className="flex items-start gap-2">
+                      <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-accent-purple" />
+                      Share timing, budget, and references up front.
                     </li>
-                  ))}
-                </ul>
+                    <li className="flex items-start gap-2">
+                      <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-accent-purple" />
+                      Expect a scoped agenda within one business day.
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-accent-purple" />
+                      Deposits and receipts stay transparent.
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </motion.div>

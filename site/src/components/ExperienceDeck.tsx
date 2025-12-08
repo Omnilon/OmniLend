@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useState, type PointerEvent } from "react";
-import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionTemplate,
+  useMotionValue,
+  useSpring,
+  useTransform
+} from "framer-motion";
 import { HudBracket } from "./HudBracket";
 import { useSound } from "./SoundProvider";
 import { cn } from "@/lib/utils";
@@ -85,6 +92,9 @@ export function ExperienceDeck({ activeId, onSelect }: ExperienceDeckProps) {
     () => EXPERIENCES.find((item) => item.id === activeId) ?? EXPERIENCES[0],
     [activeId]
   );
+  const spotlightX = useTransform(pointerX, [-0.6, 0.6], ["25%", "75%"]);
+  const spotlightY = useTransform(pointerY, [-0.6, 0.6], ["30%", "70%"]);
+  const spotlight = useMotionTemplate`radial-gradient(260px circle at ${spotlightX} ${spotlightY}, rgba(255,255,255,0.12), transparent 65%)`;
 
   useEffect(() => {
     setHighlightIndex(0);
@@ -140,6 +150,17 @@ export function ExperienceDeck({ activeId, onSelect }: ExperienceDeckProps) {
             />
             <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-black/40 to-transparent" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(212,160,255,0.25),transparent_55%)] mix-blend-screen" />
+            <motion.div
+              aria-hidden
+              className="absolute inset-0"
+              style={{ backgroundImage: spotlight, mixBlendMode: "screen" }}
+            />
+            <motion.div
+              aria-hidden
+              className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent"
+              animate={{ y: ["0%", "100%", "0%"], opacity: [0.4, 0.9, 0.4] }}
+              transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut" }}
+            />
             <div className="relative z-10 flex h-full flex-col justify-end gap-4 p-6 sm:p-10">
               <div className="flex items-center gap-3">
                 <span className="font-mono text-[10px] uppercase tracking-[0.36em] text-white/70">
