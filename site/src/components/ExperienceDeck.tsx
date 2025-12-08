@@ -26,8 +26,7 @@ const EXPERIENCES = [
       "Milestone billing mapped to each install phase",
       "Material libraries curated for durability and warmth"
     ],
-    image:
-      "https://images.unsplash.com/photo-1616594039964-5d3f4360a3bb?q=80&w=1600&auto=format&fit=crop"
+    image: "/images/worlds/interiors.jpg" // TODO: swap with final brand asset if desired
   },
   {
     id: "security",
@@ -41,8 +40,7 @@ const EXPERIENCES = [
       "Ticket swaps, RFID gaps, and OMS exploits documented",
       "48-hour remediation briefs with annotated footage"
     ],
-    image:
-      "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?q=80&w=1600&auto=format&fit=crop"
+    image: "/images/worlds/security.jpg" // TODO: swap with final brand asset if desired
   },
   {
     id: "ink",
@@ -56,8 +54,7 @@ const EXPERIENCES = [
       "Placement previews using real-world scale references",
       "Aftercare follow-ups so every piece heals clean"
     ],
-    image:
-      "https://images.unsplash.com/photo-1504292008362-316e7ebbeb1f?q=80&w=1600&auto=format&fit=crop"
+    image: "/images/worlds/ink.jpg" // TODO: swap with final brand asset if desired
   },
   {
     id: "financing",
@@ -72,8 +69,7 @@ const EXPERIENCES = [
       "10% distributor uplift protects margin and partnerships",
       "Fast approvals via First American Finance rails"
     ],
-    image:
-      "https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?q=80&w=1600&auto=format&fit=crop"
+    image: "/images/worlds/financing.jpg" // TODO: swap with final brand asset if desired
   }
 ];
 
@@ -143,93 +139,98 @@ export function ExperienceDeck({ activeId, onSelect }: ExperienceDeckProps) {
     <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
       <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5">
         <AnimatePresence mode="wait">
-          <motion.div
-            key={activeExperience.id}
-            className="relative h-[320px] w-full overflow-hidden sm:h-[420px]"
-            initial={{ opacity: 0, scale: 1.02 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-            onPointerMove={handlePointerMove}
-            onPointerLeave={handlePointerLeave}
-            style={{
-              transformStyle: "preserve-3d",
-              rotateX,
-              rotateY,
-              translateZ: lift
-            }}
-          >
-            <div
-              aria-hidden
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${activeExperience.image})` }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-black/40 to-transparent" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(212,160,255,0.25),transparent_55%)] mix-blend-screen" />
+          <div className="relative h-[320px] w-full overflow-hidden rounded-3xl sm:h-[420px]">
             <motion.div
-              aria-hidden
-              className="absolute inset-0"
-              style={{ backgroundImage: spotlight, mixBlendMode: "screen" }}
-            />
-            <motion.div
-              aria-hidden
-              className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent"
-              animate={{ y: ["0%", "100%", "0%"], opacity: [0.4, 0.9, 0.4] }}
-              transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <div className="relative z-10 flex h-full flex-col justify-end gap-4 p-6 sm:p-10">
-              <div className="flex items-center gap-3">
-                <span className="font-mono text-[10px] uppercase tracking-[0.36em] text-white/70">
-                {activeExperience.tagline}
-              </span>
-                <span className="hidden items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.3em] text-white/70 sm:inline-flex">
-                  <span className="h-2 w-2 rounded-full bg-accent-purple shadow-glow" aria-hidden />
-                  HUD Live
-                </span>
+              key={activeExperience.id}
+              className="relative h-full w-full"
+              initial={{ opacity: 0, scale: 1.02 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+              onPointerMove={handlePointerMove}
+              onPointerLeave={handlePointerLeave}
+              style={{
+                transformStyle: "preserve-3d",
+                rotateX,
+                rotateY,
+                translateZ: lift
+              }}
+            >
+              <div className="absolute inset-[-6%] will-change-transform">
+                <div
+                  aria-hidden
+                  className="absolute inset-0 rounded-[32px] bg-cover bg-center"
+                  style={{ backgroundImage: `url(${activeExperience.image})`, transform: "scale(1.08)" }}
+                />
+                <div className="absolute inset-0 rounded-[32px] bg-gradient-to-tr from-black/80 via-black/40 to-transparent" />
+                <div className="absolute inset-0 rounded-[32px] bg-[radial-gradient(circle_at_20%_20%,rgba(212,160,255,0.25),transparent_55%)] mix-blend-screen" />
+                <motion.div
+                  aria-hidden
+                  className="absolute inset-0 rounded-[32px]"
+                  style={{ backgroundImage: spotlight, mixBlendMode: "screen" }}
+                />
+                <motion.div
+                  aria-hidden
+                  className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                  animate={{ y: ["0%", "100%", "0%"], opacity: [0.4, 0.9, 0.4] }}
+                  transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut" }}
+                />
               </div>
-              <div className="space-y-2">
-                <h3 className="text-3xl font-semibold text-white sm:text-4xl">
-                  {activeExperience.title}
-                </h3>
-                <p className="max-w-xl text-sm text-white/80 sm:text-base">
-                  {activeExperience.description}
-                </p>
+
+              <div className="relative z-10 flex h-full flex-col justify-end gap-4 p-6 sm:p-10">
+                <div className="flex items-center gap-3">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.36em] text-white/70">
+                    {activeExperience.tagline}
+                  </span>
+                  <span className="hidden items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.3em] text-white/70 sm:inline-flex">
+                    <span className="h-2 w-2 rounded-full bg-accent-purple shadow-glow" aria-hidden />
+                    HUD Live
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-3xl font-semibold text-white sm:text-4xl">
+                    {activeExperience.title}
+                  </h3>
+                  <p className="max-w-xl text-sm text-white/80 sm:text-base">
+                    {activeExperience.description}
+                  </p>
+                </div>
+                <div className="rounded-full border border-white/10 bg-black/40 px-3 py-2 text-left text-[10px] font-mono uppercase tracking-[0.32em] text-white/60">
+                  <span className="inline-flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-accent-green" aria-hidden />
+                    Mission feed:
+                  </span>
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.span
+                      key={activeHighlight}
+                      className="ml-2 inline-block rounded-full bg-white/10 px-3 py-1 text-[10px] font-medium normal-case tracking-tight text-white"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                    >
+                      {activeHighlight}
+                    </motion.span>
+                  </AnimatePresence>
+                </div>
+                <div className="grid gap-2 text-sm text-white/80 sm:max-w-lg">
+                  {activeExperience.highlights.map((item) => (
+                    <motion.div
+                      key={item}
+                      className="flex items-start gap-2"
+                      initial={{ opacity: 0, x: -8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: 0.2 }}
+                    >
+                      <span className="mt-1 h-2 w-2 rounded-full bg-accent-purple" aria-hidden />
+                      <span>{item}</span>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
-              <div className="rounded-full border border-white/10 bg-black/40 px-3 py-2 text-left text-[10px] font-mono uppercase tracking-[0.32em] text-white/60">
-                <span className="inline-flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-accent-green" aria-hidden />
-                  Mission feed:
-                </span>
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.span
-                    key={activeHighlight}
-                    className="ml-2 inline-block rounded-full bg-white/10 px-3 py-1 text-[10px] font-medium normal-case tracking-tight text-white"
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-                  >
-                    {activeHighlight}
-                  </motion.span>
-                </AnimatePresence>
-              </div>
-              <div className="grid gap-2 text-sm text-white/80 sm:max-w-lg">
-                {activeExperience.highlights.map((item) => (
-                  <motion.div
-                    key={item}
-                    className="flex items-start gap-2"
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: 0.2 }}
-                  >
-                    <span className="mt-1 h-2 w-2 rounded-full bg-accent-purple" aria-hidden />
-                    <span>{item}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-            <div className="pointer-events-none absolute inset-0 border border-white/10" />
-          </motion.div>
+            </motion.div>
+            <div className="pointer-events-none absolute inset-0 rounded-3xl border border-white/10" />
+          </div>
         </AnimatePresence>
         <div className="relative z-20 flex justify-center gap-2 border-t border-white/10 bg-black/40 px-4 py-3">
           {EXPERIENCES.map((experience) => (

@@ -611,7 +611,8 @@ export function BrandPage({ initialExperience = "interiors" }: BrandPageProps) {
               </span>
             </div>
             <CornerHudBadge
-              label="MINI MAP"
+              label={EXPERIENCE_LABELS[activeExperience].toUpperCase()}
+              animateKey={activeExperience}
               position="bottom-right"
               onClick={() => {
                 // Placeholder interaction

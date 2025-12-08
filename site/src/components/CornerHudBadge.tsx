@@ -11,6 +11,7 @@ type Props = {
   position?: Position;
   onClick?: () => void;
   icon?: ReactNode;
+  animateKey?: string;
 };
 
 const positionStyles: Record<Position, string> = {
@@ -20,7 +21,7 @@ const positionStyles: Record<Position, string> = {
   "top-left": "left-4 top-24"
 };
 
-export function CornerHudBadge({ label, position = "bottom-right", onClick, icon }: Props) {
+export function CornerHudBadge({ label, position = "bottom-right", onClick, icon, animateKey }: Props) {
   return (
     <motion.button
       type="button"
@@ -34,7 +35,15 @@ export function CornerHudBadge({ label, position = "bottom-right", onClick, icon
     >
       <span className="h-2 w-2 rounded-full bg-accent-green shadow-[0_0_10px_rgba(110,200,92,0.7)]" />
       {icon}
-      <span>{label}</span>
+      <motion.span
+        key={animateKey ?? label}
+        initial={{ opacity: 0, y: 4 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -4 }}
+        transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
+      >
+        {label}
+      </motion.span>
     </motion.button>
   );
 }

@@ -35,20 +35,20 @@ export function HudCard({
     <AnimatePresence>
       {show ? (
         <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: -6 }}
+          initial={{ opacity: 0, scale: 0.94, y: -6 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: -6 }}
-          transition={{ duration: 0.24, ease: [0.23, 1, 0.32, 1] }}
+          exit={{ opacity: 0, scale: 0.94, y: -6 }}
+          transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
           className={cn(
-            "pointer-events-auto fixed z-40 min-w-[240px] max-w-sm rounded-2xl border border-white/20 bg-black/60 p-4 shadow-glow backdrop-blur-md",
+            "pointer-events-auto fixed z-40 min-w-[240px] max-w-sm rounded-2xl border border-red-400/70 bg-[linear-gradient(145deg,rgba(92,17,17,0.9),rgba(190,60,20,0.65))] p-4 shadow-[0_10px_30px_rgba(255,83,0,0.25)] backdrop-blur-md",
             positionMap[position]
           )}
         >
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-2">
-              <span className="inline-block h-3 w-3 rounded-sm bg-accent-orange shadow-[0_0_12px_rgba(255,83,0,0.4)]" />
+              <span className="inline-block h-3 w-3 rounded-sm bg-accent-orange shadow-[0_0_12px_rgba(255,83,0,0.6)]" />
               {label ? (
-                <span className="text-[10px] font-mono uppercase tracking-[0.28em] text-white/60">
+                <span className="text-[10px] font-mono uppercase tracking-[0.28em] text-white/70">
                   {label}
                 </span>
               ) : null}
@@ -57,7 +57,7 @@ export function HudCard({
               <button
                 type="button"
                 onClick={onClose}
-                className="h-8 w-8 rounded-md border border-white/15 bg-white/5 text-xs text-white/70 transition hover:border-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-purple focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+                className="h-8 w-8 rounded-md border border-red-300/50 bg-white/10 text-xs text-white/80 transition hover:border-white/70 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-purple focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
                 aria-label="Close HUD card"
               >
                 ×
@@ -66,7 +66,7 @@ export function HudCard({
           </div>
           <div className="mt-3 space-y-2 text-left">
             <h4 className="font-grotesk text-lg font-semibold text-white">{title}</h4>
-            <p className="text-sm text-muted">{body}</p>
+            <p className="text-sm text-white/80">{body}</p>
           </div>
         </motion.div>
       ) : null}
