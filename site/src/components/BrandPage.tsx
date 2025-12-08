@@ -923,6 +923,12 @@ export function BrandPage() {
                     >
                       {cta.button}
                     </Link>
+                    <Link
+                      href="/financing"
+                      className="inline-flex shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/0 px-6 py-3 font-mono text-[10px] uppercase tracking-[0.36em] text-white transition duration-300 ease-brand hover:border-accent-purple hover:text-accent-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-purple focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+                    >
+                      Financing page
+                    </Link>
                   </div>
                 </HudBracket>
               </Section>
