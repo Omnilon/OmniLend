@@ -11,6 +11,7 @@ import { SoundToggle } from "./SoundToggle";
 import { HeroGate, hasEnteredGate } from "./HeroGate";
 import { Preloader, hasSeenPreloader } from "./Preloader";
 import { ExperienceDeck, ExperienceId } from "./ExperienceDeck";
+import { CornerHudBadge } from "./CornerHudBadge";
 
 type ServiceData = {
   id: string;
@@ -301,30 +302,111 @@ const INK_STORIES: Quote[] = [
   }
 ];
 
+const FINANCING_SERVICES: ServiceData[] = [
+  {
+    id: "uplift",
+    title: "Uplift pricing",
+    summary: "Add a 10% distributor uplift to protect margin while clients pay over time.",
+    description:
+      "We ingest vendor SKUs, apply a 10% uplift, and keep disclosures clear so clients see total cost upfront.",
+    price: "10% uplift baked in",
+    image: "https://images.unsplash.com/photo-1503389152951-9f343605f61e?q=80&w=1400&auto=format&fit=crop",
+    deliverables: [
+      "SKU ingestion with uplift applied",
+      "Transparent client-facing pricing sheet",
+      "Partner-ready reconciliation"
+    ]
+  },
+  {
+    id: "deposit",
+    title: "Deposits + approvals",
+    summary: "Down payments calibrated by ticket size, approvals handled via First American Finance.",
+    description:
+      "We set deposits (20–30% typical), trigger approvals, and keep both the client and partner updated on status.",
+    price: "Deposits from 20%",
+    image: "https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=1400&auto=format&fit=crop",
+    deliverables: [
+      "Deposit configuration per bundle",
+      "Approval status notifications",
+      "Client support channel"
+    ]
+  },
+  {
+    id: "fulfillment",
+    title: "Fulfillment & tracking",
+    summary: "Coordinate delivery with vendors while payments flow on schedule.",
+    description:
+      "We handle fulfillment tracking, invoices, and partner payouts while First American Finance manages installments.",
+    price: "Included coordination",
+    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1400&auto=format&fit=crop",
+    deliverables: [
+      "Delivery + install tracking",
+      "Receipts and payout summaries",
+      "Support for early payoffs"
+    ]
+  }
+];
+
+const FINANCING_PROCESS = [
+  {
+    title: "Catalog ingest",
+    description: "Provide distributor SKUs; we add uplift, map bundles, and prep disclosures."
+  },
+  {
+    title: "Deposit + approval",
+    description: "Client pays a deposit, approval runs via First American Finance, terms are locked."
+  },
+  {
+    title: "Fulfillment",
+    description: "We coordinate delivery and keep partners synced while installments run."
+  },
+  {
+    title: "Payouts",
+    description: "Partners get their contracted share; uplift margin routes to Ømnilon."
+  }
+];
+
+const FINANCING_TESTIMONIALS: Quote[] = [
+  {
+    quote: "Financing made the build feasible without surprise fees.",
+    author: "Retail ops lead",
+    role: "Multi-store rollout"
+  },
+  {
+    quote: "Vendors loved the clarity on payouts and margin. Clients loved the monthly options.",
+    author: "Program manager",
+    role: "Omni-channel launch"
+  }
+];
+
 const EXPERIENCE_NAV: Record<ExperienceId, BrandNavItem[]> = {
   interiors: [
-    { href: "#experiences", label: "Overview" },
-    { href: "#services", label: "Services" },
-    { href: "#process", label: "Process" },
-    { href: "#testimonials", label: "Testimonials" },
-    { href: "#financing", label: "Financing" },
-    { href: "#cta", label: "Contact" }
+    { href: "#experiences", label: "Overview", key: "overview" },
+    { href: "#services", label: "Services", key: "services" },
+    { href: "#process", label: "Process", key: "process" },
+    { href: "#testimonials", label: "Testimonials", key: "testimonials" },
+    { href: "#cta", label: "Contact", key: "contact" }
   ],
   security: [
-    { href: "#experiences", label: "Overview" },
-    { href: "#services", label: "Operations" },
-    { href: "#process", label: "Engagement Flow" },
-    { href: "#coverage", label: "Coverage" },
-    { href: "#financing", label: "Financing" },
-    { href: "#cta", label: "Deploy" }
+    { href: "#experiences", label: "Overview", key: "overview" },
+    { href: "#services", label: "Services", key: "services" },
+    { href: "#process", label: "Process", key: "process" },
+    { href: "#testimonials", label: "Testimonials", key: "testimonials" },
+    { href: "#cta", label: "Contact", key: "contact" }
   ],
   ink: [
-    { href: "#experiences", label: "Overview" },
-    { href: "#services", label: "Flash & Custom" },
-    { href: "#process", label: "Session Flow" },
-    { href: "#pricing", label: "Pricing" },
-    { href: "#financing", label: "Financing" },
-    { href: "#cta", label: "Book" }
+    { href: "#experiences", label: "Overview", key: "overview" },
+    { href: "#services", label: "Services", key: "services" },
+    { href: "#process", label: "Process", key: "process" },
+    { href: "#testimonials", label: "Testimonials", key: "testimonials" },
+    { href: "#cta", label: "Contact", key: "contact" }
+  ],
+  financing: [
+    { href: "#experiences", label: "Overview", key: "overview" },
+    { href: "#services", label: "Services", key: "services" },
+    { href: "#process", label: "Process", key: "process" },
+    { href: "#testimonials", label: "Testimonials", key: "testimonials" },
+    { href: "#cta", label: "Contact", key: "contact" }
   ]
 };
 
@@ -351,102 +433,33 @@ const CTA_COPY: Record<
       "Reserve your flash slot or request custom line work. We’ll send the latest drop and schedule your consult.",
     body: "Studio schedules drop monthly and deposits secure your seat.",
     button: "Book Ømnilon Ink"
+  },
+  financing: {
+    intro:
+      "Offer First American Finance terms with a 10% distributor uplift baked in. We’ll configure deposits and monthly options.",
+    body: "Share your catalog and preferred deposit ranges; we’ll respond within 24 hours.",
+    button: "Enable financing"
   }
 };
 
 const EXPERIENCE_LABELS: Record<ExperienceId, string> = {
   interiors: "Interiors",
   security: "Secret Lifters",
-  ink: "Ømnilon Ink"
+  ink: "Ømnilon Ink",
+  financing: "Financing"
 };
 
-const EXPERIENCE_ORDER: ExperienceId[] = ["interiors", "security", "ink"];
+const EXPERIENCE_ORDER: ExperienceId[] = ["interiors", "security", "ink", "financing"];
 
-const FINANCING: Record<
-  ExperienceId,
-  {
-    title: string;
-    intro: string;
-    options: { title: string; body: string; tag: string }[];
-    footnote: string;
-  }
-> = {
-  interiors: {
-    title: "Payment & financing",
-    intro:
-      "Simple deposits and transparent billing so your project keeps moving without guesswork.",
-    options: [
-      {
-        title: "Milestone billing",
-        body: "Pay as we clear phases: discovery, concepts, procurement, and install. No surprise invoices.",
-        tag: "50% deposit"
-      },
-      {
-        title: "Client-funded purchasing",
-        body: "All materials are bought in your name with receipts and trackers—no hidden markups.",
-        tag: "Zero float"
-      },
-      {
-        title: "Flexible scheduling",
-        body: "Split work across months; we lock pricing and suppliers after your deposit lands.",
-        tag: "Timeline guardrails"
-      }
-    ],
-    footnote: "Deposits are refundable until sourcing starts; receipts and budgets live in your tracker."
-  },
-  security: {
-    title: "Engagement billing",
-    intro:
-      "Transparent pricing for covert sweeps and intel drops, with fast approvals for remediation.",
-    options: [
-      {
-        title: "Scoped engagements",
-        body: "Each sweep comes with a fixed bid and clear deliverables—no time-and-materials surprises.",
-        tag: "Fixed bid"
-      },
-      {
-        title: "Rush deployments",
-        body: "Expedite a Secret Lifter squad with a rapid start fee; the balance clears on delivery.",
-        tag: "48h start"
-      },
-      {
-        title: "Retainers",
-        body: "Monthly intel drops with rotating personas for ecommerce, POS, and in-store coverage.",
-        tag: "Quarterly terms"
-      }
-    ],
-    footnote: "All pricing includes footage, receipts, and prioritized remediation briefs."
-  },
-  ink: {
-    title: "Deposits & aftercare",
-    intro:
-      "Apprentice-friendly pricing with clear deposits so you know exactly what you’re paying for.",
-    options: [
-      {
-        title: "Flash deposits",
-        body: "Reserve flash with a small deposit; balances due in-studio after placement approval.",
-        tag: "$10 hold"
-      },
-      {
-        title: "Custom holds",
-        body: "50% deposit locks your date while we iterate on sketches and sizing.",
-        tag: "50% hold"
-      },
-      {
-        title: "Touch-up policy",
-        body: "One complimentary touch-up within 60 days is baked into pricing.",
-        tag: "Included care"
-      }
-    ],
-    footnote: "Deposits transfer once if you reschedule 48 hours ahead; aftercare kits available in-studio."
-  }
+type BrandPageProps = {
+  initialExperience?: ExperienceId;
 };
 
-export function BrandPage() {
+export function BrandPage({ initialExperience = "interiors" }: BrandPageProps) {
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [showPreloader, setShowPreloader] = useState(false);
   const [entered, setEntered] = useState(false);
-  const [activeExperience, setActiveExperience] = useState<ExperienceId>("interiors");
+  const [activeExperience, setActiveExperience] = useState<ExperienceId>(initialExperience);
   const [selectedServiceId, setSelectedServiceId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -460,6 +473,14 @@ export function BrandPage() {
   useEffect(() => {
     setSelectedServiceId(null);
   }, [activeExperience]);
+
+  useEffect(() => {
+    if (initialExperience !== activeExperience) {
+      setActiveExperience(initialExperience);
+      setSelectedServiceId(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialExperience]);
 
   const handleServiceSelect = (id: string | null) => {
     setSelectedServiceId((current) => {
@@ -521,7 +542,7 @@ export function BrandPage() {
         return;
       }
 
-      if (["1", "2", "3"].includes(event.key)) {
+      if (["1", "2", "3", "4"].includes(event.key)) {
         const next = EXPERIENCE_ORDER[Number(event.key) - 1];
         if (next) {
           event.preventDefault();
@@ -572,7 +593,7 @@ export function BrandPage() {
             id="experiences"
             label="Entry Sequence"
             title="Choose your Ømnilon world"
-            intro="Pick the lane you need today—interior design, Secret Lifter intelligence, or apprentice-led ink. Each card shows how we scope the work, bill transparently, and keep you updated."
+            intro="Pick the lane you need today—interior design, Secret Lifter intelligence, apprentice-led ink, or financing. Each card shows how we scope the work, bill transparently, and keep you updated."
           >
             <ExperienceDeck
               activeId={activeExperience}
@@ -580,7 +601,7 @@ export function BrandPage() {
             />
             <div className="mt-6 flex flex-wrap gap-3 text-[10px] font-mono uppercase tracking-[0.32em] text-white/60">
               <span className="rounded-full border border-white/10 px-3 py-1">
-                1 / 2 / 3 or ← → switch experiences
+                1 / 2 / 3 / 4 or ← → switch experiences
               </span>
               <span className="rounded-full border border-white/10 px-3 py-1">
                 Enter unlocks shell
@@ -589,6 +610,14 @@ export function BrandPage() {
                 Hover cards for parallax HUD
               </span>
             </div>
+            <CornerHudBadge
+              label="MINI MAP"
+              position="bottom-right"
+              onClick={() => {
+                // Placeholder interaction
+                console.log("Mini map toggled");
+              }}
+            />
           </Section>
 
           <AnimatePresence mode="wait">
@@ -636,31 +665,6 @@ export function BrandPage() {
                         </HudBracket>
                       ))}
                     </div>
-                  </Section>
-
-                  <Section
-                    id="financing"
-                    label="Billing"
-                    title={FINANCING.interiors.title}
-                    intro={FINANCING.interiors.intro}
-                  >
-                    <div className="grid gap-4 md:grid-cols-3">
-                      {FINANCING.interiors.options.map((option) => (
-                        <HudBracket
-                          key={option.title}
-                          className="h-full bg-white/5 p-5"
-                          label={option.tag}
-                        >
-                          <div className="flex h-full flex-col gap-3">
-                            <h4 className="font-grotesk text-lg font-semibold text-white">
-                              {option.title}
-                            </h4>
-                            <p className="text-sm text-muted">{option.body}</p>
-                          </div>
-                        </HudBracket>
-                      ))}
-                    </div>
-                    <p className="mt-4 text-sm text-muted">{FINANCING.interiors.footnote}</p>
                   </Section>
 
                   <Section
@@ -729,32 +733,7 @@ export function BrandPage() {
                   </Section>
 
                   <Section
-                    id="financing"
-                    label="Billing"
-                    title={FINANCING.security.title}
-                    intro={FINANCING.security.intro}
-                  >
-                    <div className="grid gap-4 md:grid-cols-3">
-                      {FINANCING.security.options.map((option) => (
-                        <HudBracket
-                          key={option.title}
-                          className="h-full bg-white/5 p-5"
-                          label={option.tag}
-                        >
-                          <div className="flex h-full flex-col gap-3">
-                            <h4 className="font-grotesk text-lg font-semibold text-white">
-                              {option.title}
-                            </h4>
-                            <p className="text-sm text-muted">{option.body}</p>
-                          </div>
-                        </HudBracket>
-                      ))}
-                    </div>
-                    <p className="mt-4 text-sm text-muted">{FINANCING.security.footnote}</p>
-                  </Section>
-
-                  <Section
-                    id="coverage"
+                    id="testimonials"
                     label="Coverage"
                     title="What you receive"
                     intro="Secret Lifters align on risk personas, deploy covert operatives, and debrief leadership with raw footage, data trails, and prioritized fixes."
@@ -829,32 +808,7 @@ export function BrandPage() {
                   </Section>
 
                   <Section
-                    id="financing"
-                    label="Billing"
-                    title={FINANCING.ink.title}
-                    intro={FINANCING.ink.intro}
-                  >
-                    <div className="grid gap-4 md:grid-cols-3">
-                      {FINANCING.ink.options.map((option) => (
-                        <HudBracket
-                          key={option.title}
-                          className="h-full bg-white/5 p-5"
-                          label={option.tag}
-                        >
-                          <div className="flex h-full flex-col gap-3">
-                            <h4 className="font-grotesk text-lg font-semibold text-white">
-                              {option.title}
-                            </h4>
-                            <p className="text-sm text-muted">{option.body}</p>
-                          </div>
-                        </HudBracket>
-                      ))}
-                    </div>
-                    <p className="mt-4 text-sm text-muted">{FINANCING.ink.footnote}</p>
-                  </Section>
-
-                  <Section
-                    id="pricing"
+                    id="testimonials"
                     label="Pricing & Deposits"
                     title="Transparent tattoo pricing"
                     intro="Healing support and deposit structure keep the apprenticeship sustainable without surprises."
@@ -881,6 +835,65 @@ export function BrandPage() {
                             <footer className="text-sm font-semibold text-white">
                               {testimonial.author}
                             </footer>
+                          </blockquote>
+                        </HudBracket>
+                      ))}
+                    </div>
+                  </Section>
+                </>
+              ) : null}
+
+              {activeExperience === "financing" ? (
+                <>
+                  <Section
+                    id="services"
+                    label="Financing"
+                    title="Finance any bundle"
+                    intro="Project-friendly payment plans with transparent uplift and partner-ready reconciliation."
+                  >
+                    <ServicesGrid
+                      services={FINANCING_SERVICES}
+                      selectedId={selectedServiceId}
+                      onSelect={handleServiceSelect}
+                    />
+                  </Section>
+
+                  <Section
+                    id="process"
+                    label="Flow"
+                    title="How financing runs"
+                    intro="From catalog ingest to payouts, every step keeps clients and partners aligned."
+                  >
+                    <div className="grid gap-6 md:grid-cols-2">
+                      {FINANCING_PROCESS.map((step, index) => (
+                        <HudBracket
+                          key={step.title}
+                          className="h-full bg-white/5 p-6"
+                          label={`Phase ${index + 1}`}
+                        >
+                          <div className="flex h-full flex-col gap-4">
+                            <h3 className="font-grotesk text-xl font-semibold text-white">
+                              {step.title}
+                            </h3>
+                            <p className="text-sm text-muted">{step.description}</p>
+                          </div>
+                        </HudBracket>
+                      ))}
+                    </div>
+                  </Section>
+
+                  <Section
+                    id="testimonials"
+                    label="Proof"
+                    title="Financing notes"
+                    intro="Short signals from teams that ran financing through Ømnilon."
+                  >
+                    <div className="grid gap-6 md:grid-cols-2">
+                      {FINANCING_TESTIMONIALS.map(note => (
+                        <HudBracket key={note.quote} className="h-full bg-white/5 p-6" label={note.role}>
+                          <blockquote className="flex h-full flex-col justify-between gap-4">
+                            <p className="text-sm text-muted">“{note.quote}”</p>
+                            <footer className="text-sm font-semibold text-white">{note.author}</footer>
                           </blockquote>
                         </HudBracket>
                       ))}
@@ -922,12 +935,6 @@ export function BrandPage() {
                       className="inline-flex shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 py-3 font-mono text-[10px] uppercase tracking-[0.36em] text-white transition duration-300 ease-brand hover:border-accent-purple hover:text-accent-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-purple focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
                     >
                       {cta.button}
-                    </Link>
-                    <Link
-                      href="/financing"
-                      className="inline-flex shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/0 px-6 py-3 font-mono text-[10px] uppercase tracking-[0.36em] text-white transition duration-300 ease-brand hover:border-accent-purple hover:text-accent-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-purple focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
-                    >
-                      Financing page
                     </Link>
                   </div>
                 </HudBracket>

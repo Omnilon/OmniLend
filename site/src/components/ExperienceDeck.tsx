@@ -58,6 +58,22 @@ const EXPERIENCES = [
     ],
     image:
       "https://images.unsplash.com/photo-1504292008362-316e7ebbeb1f?q=80&w=1600&auto=format&fit=crop"
+  },
+  {
+    id: "financing",
+    label: "Financing",
+    title: "Ømnilon Financing",
+    tagline: "Budget-first buying",
+    description:
+      "Project-friendly payment plans with transparent terms, deposits, and partner-ready uplift baked in.",
+    highlights: [
+      "Clear APR, term length, and total cost disclosures",
+      "Flexible down payments calibrated by ticket size",
+      "10% distributor uplift protects margin and partnerships",
+      "Fast approvals via First American Finance rails"
+    ],
+    image:
+      "https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?q=80&w=1600&auto=format&fit=crop"
   }
 ];
 
