@@ -45,6 +45,13 @@ Local storage keys:
 - `hasEntered` — controls the gateway overlay
 - `soundEnabled` — remembers the HUD sound toggle
 
+## Contact Form + Telegram
+
+Set the following in `.env.local` to enable Telegram delivery:
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_CHAT_ID`
+- `TELEGRAM_THREAD_ID` (optional, for forum topics)
+
 ## Routes
 
 - `/` immersive experience

@@ -338,6 +338,12 @@ export const omniContent = {
     title: "Tell us what you are building.",
     subtitle:
       "Share your goals across design, finance, or protection. We will respond with a tailored plan.",
+    email: "omnilend.co@gmail.com",
+    phone: "(404) 919-8026",
+    phoneDial: "+14049198026",
+    availability: "New engagements accepted quarterly.",
+    formTitle: "Start an engagement",
+    formDescription: "Send a brief note and we will follow up within 2 business days.",
     ctaLabel: "Schedule a discovery call",
     ctaNote: "Response within 2 business days."
   }
