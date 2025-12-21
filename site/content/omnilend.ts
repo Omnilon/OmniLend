@@ -21,6 +21,9 @@ export type Service = {
   description: string;
   outcomes: string[];
   deliverables: string[];
+  pricing: string;
+  accent: string;
+  accentSoft: string;
 };
 
 export type ProcessStep = {
@@ -62,18 +65,24 @@ export const omniContent = {
   site: {
     name: "OmniLend",
     url: "https://omnilend.pro",
-    title: "OmniLend - Secure Lending Experiences",
+    title: "OmniLend - Integrated Operations Studio",
     description:
-      "OmniLend designs and builds secure, human-centered lending experiences for modern platforms. Strategy, design, and engineering for high-trust finance.",
-    tagline: "Lending systems that feel human.",
-    gatewayTagline: "OMNILEND // FREE FROM COMPROMISE",
+      "OmniLend unifies interior design, finance strategy, and asset protection into one coordinated operating partner.",
+    tagline: "Design. Finance. Protection.",
+    gatewayTagline: "OMNILEND // SYSTEM ENTRY",
     introLabel: "System access",
-    heroLabel: "OmniLend // Lending Systems",
-    heroTitle: "Lending experiences built for trust.",
+    heroLabel: "OmniLend // Integrated Systems",
+    heroTitle: "One system for spaces, capital, and protection.",
     heroSubtitle:
-      "We design, ship, and optimize lending journeys that balance speed with risk clarity - from onboarding to repayment.",
+      "We combine interior design, financial operations, and asset protection into a calm, coordinated engagement with clear outcomes.",
     heroCtaPrimary: "Enter the system",
-    heroCtaSecondary: "Explore services"
+    heroCtaSecondary: "Explore services",
+    heroHighlights: [
+      "Interior design + experience",
+      "Financial clarity + planning",
+      "Asset protection + safety",
+      "Operational alignment"
+    ]
   },
   nav: [
     { label: "Overview", href: "#overview" },
@@ -98,181 +107,154 @@ export const omniContent = {
   ] as SectionNav[],
   overview: {
     eyebrow: "System overview",
-    title: "A calm, confident lending system.",
+    title: "Three disciplines, one operating partner.",
     subtitle:
-      "OmniLend orchestrates lending experiences that keep borrowers informed and teams in control - with clear flows, visibility, and measured risk.",
+      "OmniLend blends design, finance, and protection so leaders can move with clarity and confidence.",
     items: [
       {
-        title: "Clarity across the journey",
+        title: "Interior environments",
         description:
-          "We map decisioning, disclosures, and repayment into a single narrative so customers always know what happens next."
+          "Human-centered spaces that balance beauty, function, and longevity for residential and boutique commercial clients."
       },
       {
-        title: "Risk-aware by design",
+        title: "Finance operations",
         description:
-          "Signals, friction, and guardrails are shaped into the experience, not bolted on after launch."
+          "Planning, forecasting, and cash flow visibility that keeps teams aligned on growth and risk."
       },
       {
-        title: "Operational visibility",
+        title: "Asset protection",
         description:
-          "Dashboards and handoffs keep lending ops, servicing, and risk teams aligned on every touchpoint."
+          "Risk assessment, safety protocols, and operational safeguards to protect people and assets."
       }
     ] as OverviewItem[]
   },
   services: {
     eyebrow: "Capabilities",
-    title: "Services engineered for high-trust lending.",
-    subtitle:
-      "Strategy, experience, and build support for lenders that need speed without losing control.",
+    title: "Services built to stay calm under pressure.",
+    subtitle: "Pick a single discipline or combine multiple systems in one engagement.",
     items: [
       {
-        id: "strategy",
-        title: "Lending strategy + discovery",
-        summary: "Define the lending model, risk posture, and experience north star.",
+        id: "interior-design",
+        title: "Interior Design Studio",
+        summary: "Concept-to-install design for residential and boutique commercial spaces.",
         description:
-          "We align stakeholders around product goals, eligibility logic, and user journeys while mapping regulatory and operational constraints.",
+          "We guide concepting, spatial planning, finishes, lighting, and procurement with a steady process that keeps teams aligned.",
         outcomes: [
-          "Clear lending model and success metrics",
-          "Risk assumptions documented early",
-          "Aligned roadmap and scope"
+          "Cohesive design direction",
+          "Predictable timelines",
+          "Vendor coordination and oversight"
         ],
         deliverables: [
-          "Experience blueprint",
-          "Risk and compliance checklist",
-          "Opportunity map"
-        ]
+          "Design boards and layout plans",
+          "Finish schedules",
+          "Procurement and install guidance"
+        ],
+        pricing: "Engagement: project-based or room packages",
+        accent: "#F07A8E",
+        accentSoft: "rgba(240, 122, 142, 0.18)"
       },
       {
-        id: "experience",
-        title: "Experience design",
-        summary: "Design borrower flows that feel transparent and human.",
+        id: "finance",
+        title: "OmniLend Finance",
+        summary: "Financial planning, forecasting, and operator-ready reporting.",
         description:
-          "We craft UX and UI systems that keep borrowers informed, reduce drop-off, and preserve trust through sensitive moments.",
+          "We structure budgets, cash flow models, and decision frameworks so leadership can move quickly with confidence.",
         outcomes: [
-          "Higher completion rates",
-          "Reduced support load",
-          "Consistent brand confidence"
+          "Clear financial visibility",
+          "Aligned leadership decisions",
+          "Operational-ready reporting"
         ],
         deliverables: [
-          "Journey maps",
-          "High-fidelity UI system",
-          "Copy and disclosure guidance"
-        ]
+          "Forecasting models",
+          "Budget and runway planning",
+          "Monthly reporting cadence"
+        ],
+        pricing: "Engagement: advisory or fractional support",
+        accent: "#F3C24A",
+        accentSoft: "rgba(243, 194, 74, 0.18)"
       },
       {
-        id: "risk",
-        title: "Risk + policy design",
-        summary: "Translate risk logic into clear, compliant experiences.",
+        id: "asset-protection",
+        title: "OmniLend Asset Protection",
+        summary: "Risk assessments, safety planning, and loss prevention support.",
         description:
-          "We partner with risk and compliance teams to shape disclosures, adverse action flows, and servicing protocols that are clear and respectful.",
+          "We audit vulnerabilities, design protocols, and train teams to protect people, spaces, and operational continuity.",
         outcomes: [
-          "Lower escalation rates",
-          "Better audit readiness",
-          "Fewer manual reviews"
+          "Risk visibility and mitigation",
+          "Stronger safety protocols",
+          "Reduced operational exposure"
         ],
         deliverables: [
-          "Decisioning UX rules",
-          "Disclosure templates",
-          "Exception handling playbook"
-        ]
-      },
-      {
-        id: "build",
-        title: "Product build + launch",
-        summary: "Ship the experience with modern engineering and analytics.",
-        description:
-          "We build front-end and integration layers, instrument analytics, and coordinate handoff so teams can operate from day one.",
-        outcomes: [
-          "Launch-ready lending journey",
-          "Reliable integrations",
-          "Operational telemetry"
+          "Risk assessment report",
+          "Protocol playbooks",
+          "Training and review sessions"
         ],
-        deliverables: [
-          "Production UI",
-          "Integration support",
-          "Tracking plan"
-        ]
-      },
-      {
-        id: "optimization",
-        title: "Optimization + growth",
-        summary: "Measure behavior and iterate with precision.",
-        description:
-          "We run diagnostics on friction points, create experiments, and tune the system to improve approvals, repayment, and retention.",
-        outcomes: [
-          "Reduced drop-off",
-          "Improved repayment posture",
-          "Continuous learning loop"
-        ],
-        deliverables: [
-          "Experiment backlog",
-          "UX instrumentation",
-          "Performance review cadence"
-        ]
+        pricing: "Engagement: assessment plus ongoing review",
+        accent: "#59D3B2",
+        accentSoft: "rgba(89, 211, 178, 0.18)"
       }
     ] as Service[]
   },
   process: {
     eyebrow: "Process",
-    title: "A calm, repeatable operating rhythm.",
-    subtitle: "Five steps that keep teams aligned from intake to iteration.",
+    title: "A repeatable operating rhythm.",
+    subtitle: "Five steps that keep teams aligned from intake to execution.",
     steps: [
       {
         title: "Signal intake",
-        description: "Gather business goals, data signals, and platform constraints."
+        description: "Gather objectives, constraints, and risk signals from stakeholders."
       },
       {
-        title: "Journey modeling",
-        description: "Map lending flows, risk checkpoints, and communication moments."
+        title: "System mapping",
+        description: "Audit the current state and map gaps across people, process, and tools."
       },
       {
-        title: "Design + prototyping",
-        description: "Prototype the experience with stakeholders and validation loops."
+        title: "Design + planning",
+        description: "Draft the plan, scope, and cadence with clear deliverables."
       },
       {
-        title: "Build + integrate",
-        description: "Ship the experience with analytics, QA, and deployment support."
+        title: "Deployment",
+        description: "Deliver assets, execution support, and implementation guidance."
       },
       {
-        title: "Optimize",
-        description: "Monitor signals and iterate with targeted experiments."
+        title: "Optimization",
+        description: "Review outcomes, adjust the system, and plan the next phase."
       }
     ] as ProcessStep[]
   },
   proof: {
     eyebrow: "Proof",
     title: "Measured outcomes, shared clearly.",
-    subtitle:
-      "Replace these placeholders with real numbers as you collect production data.",
+    subtitle: "Replace these placeholders with verified metrics and case studies.",
     metrics: [
-      { value: "28%", label: "Sample onboarding lift", note: "Placeholder" },
-      { value: "36h", label: "Sample decision turnaround", note: "Placeholder" },
-      { value: "4.8/5", label: "Sample borrower satisfaction", note: "Placeholder" }
+      { value: "18%", label: "Sample cost efficiency lift", note: "Placeholder" },
+      { value: "4.9/5", label: "Sample client satisfaction", note: "Placeholder" },
+      { value: "3-5w", label: "Sample engagement timeline", note: "Placeholder" }
     ] as Metric[],
     testimonials: [
       {
         quote:
-          "OmniLend helped us simplify approvals while keeping risk and compliance aligned across teams.",
-        name: "Head of Product",
-        role: "Consumer Lending",
-        company: "Fintech Platform"
+          "OmniLend brought clarity to our space, budget, and operational risks in one coordinated engagement.",
+        name: "Director of Operations",
+        role: "Hospitality",
+        company: "Boutique Group"
       },
       {
         quote:
-          "The new repayment experience reduced confusion and improved our servicing metrics within weeks.",
-        name: "Operations Lead",
-        role: "Servicing",
-        company: "Credit Marketplace"
-      },
-      {
-        quote:
-          "Every touchpoint feels deliberate - we finally have a coherent lending story.",
+          "The finance framework helped us align leadership and move faster without losing control.",
         name: "Founder",
-        role: "Embedded Finance",
-        company: "SaaS Provider"
+        role: "Consumer Brand",
+        company: "Private Portfolio"
+      },
+      {
+        quote:
+          "The asset protection review surfaced blind spots we had missed for years.",
+        name: "General Manager",
+        role: "Retail",
+        company: "Regional Operator"
       }
     ] as Testimonial[],
-    logos: ["NovaBank", "Aperture Capital", "Greyline", "Cascade", "Ion Ledger"]
+    logos: ["Studio North", "Westlake", "Maven", "Eastbay", "Orchid"]
   },
   work: {
     eyebrow: "Work",
@@ -280,48 +262,48 @@ export const omniContent = {
     subtitle: "Swap these with live case studies when ready.",
     cases: [
       {
-        title: "Embedded lending for a vertical SaaS",
+        title: "Residential interior transformation",
         description:
-          "Designed a loan offer flow that balances approvals with clear repayment expectations.",
-        tags: ["SaaS", "Embedded", "B2B"],
-        outcome: "Reduced drop-off at offer review."
+          "Reimagined a full-home interior with cohesive material palettes and custom lighting plans.",
+        tags: ["Interior Design", "Residential"],
+        outcome: "Improved flow and livability."
       },
       {
-        title: "Marketplace credit for mid-market buyers",
+        title: "Finance operations reset",
         description:
-          "Built a multi-rail underwriting journey with transparent disclosures and status updates.",
-        tags: ["Marketplace", "Underwriting", "Risk"],
-        outcome: "Improved confidence in approval outcomes."
+          "Built a forecasting and reporting cadence to align leadership on growth priorities.",
+        tags: ["Finance", "Planning"],
+        outcome: "Leadership decisions made with clearer data."
       },
       {
-        title: "Servicing portal modernization",
+        title: "Asset protection assessment",
         description:
-          "Reimagined repayment, hardship, and support flows for a servicing team.",
-        tags: ["Servicing", "Ops", "Support"],
-        outcome: "Lowered inbound support volume."
+          "Audited high-risk operational zones and deployed safety protocols across teams.",
+        tags: ["Asset Protection", "Safety"],
+        outcome: "Reduced exposure and improved team response."
       }
     ] as CaseStudy[]
   },
   trust: {
     eyebrow: "Trust & security",
-    title: "Safeguards designed into the experience.",
+    title: "Safeguards designed into the engagement.",
     subtitle:
-      "We focus on transparency, data stewardship, and operational resilience without overpromising compliance.",
+      "We stay precise, transparent, and respectful of privacy while we build the system.",
     items: [
       {
-        title: "Privacy-first workflows",
+        title: "Scope clarity",
         description:
-          "Sensitive data is minimized, masked, and handled with clear consent patterns."
+          "Every engagement begins with clear deliverables, timelines, and communication paths."
       },
       {
-        title: "Audit-friendly handoffs",
+        title: "Discretion + privacy",
         description:
-          "Documentation and decision logs are structured for internal review and partner audits."
+          "Sensitive information stays protected with role-based access and secure documentation."
       },
       {
-        title: "Resilience planning",
+        title: "Safety-first protocols",
         description:
-          "We map fallback states, escalation paths, and recovery experiences before launch."
+          "We plan for safety, compliance, and operational continuity without overpromising."
       }
     ] as TrustItem[]
   },
@@ -330,32 +312,32 @@ export const omniContent = {
     title: "Questions, answered with clarity.",
     items: [
       {
-        question: "What size teams do you work with?",
+        question: "Can we engage on just one discipline?",
         answer:
-          "We partner with lean fintech teams through enterprise platforms, adjusting cadence and documentation to match scale."
+          "Yes. You can engage OmniLend for a single service or combine multiple systems under one engagement."
       },
       {
-        question: "Do you replace internal design or engineering teams?",
+        question: "Do you offer ongoing retainers?",
         answer:
-          "No - we work alongside your teams to accelerate delivery, document decisions, and hand off cleanly."
+          "Yes, retainers are available for finance advisory, asset protection reviews, and continued design support."
       },
       {
-        question: "Can OmniLend support compliance requirements?",
+        question: "Where do you operate?",
         answer:
-          "We design experiences that make compliance workflows clear, but we do not provide legal advice."
+          "We work remotely across the U.S. and travel on-site for engagements that require it."
       },
       {
         question: "How quickly can we start?",
         answer:
-          "Discovery can begin within two weeks once scope and stakeholders are aligned."
+          "Discovery typically begins within two weeks once scope and stakeholders are aligned."
       }
     ] as FaqItem[]
   },
   contact: {
     eyebrow: "Contact",
-    title: "Build the lending experience your customers trust.",
+    title: "Tell us what you are building.",
     subtitle:
-      "Tell us about your product, risk goals, and timeline. We will respond with a tailored plan.",
+      "Share your goals across design, finance, or protection. We will respond with a tailored plan.",
     ctaLabel: "Schedule a discovery call",
     ctaNote: "Response within 2 business days."
   }

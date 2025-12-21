@@ -4,13 +4,13 @@ import { Contact } from "@/components/experience/sections/Contact";
 import { FAQ } from "@/components/experience/sections/FAQ";
 
 export const metadata: Metadata = {
-  title: "Contact | OmniLend",
-  description: "Start a lending experience engagement with OmniLend."
+  title: "Contact",
+  description: "Start an OmniLend engagement in design, finance, or protection."
 };
 
 export default function ContactPage() {
   return (
-    <SeoPageShell title="Contact" subtitle="Tell us about your lending platform and goals.">
+    <SeoPageShell title="Contact" subtitle="Tell us about your design, finance, or protection goals.">
       <Contact />
       <FAQ />
     </SeoPageShell>

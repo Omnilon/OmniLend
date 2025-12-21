@@ -45,7 +45,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden px-6 pb-24 pt-32 md:pb-32 md:pt-40"
+      className="relative scroll-mt-24 overflow-hidden px-6 pb-24 pt-32 md:pb-32 md:pt-40"
     >
       <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
         <div>
@@ -67,12 +67,7 @@ export function Hero() {
             </ButtonLink>
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {[
-              "Signal-led lending journeys",
-              "Human-first product strategy",
-              "Audit-friendly documentation",
-              "Precision rollout support"
-            ].map((item) => (
+            {(omniContent.site.heroHighlights ?? []).map((item) => (
               <div key={item} className="flex items-center gap-3 text-sm text-white/60">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                 {item}

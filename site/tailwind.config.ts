@@ -26,14 +26,14 @@ const config: Config = {
         brand: "cubic-bezier(0.23, 1, 0.32, 1)"
       },
       boxShadow: {
-        glow: "0 0 40px rgba(155, 107, 255, 0.28)",
+        glow: "0 0 40px rgba(243, 194, 74, 0.28)",
         soft: "0 20px 60px rgba(7, 7, 15, 0.5)"
       },
       backgroundImage: {
         "grid-lines":
           "linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px)",
         "mesh-radial":
-          "radial-gradient(circle at 10% 10%, rgba(155, 107, 255, 0.25), transparent 45%), radial-gradient(circle at 90% 20%, rgba(255, 106, 61, 0.15), transparent 40%), radial-gradient(circle at 50% 80%, rgba(120, 140, 255, 0.16), transparent 45%)"
+          "radial-gradient(circle at 10% 10%, rgba(240, 122, 142, 0.22), transparent 45%), radial-gradient(circle at 90% 20%, rgba(243, 194, 74, 0.16), transparent 40%), radial-gradient(circle at 50% 80%, rgba(89, 211, 178, 0.16), transparent 45%)"
       },
       keyframes: {
         sweep: {

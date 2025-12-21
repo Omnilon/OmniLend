@@ -60,9 +60,9 @@ export function GradientBG({ className }: GradientBGProps) {
       const ambient = new three.AmbientLight("#222", 0.6);
       scene.add(ambient);
 
-      const lightA = new three.PointLight("#D4A0FF", 18, 30, 2);
-      const lightB = new three.PointLight("#FF5300", 16, 30, 2);
-      const lightC = new three.PointLight("#6EC85C", 6, 30, 2);
+      const lightA = new three.PointLight("#F07A8E", 18, 30, 2);
+      const lightB = new three.PointLight("#F3C24A", 16, 30, 2);
+      const lightC = new three.PointLight("#59D3B2", 6, 30, 2);
       scene.add(lightA, lightB, lightC);
 
       const resize = () => {

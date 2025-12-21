@@ -5,8 +5,8 @@ import { Process } from "@/components/experience/sections/Process";
 import { Contact } from "@/components/experience/sections/Contact";
 
 export const metadata: Metadata = {
-  title: "Process | OmniLend",
-  description: "Understand the OmniLend delivery rhythm from signal intake to optimization."
+  title: "Process",
+  description: "Understand the OmniLend operating rhythm from intake to optimization."
 };
 
 export default function ProcessPage() {
