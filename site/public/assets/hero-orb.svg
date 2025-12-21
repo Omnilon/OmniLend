@@ -1,0 +1,20 @@
+<svg width="600" height="600" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="orbCore" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(300 260) scale(220)">
+      <stop offset="0" stop-color="#F5F0FF" stop-opacity="0.95" />
+      <stop offset="0.45" stop-color="#B58CFF" stop-opacity="0.8" />
+      <stop offset="1" stop-color="#120A24" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="orbEdge" x1="120" y1="120" x2="520" y2="520" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9B6BFF" stop-opacity="0.6" />
+      <stop offset="1" stop-color="#FF6A3D" stop-opacity="0.15" />
+    </linearGradient>
+  </defs>
+  <circle cx="300" cy="280" r="210" fill="url(#orbCore)" />
+  <circle cx="300" cy="300" r="180" stroke="url(#orbEdge)" stroke-width="2" />
+  <circle cx="300" cy="300" r="120" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1" />
+  <path d="M120 300H480" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="1" />
+  <path d="M300 120V480" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="1" />
+  <circle cx="420" cy="200" r="6" fill="#9B6BFF" fill-opacity="0.7" />
+  <circle cx="200" cy="390" r="4" fill="#FF6A3D" fill-opacity="0.6" />
+</svg>

@@ -1,6 +1,6 @@
-# Ømnilon Brand Shell
+# OmniLend Experience Site
 
-An opt-in Next.js 14 microsite that applies the high-contrast Ømnilon shell to any part of the repo without touching the legacy static pages. The `/brand` route now showcases the interiors studio, Secret Lifter security engagements, and the Ømnilon Ink apprenticeship inside one experience.
+Immersive, single-page marketing experience for OmniLend built with Next.js App Router, TypeScript, Tailwind CSS, Framer Motion, and Lenis.
 
 ## Getting Started
 
@@ -8,43 +8,49 @@ An opt-in Next.js 14 microsite that applies the high-contrast Ømnilon shell to 
    ```bash
    npm install
    ```
-2. Start the local preview (opens `http://localhost:3000/brand`):
+2. Start the dev server:
    ```bash
-   npm run brand:preview
+   npm run dev
    ```
 3. Lint and format:
    ```bash
    npm run lint
    npm run format
    ```
-4. Run snapshot tests:
-   ```bash
-   npm test
-   ```
 
-## Project Structure
+## Edit Content
 
-- `src/app` — Next.js App Router entry. `/brand`, `/about`, `/pricing`, `/contact` are powered by MDX content.
-- `src/components` — Brand system building blocks (HUD brackets, Hero gate, Secret Lifter demo, etc.).
-- `src/lib` — Shared utilities including the MDX loader.
-- `public/` — Static assets including noise overlay and HUD demo image.
-- `scripts/brand-codemod.mjs` — Stub to scan for brand-token replacements; extend to map legacy colors.
+All copy and structure live in `content/omnilend.ts`:
+- Navigation labels
+- Section titles and subtitles
+- Services, process, proof, work, trust, FAQ, and contact copy
 
-## Feature Flags & Persistence
+## Theme & Styling
 
-- Local storage keys:
-  - `omnilend:preloader-seen` — skips the Ømnilon calibration screen after the first visit.
-  - `omnilend:hero-entered` — bypasses the hero gate once “Enter Ømnilon” is triggered.
-  - `omnilend:sound-enabled` — remembers the sound toggle state.
+Edit theme tokens in `src/app/globals.css`:
+- `--bg`, `--panel`, `--text`, `--muted`, `--accent`, `--accent2`, `--border`
+- HUD and background atmospherics live in the same file
 
-## Accessibility & Motion
+## Assets
 
-- Motion automatically respects `prefers-reduced-motion` (Lenis smooth scrolling is skipped and animations fall back gracefully).
-- Contrast ratios stay ≥ 4.5:1 with bright accents reserved for 20% of the UI.
-- Keyboard focus rings use accent hues for clear affordances.
+Place imagery and abstract assets in `public/assets/` and load them with `next/image`.
+Current placeholders:
+- `public/assets/hero-orb.svg`
+- `public/assets/mesh-1.svg`
+- `public/assets/mesh-2.svg`
 
-## Next Steps
+## Gateway + Sound
 
-- Pipe `BrandShell` (from `BrandProviders`) into future product screens behind a feature flag.
-- Expand `brand-codemod` to replace legacy hex colors with CSS variables.
-- Drop in production imagery/audio as interiors, Secret Lifter, and ink assets ship.
+Local storage keys:
+- `hasEntered` — controls the gateway overlay
+- `soundEnabled` — remembers the HUD sound toggle
+
+## Routes
+
+- `/` immersive experience
+- `/services`, `/process`, `/work`, `/about`, `/contact` SEO-friendly pages
+
+## Notes
+
+- Smooth scrolling respects `prefers-reduced-motion`.
+- Heavy visual modules are kept lightweight and lazy-friendly.

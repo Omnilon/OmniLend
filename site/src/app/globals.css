@@ -3,20 +3,24 @@
 @tailwind utilities;
 
 :root {
-  --bg: #0a0a0a;
-  --bg-2: #101010;
-  --text: #ffffff;
-  --muted: #a3a3a3;
-  --accent-purple: #d4a0ff;
-  --accent-orange: #ff5300;
+  --bg: #0b0b11;
+  --panel: rgba(17, 19, 28, 0.72);
+  --text: #f5f7fb;
+  --muted: #9aa3b2;
+  --accent: #9b6bff;
+  --accent2: #ff6a3d;
+  --accent-purple: #9b6bff;
+  --accent-orange: #ff6a3d;
   --accent-green: #6ec85c;
-  --accent-red: #e40046;
-  --grad-1: linear-gradient(180deg, #45395c 0%, #0a0a0a 100%);
-  --grad-2: radial-gradient(120% 120% at 50% 0%, #45395c 0%, #0a0a0a 60%);
-  --grad-3: linear-gradient(180deg, #0a0a0a 0%, #404040 100%);
-  --noise-opacity: 0.07;
-  --font-grotesk: "Inter", "Space Grotesk", "Sora", "Helvetica Neue", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", "IBM Plex Mono", SFMono-Regular, ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --accent-red: #e84b5b;
+  --grad-1: linear-gradient(180deg, #2a2238 0%, #0b0b11 100%);
+  --grad-2: radial-gradient(120% 120% at 50% 0%, #2a2238 0%, #0b0b11 60%);
+  --grad-3: linear-gradient(180deg, #0b0b11 0%, #2c2c3a 100%);
+  --border: rgba(255, 255, 255, 0.12);
+  --hud: rgba(255, 255, 255, 0.08);
+  --noise-opacity: 0.05;
+  --font-grotesk: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -35,16 +39,55 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-grotesk);
+  text-rendering: optimizeLegibility;
 }
 
 body {
   min-height: 100vh;
   scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+#omnilend-shell {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+  background-image: radial-gradient(
+      circle at 15% 20%,
+      rgba(155, 107, 255, 0.18),
+      transparent 45%
+    ),
+    radial-gradient(circle at 80% 10%, rgba(255, 106, 61, 0.12), transparent 42%),
+    radial-gradient(circle at 50% 80%, rgba(90, 115, 255, 0.18), transparent 45%);
+  overflow: hidden;
+}
+
+#omnilend-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 80px 80px;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+#omnilend-shell::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 55%);
+  opacity: 0.2;
+  pointer-events: none;
+  animation: float-glow 14s ease-in-out infinite;
 }
 
 ::selection {
-  background: var(--accent-purple);
-  color: var(--bg);
+  background: var(--accent);
+  color: #0b0b11;
 }
 
 a {
@@ -54,4 +97,55 @@ a {
 
 .text-balance {
   text-wrap: balance;
+}
+
+.glass-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(18px);
+}
+
+.hud-corner {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.scanlines {
+  background-image: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.01) 50%,
+    rgba(0, 0, 0, 0.02) 100%
+  );
+  background-size: 100% 6px;
+}
+
+.noise-overlay {
+  background-image: url("/noise.png");
+  background-repeat: repeat;
+  mix-blend-mode: soft-light;
+  opacity: var(--noise-opacity);
+}
+
+@keyframes float-glow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(2%, -1%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #omnilend-shell::after {
+    animation: none;
+  }
+}
+
+.reduced-motion body {
+  scroll-behavior: auto;
+}
+
+.reduced-motion .animate-sweep {
+  animation: none;
 }

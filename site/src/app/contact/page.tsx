@@ -1,11 +1,18 @@
-import SectionsRenderer from "@/components/SectionsRenderer";
-import { loadPage } from "@/lib/loadPage";
+import type { Metadata } from "next";
+import { SeoPageShell } from "@/components/experience/SeoPageShell";
+import { Contact } from "@/components/experience/sections/Contact";
+import { FAQ } from "@/components/experience/sections/FAQ";
 
-export default async function Contact() {
-  const page = await loadPage("contact");
+export const metadata: Metadata = {
+  title: "Contact | OmniLend",
+  description: "Start a lending experience engagement with OmniLend."
+};
+
+export default function ContactPage() {
   return (
-    <main className="pb-24">
-      <SectionsRenderer sections={page.sections} />
-    </main>
+    <SeoPageShell title="Contact" subtitle="Tell us about your lending platform and goals.">
+      <Contact />
+      <FAQ />
+    </SeoPageShell>
   );
 }

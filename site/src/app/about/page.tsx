@@ -1,11 +1,21 @@
-import SectionsRenderer from "@/components/SectionsRenderer";
-import { loadPage } from "@/lib/loadPage";
+import type { Metadata } from "next";
+import { omniContent } from "@content/omnilend";
+import { SeoPageShell } from "@/components/experience/SeoPageShell";
+import { Overview } from "@/components/experience/sections/Overview";
+import { Trust } from "@/components/experience/sections/Trust";
+import { Contact } from "@/components/experience/sections/Contact";
 
-export default async function About() {
-  const page = await loadPage("about");
+export const metadata: Metadata = {
+  title: "About | OmniLend",
+  description: "Learn how OmniLend builds secure, human-first lending experiences."
+};
+
+export default function AboutPage() {
   return (
-    <main className="pb-24">
-      <SectionsRenderer sections={page.sections} />
-    </main>
+    <SeoPageShell title="About OmniLend" subtitle={omniContent.overview.subtitle}>
+      <Overview />
+      <Trust />
+      <Contact />
+    </SeoPageShell>
   );
 }

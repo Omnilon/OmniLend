@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { ExperiencePage } from "@/components/experience/ExperiencePage";
 
 export default function Home() {
-  redirect("/brand");
+  return <ExperiencePage />;
 }

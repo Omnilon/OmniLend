@@ -11,7 +11,7 @@ import {
 } from "react";
 import { playTone, ToneType } from "@/lib/audio";
 
-const STORAGE_KEY = "omnilend:sound-enabled";
+const STORAGE_KEY = "soundEnabled";
 
 type SoundContextValue = {
   enabled: boolean;
@@ -26,27 +26,34 @@ type SoundProviderProps = {
 };
 
 export function SoundProvider({ children }: SoundProviderProps) {
-  const [enabled, setEnabled] = useState(true);
+  const [enabled, setEnabled] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored !== null) {
-      setEnabled(stored === "true");
+    try {
+      const stored = window.localStorage.getItem(STORAGE_KEY);
+      if (stored !== null) {
+        setEnabled(stored === "true");
+      }
+    } catch (error) {
+      console.warn("Audio settings unavailable", error);
     }
+    setHydrated(true);
   }, []);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    window.localStorage.setItem(STORAGE_KEY, String(enabled));
-  }, [enabled]);
+    if (typeof window === "undefined" || !hydrated) return;
+    try {
+      window.localStorage.setItem(STORAGE_KEY, String(enabled));
+    } catch (error) {
+      console.warn("Audio settings unavailable", error);
+    }
+  }, [enabled, hydrated]);
 
-  const toggle = useCallback(
-    (nextState?: boolean) => {
-      setEnabled((prev) => (typeof nextState === "boolean" ? nextState : !prev));
-    },
-    []
-  );
+  const toggle = useCallback((nextState?: boolean) => {
+    setEnabled((prev) => (typeof nextState === "boolean" ? nextState : !prev));
+  }, []);
 
   const play = useCallback(
     async (tone: ToneType = "hover") => {
