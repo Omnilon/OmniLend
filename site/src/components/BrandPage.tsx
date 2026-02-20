@@ -304,65 +304,69 @@ const INK_STORIES: Quote[] = [
 
 const FINANCING_SERVICES: ServiceData[] = [
   {
-    id: "uplift",
-    title: "Uplift pricing",
-    summary: "Add a 10% distributor uplift to protect margin while clients pay over time.",
+    id: "phones",
+    title: "iPhones & premium phones",
+    summary: "Run fast approvals on iPhones and flagship devices with transparent monthly terms.",
     description:
-      "We ingest vendor SKUs, apply a 10% uplift, and keep disclosures clear so clients see total cost upfront.",
-    price: "10% uplift baked in",
+      "Bundle phones with cases, protectors, and accessories while keeping down payment, term length, and total repayment clear.",
+    price: "Programs configured by ticket size",
     image: "https://images.unsplash.com/photo-1503389152951-9f343605f61e?q=80&w=1400&auto=format&fit=crop",
     deliverables: [
-      "SKU ingestion with uplift applied",
-      "Transparent client-facing pricing sheet",
-      "Partner-ready reconciliation"
+      "Approval flow tuned for premium phone purchases",
+      "Clear monthly and total-cost disclosure templates",
+      "Accessory bundle support in one checkout path"
     ]
   },
   {
-    id: "deposit",
-    title: "Deposits + approvals",
-    summary: "Down payments calibrated by ticket size, approvals handled via First American Finance.",
+    id: "laptops",
+    title: "MacBooks & computers",
+    summary: "Finance MacBooks, creator laptops, desktops, and gaming PCs without checkout friction.",
     description:
-      "We set deposits (20–30% typical), trigger approvals, and keep both the client and partner updated on status.",
-    price: "Deposits from 20%",
+      "Set term and deposit ranges by product band so customers can buy now while you protect margin.",
+    price: "Term + deposit matrix by category",
     image: "https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=1400&auto=format&fit=crop",
     deliverables: [
-      "Deposit configuration per bundle",
-      "Approval status notifications",
-      "Client support channel"
+      "SKU and bundle mapping for laptops and PCs",
+      "Configurable term options by basket size",
+      "Structured approval messaging for sales teams"
     ]
   },
   {
-    id: "fulfillment",
-    title: "Fulfillment & tracking",
-    summary: "Coordinate delivery with vendors while payments flow on schedule.",
+    id: "mobility",
+    title: "Mopeds & scooters",
+    summary: "Support mobility financing with clear deposits, approval routing, and risk controls.",
     description:
-      "We handle fulfillment tracking, invoices, and partner payouts while First American Finance manages installments.",
-    price: "Included coordination",
+      "Launch moped and scooter financing with policies that balance affordability, approval speed, and portfolio safety.",
+    price: "Mobility-ready underwriting setup",
     image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1400&auto=format&fit=crop",
     deliverables: [
-      "Delivery + install tracking",
-      "Receipts and payout summaries",
-      "Support for early payoffs"
+      "Deposit guardrails for higher-risk assets",
+      "America's First Finance integration guidance",
+      "Approval and servicing workflow playbook"
     ]
   }
 ];
 
 const FINANCING_PROCESS = [
   {
-    title: "Catalog ingest",
-    description: "Provide distributor SKUs; we add uplift, map bundles, and prep disclosures."
+    title: "Program design",
+    description:
+      "Map product classes across phones, MacBooks, computers, PCs, mopeds, and scooters."
   },
   {
-    title: "Deposit + approval",
-    description: "Client pays a deposit, approval runs via First American Finance, terms are locked."
+    title: "Term + deposit setup",
+    description:
+      "Configure term lengths and deposit bands so payment options stay clear and sustainable."
   },
   {
-    title: "Fulfillment",
-    description: "We coordinate delivery and keep partners synced while installments run."
+    title: "Approval workflow",
+    description:
+      "Route applications through America's First Finance and keep teams informed in real time."
   },
   {
-    title: "Payouts",
-    description: "Partners get their contracted share; uplift margin routes to Ømnilon."
+    title: "Launch and monitor",
+    description:
+      "Go live with monthly-payment offers and monitor approvals, utilization, and customer outcomes."
   }
 ];
 
@@ -423,10 +427,10 @@ const CTA_COPY: Record<
   },
   security: {
     intro:
-      "Deploy a Secret Lifter team or scope a vulnerability audit. We tailor personas to your biggest shrink threats.",
+      "Launch an asset fortification review and we’ll scope in-store plus ecommerce vulnerabilities around your highest-risk flows.",
     body:
-      "Secret Lifters operate across the US with travel and intel deliverables built into each proposal.",
-    button: "Deploy Secret Lifters"
+      "Asset fortification programs are available across the US with travel and remediation playbooks included.",
+    button: "Start fortification"
   },
   ink: {
     intro:
@@ -436,26 +440,28 @@ const CTA_COPY: Record<
   },
   financing: {
     intro:
-      "Offer First American Finance terms with a 10% distributor uplift baked in. We’ll configure deposits and monthly options.",
-    body: "Share your catalog and preferred deposit ranges; we’ll respond within 24 hours.",
-    button: "Enable financing"
+      "Offer consumer financing powered by America's First Finance for mopeds, scooters, iPhones, MacBooks, computers, and PCs.",
+    body:
+      "Share your product mix and preferred term structure; we’ll reply within one business day.",
+    button: "Launch financing"
   }
 };
 
 const EXPERIENCE_LABELS: Record<ExperienceId, string> = {
   interiors: "Interiors",
-  security: "Secret Lifters",
-  ink: "Ømnilon Ink",
-  financing: "Financing"
+  security: "Asset Fortification",
+  ink: "Tattoos",
+  financing: "Consumer Financing"
 };
 
 const EXPERIENCE_ORDER: ExperienceId[] = ["interiors", "security", "ink", "financing"];
 
 type BrandPageProps = {
   initialExperience?: ExperienceId;
+  skipIntro?: boolean;
 };
 
-export function BrandPage({ initialExperience = "interiors" }: BrandPageProps) {
+export function BrandPage({ initialExperience = "interiors", skipIntro = false }: BrandPageProps) {
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [showPreloader, setShowPreloader] = useState(false);
   const [entered, setEntered] = useState(false);
@@ -463,12 +469,18 @@ export function BrandPage({ initialExperience = "interiors" }: BrandPageProps) {
   const [selectedServiceId, setSelectedServiceId] = useState<string | null>(null);
 
   useEffect(() => {
+    if (skipIntro) {
+      setPreloaderDone(true);
+      setShowPreloader(false);
+      setEntered(true);
+      return;
+    }
     const seen = hasSeenPreloader();
     const gate = hasEnteredGate();
     setPreloaderDone(seen);
     setShowPreloader(!seen);
     setEntered(gate);
-  }, []);
+  }, [skipIntro]);
 
   useEffect(() => {
     setSelectedServiceId(null);
@@ -563,7 +575,7 @@ export function BrandPage({ initialExperience = "interiors" }: BrandPageProps) {
         interfaceUnlocked={entered}
       />
       <AnimatePresence>
-        {showPreloader && !preloaderDone ? (
+        {!skipIntro && showPreloader && !preloaderDone ? (
           <Preloader
             key="preloader"
             onComplete={() => {
@@ -573,7 +585,7 @@ export function BrandPage({ initialExperience = "interiors" }: BrandPageProps) {
           />
         ) : null}
       </AnimatePresence>
-      {preloaderDone ? (
+      {!skipIntro && preloaderDone ? (
         <HeroGate
           open={entered}
           onEnter={() => {
@@ -591,9 +603,9 @@ export function BrandPage({ initialExperience = "interiors" }: BrandPageProps) {
         >
           <Section
             id="experiences"
-            label="Entry Sequence"
-            title="Choose your Ømnilon world"
-            intro="Pick the lane you need today—interior design, Secret Lifter intelligence, apprentice-led ink, or financing. Each card shows how we scope the work, bill transparently, and keep you updated."
+            label="Greeting"
+            title="Choose your service"
+            intro="Pick interiors, asset fortification, tattoos, or consumer financing through America's First Finance. Each lane shows how we scope work, price clearly, and keep updates consistent."
           >
             <ExperienceDeck
               activeId={activeExperience}
@@ -603,9 +615,11 @@ export function BrandPage({ initialExperience = "interiors" }: BrandPageProps) {
               <span className="rounded-full border border-white/10 px-3 py-1">
                 1 / 2 / 3 / 4 or ← → switch experiences
               </span>
-              <span className="rounded-full border border-white/10 px-3 py-1">
-                Enter unlocks shell
-              </span>
+              {!skipIntro ? (
+                <span className="rounded-full border border-white/10 px-3 py-1">
+                  Enter unlocks shell
+                </span>
+              ) : null}
               <span className="rounded-full border border-white/10 px-3 py-1">
                 Hover cards for parallax HUD
               </span>
@@ -698,9 +712,9 @@ export function BrandPage({ initialExperience = "interiors" }: BrandPageProps) {
                 <>
                   <Section
                     id="services"
-                    label="Secret Lifters"
-                    title="Asset protection intelligence"
-                    intro="Covert operatives simulate organized theft, policy abuse, and ecommerce exploits so you can shore up weak points before crews ever arrive."
+                    label="Asset Fortification"
+                    title="Asset fortification services"
+                    intro="We stress-test in-store and ecommerce operations so you can close exploitable gaps before they turn into recurring losses."
                   >
                     <ServicesGrid
                       services={SECURITY_SERVICES}
@@ -737,7 +751,7 @@ export function BrandPage({ initialExperience = "interiors" }: BrandPageProps) {
                     id="testimonials"
                     label="Coverage"
                     title="What you receive"
-                    intro="Secret Lifters align on risk personas, deploy covert operatives, and debrief leadership with raw footage, data trails, and prioritized fixes."
+                    intro="Asset fortification engagements align risk personas, run controlled tests, and deliver prioritized fixes for leadership and frontline teams."
                   >
                     <HudBracket className="bg-white/5 p-6" label="Deliverables">
                       <ul className="space-y-3 text-sm text-muted">
@@ -848,9 +862,9 @@ export function BrandPage({ initialExperience = "interiors" }: BrandPageProps) {
                 <>
                   <Section
                     id="services"
-                    label="Financing"
-                    title="Finance any bundle"
-                    intro="Project-friendly payment plans with transparent uplift and partner-ready reconciliation."
+                    label="Consumer Financing"
+                    title="Finance phones, computers, and mobility products"
+                    intro="Launch monthly-payment options for iPhones, MacBooks, computers, PCs, scooters, and mopeds with clear terms."
                   >
                     <ServicesGrid
                       services={FINANCING_SERVICES}
@@ -863,7 +877,7 @@ export function BrandPage({ initialExperience = "interiors" }: BrandPageProps) {
                     id="process"
                     label="Flow"
                     title="How financing runs"
-                    intro="From catalog ingest to payouts, every step keeps clients and partners aligned."
+                    intro="From program design to launch, every step keeps approvals, terms, and team communication aligned."
                   >
                     <div className="grid gap-6 md:grid-cols-2">
                       {FINANCING_PROCESS.map((step, index) => (
@@ -887,7 +901,7 @@ export function BrandPage({ initialExperience = "interiors" }: BrandPageProps) {
                     id="testimonials"
                     label="Proof"
                     title="Financing notes"
-                    intro="Short signals from teams that ran financing through Ømnilon."
+                    intro="Signals from teams that launched financing with transparent terms and predictable execution."
                   >
                     <div className="grid gap-6 md:grid-cols-2">
                       {FINANCING_TESTIMONIALS.map(note => (

@@ -1,19 +1,23 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
-import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { BrandProviders } from "./_providers/BrandProviders";
 import { NoiseOverlay } from "./_components/NoiseOverlay";
 import { omniContent } from "@content/omnilend";
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
+const brandSans = localFont({
+  src: [
+    { path: "../../public/fonts/brand-sans-regular.otf", weight: "400", style: "normal" },
+    { path: "../../public/fonts/brand-sans-medium.otf", weight: "500", style: "normal" },
+    { path: "../../public/fonts/brand-sans-bold.otf", weight: "700", style: "normal" }
+  ],
   variable: "--font-grotesk",
   display: "swap"
 });
 
-const jetBrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
+const brandMono = localFont({
+  src: [{ path: "../../public/fonts/brand-mono-medium.otf", weight: "500", style: "normal" }],
   variable: "--font-mono",
   display: "swap"
 });
@@ -52,7 +56,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body
-        className={`${spaceGrotesk.variable} ${jetBrainsMono.variable} bg-bg text-text antialiased`}
+        className={`${brandSans.variable} ${brandMono.variable} bg-bg text-text antialiased`}
       >
         <BrandProviders>
           {children}

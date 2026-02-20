@@ -89,11 +89,11 @@ export function HeroGate({ open, onEnter, activeExperienceLabel }: HeroGateProps
                 ØMNILON ACCESS KEY
               </span>
               <h1 className="max-w-3xl text-balance font-grotesk text-[56px] font-bold leading-[1]">
-                Interiors. Secret Lifters. Ink. One shell.
+                Interiors. Asset Fortification. Tattoos. Financing.
               </h1>
               <p className="max-w-xl text-[14px] leading-[1.5] tracking-tightest text-muted">
-                Explore the high-contrast surface that houses Ømnilon Interiors, covert asset-protection
-                engagements, and the apprentice tattoo studio—three disciplines, one disciplined system.
+                Explore the high-contrast surface that houses Ømnilon Interiors, asset fortification,
+                the apprentice tattoo studio, and consumer financing powered by America's First Finance.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <motion.button

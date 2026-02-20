@@ -30,21 +30,21 @@ const EXPERIENCES = [
   },
   {
     id: "security",
-    label: "Secret Lifters",
-    title: "Ømnilon Security",
+    label: "Asset Fortification",
+    title: "Ømnilon Fortification",
     tagline: "Proactive loss intelligence",
     description:
-      "Covert Secret Lifters simulate organized theft, refund abuse, and policy loopholes before real crews ever touch them.",
+      "In-store and ecommerce vulnerability testing that exposes theft, refund abuse, and policy loopholes before they become losses.",
     highlights: [
-      "Field-ready playbooks for every vulnerable zone",
-      "Ticket swaps, RFID gaps, and OMS exploits documented",
-      "48-hour remediation briefs with annotated footage"
+      "Operational playbooks mapped to your highest-risk zones",
+      "Ticket swap, exit lane, and policy exploit coverage",
+      "48-hour remediation briefs with evidence trails"
     ],
     image: "/images/worlds/security.jpg" // TODO: swap with final brand asset if desired
   },
   {
     id: "ink",
-    label: "Ømnilon Ink",
+    label: "Tattoos",
     title: "Tattoo Apprenticeship",
     tagline: "Intentional flash & custom line work",
     description:
@@ -58,16 +58,16 @@ const EXPERIENCES = [
   },
   {
     id: "financing",
-    label: "Financing",
-    title: "Ømnilon Financing",
-    tagline: "Budget-first buying",
+    label: "Consumer Financing",
+    title: "America's First Finance",
+    tagline: "Flexible approvals for big-ticket buys",
     description:
-      "Project-friendly payment plans with transparent terms, deposits, and partner-ready uplift baked in.",
+      "Offer monthly payments for mopeds, scooters, iPhones, MacBooks, computers, and PCs with clear terms and fast approvals.",
     highlights: [
-      "Clear APR, term length, and total cost disclosures",
-      "Flexible down payments calibrated by ticket size",
-      "10% distributor uplift protects margin and partnerships",
-      "Fast approvals via First American Finance rails"
+      "Device-ready programs for iPhones, MacBooks, and desktop builds",
+      "Mobility financing for mopeds and scooters",
+      "Transparent monthly payment and term disclosures",
+      "Approval workflow powered by America's First Finance"
     ],
     image: "/images/worlds/financing.jpg" // TODO: swap with final brand asset if desired
   }
@@ -259,8 +259,8 @@ export function ExperienceDeck({ activeId, onSelect }: ExperienceDeckProps) {
         <HudBracket label="Why Ømnilon" className="h-full w-full bg-white/5 p-6">
           <div className="flex h-full flex-col justify-between gap-4">
             <p className="text-sm text-muted">
-              One studio handles calm interiors, covert loss-prevention intel, and apprentice-led ink.
-              Deposits secure time on the calendar, every scope stays in plain language, and updates land fast.
+              One studio now handles interiors, asset fortification, tattoos, and consumer financing.
+              Every lane keeps scopes clear, updates fast, and approvals straightforward.
             </p>
             <p className="text-sm text-muted">
               Ready to plan your project? Email

@@ -1,5 +1,5 @@
-import { ExperiencePage } from "@/components/experience/ExperiencePage";
+import { BrandPage as BrandExperience } from "@/components/BrandPage";
 
 export default function Home() {
-  return <ExperiencePage />;
+  return <BrandExperience skipIntro />;
 }
