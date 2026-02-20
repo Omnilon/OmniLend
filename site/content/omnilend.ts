@@ -65,10 +65,10 @@ export const omniContent = {
   site: {
     name: "OmniLend",
     url: "https://omnilend.pro",
-    title: "OmniLend - Integrated Operations Studio",
+    title: "OmniLend - Interiors, Fortification, Tattoos & Financing",
     description:
-      "OmniLend unifies interior design, finance strategy, and asset protection into one coordinated operating partner.",
-    tagline: "Design. Finance. Protection.",
+      "OmniLend offers four lanes in one place: interiors, asset fortification, tattoos, and consumer financing powered by America's First Finance.",
+    tagline: "Interiors. Fortification. Tattoos. Financing.",
     gatewayTagline: "OMNILEND // SYSTEM ENTRY",
     introLabel: "System access",
     heroLabel: "OmniLend // Integrated Systems",
@@ -107,9 +107,9 @@ export const omniContent = {
   ] as SectionNav[],
   overview: {
     eyebrow: "System overview",
-    title: "Three disciplines, one operating partner.",
+    title: "Four services, one operating partner.",
     subtitle:
-      "OmniLend blends design, finance, and protection so leaders can move with clarity and confidence.",
+      "OmniLend blends interiors, asset fortification, tattoos, and consumer financing into one coordinated experience.",
     items: [
       {
         title: "Interior environments",

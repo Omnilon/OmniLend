@@ -7,7 +7,8 @@ import { Contact } from "@/components/experience/sections/Contact";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Learn how OmniLend integrates design, finance, and protection."
+  description:
+    "Learn how OmniLend combines interiors, asset fortification, tattoos, and consumer financing."
 };
 
 export default function AboutPage() {
