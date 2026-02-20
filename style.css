@@ -1,7 +1,37 @@
 ﻿/* style.css */
 
-/* Import Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+/* Local brand fonts from provided asset pack */
+@font-face {
+    font-family: 'Brut Grotesque';
+    src: url('fonts/BrutGrotesque-Regular.otf') format('opentype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Brut Grotesque';
+    src: url('fonts/BrutGrotesque-Medium.otf') format('opentype');
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Brut Grotesque';
+    src: url('fonts/BrutGrotesque-Bold.otf') format('opentype');
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HM Alpha Mono';
+    src: url('fonts/HMAlphaMono-Medium.otf') format('opentype');
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+}
 
 :root {
     --bg-900: #080808;
@@ -33,8 +63,8 @@
     --danger: var(--accent-red);
     --hud-corner: rgba(212, 160, 255, 0.6);
     --hud-corner-strong: rgba(255, 83, 0, 0.55);
-    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-    --sans: 'Space Grotesk', 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --mono: 'HM Alpha Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    --sans: 'Brut Grotesque', 'Space Grotesk', 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 html {
