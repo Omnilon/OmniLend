@@ -125,6 +125,11 @@ export const omniContent = {
         title: "Asset protection",
         description:
           "Risk assessment, safety protocols, and operational safeguards to protect people and assets."
+      },
+      {
+        title: "Ink studio services",
+        description:
+          "Tattoo planning, custom flash development, and private Atlanta sessions handled with the same measured intake process."
       }
     ] as OverviewItem[]
   },
@@ -192,6 +197,26 @@ export const omniContent = {
         pricing: "Engagement: assessment plus ongoing review",
         accent: "#59D3B2",
         accentSoft: "rgba(89, 211, 178, 0.18)"
+      },
+      {
+        id: "ink-studio",
+        title: "OmniLend Ink",
+        summary: "Custom tattoo sessions, flash development, and pre-booked studio work.",
+        description:
+          "We handle concept intake, placement planning, and aftercare guidance for clients booking custom or flash-based work through the Atlanta studio.",
+        outcomes: [
+          "Clear session planning",
+          "Aligned design direction",
+          "Private booking experience"
+        ],
+        deliverables: [
+          "Concept consultation",
+          "Placement and prep guidance",
+          "Aftercare and follow-up notes"
+        ],
+        pricing: "Engagement: consultation plus session booking",
+        accent: "#A7A7A7",
+        accentSoft: "rgba(167, 167, 167, 0.18)"
       }
     ] as Service[]
   },
@@ -247,8 +272,7 @@ export const omniContent = {
         company: "Private Portfolio"
       },
       {
-        quote:
-          "The asset protection review surfaced blind spots we had missed for years.",
+        quote: "The asset protection review surfaced blind spots we had missed for years.",
         name: "General Manager",
         role: "Retail",
         company: "Regional Operator"
@@ -287,8 +311,7 @@ export const omniContent = {
   trust: {
     eyebrow: "Trust & security",
     title: "Safeguards designed into the engagement.",
-    subtitle:
-      "We stay precise, transparent, and respectful of privacy while we build the system.",
+    subtitle: "We stay precise, transparent, and respectful of privacy while we build the system.",
     items: [
       {
         title: "Scope clarity",

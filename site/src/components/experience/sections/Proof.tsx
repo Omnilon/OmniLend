@@ -8,48 +8,52 @@ export function Proof() {
 
   return (
     <Section id="proof">
-      <div className="grid gap-12">
-        <SectionHeading
-          eyebrow={proof.eyebrow}
-          title={proof.title}
-          subtitle={proof.subtitle}
-        />
-        <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-8">
+        <SectionHeading eyebrow={proof.eyebrow} title={proof.title} subtitle={proof.subtitle} />
+        <div className="grid gap-4 md:grid-cols-3">
           {proof.metrics.map((metric, index) => (
             <Reveal key={metric.label} delay={index * 0.1}>
-              <div className="glass-panel rounded-2xl p-6">
-                <p className="text-3xl font-semibold text-white">{metric.value}</p>
-                <p className="mt-2 text-sm text-white/70">{metric.label}</p>
+              <div className="omni-card">
+                <p className="omni-kicker">Signal</p>
+                <p className="mt-3 text-4xl font-semibold text-[color:var(--text)]">
+                  {metric.value}
+                </p>
+                <p className="mt-2 text-sm text-[color:var(--muted)]">{metric.label}</p>
                 {metric.note ? (
-                  <p className="mt-2 text-xs text-white/40">{metric.note}</p>
+                  <p className="mt-2 text-xs text-[color:var(--muted)]">{metric.note}</p>
                 ) : null}
               </div>
             </Reveal>
           ))}
         </div>
-        <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="grid gap-4 md:grid-cols-2">
             {proof.testimonials.map((testimonial) => (
               <Reveal key={testimonial.name}>
-                <div className="glass-panel rounded-2xl p-6">
-                  <p className="text-sm text-white/80">“{testimonial.quote}”</p>
-                  <div className="mt-4 text-xs text-white/60">
-                    <span className="font-semibold text-white">{testimonial.name}</span> ·
-                    {" "}
-                    {testimonial.role}, {testimonial.company}
+                <div className="omni-card">
+                  <p className="omni-kicker">Reference</p>
+                  <p className="mt-4 text-sm leading-6 text-[color:var(--text)]">
+                    “{testimonial.quote}”
+                  </p>
+                  <div className="mt-4 text-xs text-[color:var(--muted)]">
+                    <span className="font-semibold text-[color:var(--text)]">
+                      {testimonial.name}
+                    </span>{" "}
+                    · {testimonial.role}, {testimonial.company}
                   </div>
                 </div>
               </Reveal>
             ))}
           </div>
           <Reveal>
-            <div className="glass-panel flex h-full flex-col justify-center gap-4 rounded-2xl p-6">
-              <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-white/50">
-                Trusted by
-              </p>
-              <div className="grid gap-3">
+            <div className="omni-console flex h-full flex-col justify-center gap-4">
+              <p className="omni-kicker">Trusted by</p>
+              <div className="grid gap-3 sm:grid-cols-2">
                 {proof.logos.map((logo) => (
-                  <div key={logo} className="text-sm uppercase tracking-[0.2em] text-white/60">
+                  <div
+                    key={logo}
+                    className="omni-card text-sm font-medium uppercase tracking-[0.18em] text-[color:var(--text)]"
+                  >
                     {logo}
                   </div>
                 ))}

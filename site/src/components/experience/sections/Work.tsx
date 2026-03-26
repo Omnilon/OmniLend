@@ -8,25 +8,32 @@ export function Work() {
 
   return (
     <Section id="work">
-      <div className="grid gap-12">
+      <div className="grid gap-8">
         <SectionHeading eyebrow={work.eyebrow} title={work.title} subtitle={work.subtitle} />
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-3">
           {work.cases.map((caseStudy, index) => (
             <Reveal key={caseStudy.title} delay={index * 0.08}>
-              <div className="glass-panel flex h-full flex-col gap-4 rounded-2xl p-6">
-                <h3 className="text-lg font-semibold text-white">{caseStudy.title}</h3>
-                <p className="text-sm text-white/70">{caseStudy.description}</p>
+              <div className="omni-card flex h-full flex-col gap-4">
+                <p className="omni-kicker">Case-{String(index + 1).padStart(2, "0")}</p>
+                <h3 className="text-lg font-semibold uppercase leading-snug text-[color:var(--text)]">
+                  {caseStudy.title}
+                </h3>
+                <p className="text-sm leading-6 text-[color:var(--muted)]">
+                  {caseStudy.description}
+                </p>
                 <div className="mt-auto flex flex-wrap gap-2">
                   {caseStudy.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full border border-white/10 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-white/60"
+                      className="inline-flex items-center border border-[color:var(--line)] bg-white/50 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.16em] text-[color:var(--muted)]"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
-                <p className="text-xs text-white/60">Outcome: {caseStudy.outcome}</p>
+                <p className="text-xs leading-5 text-[color:var(--muted)]">
+                  Outcome: {caseStudy.outcome}
+                </p>
               </div>
             </Reveal>
           ))}

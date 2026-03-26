@@ -8,16 +8,16 @@ import { omniContent } from "@content/omnilend";
 
 const brandSans = localFont({
   src: [
-    { path: "../../public/fonts/brand-sans-regular.otf", weight: "400", style: "normal" },
-    { path: "../../public/fonts/brand-sans-medium.otf", weight: "500", style: "normal" },
-    { path: "../../public/fonts/brand-sans-bold.otf", weight: "700", style: "normal" }
+    { path: "../../public/fonts/OMNILONSans-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../../public/fonts/OMNILONSans-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../../public/fonts/OMNILONSans-Bold.woff2", weight: "700", style: "normal" }
   ],
   variable: "--font-grotesk",
   display: "swap"
 });
 
 const brandMono = localFont({
-  src: [{ path: "../../public/fonts/brand-mono-medium.otf", weight: "500", style: "normal" }],
+  src: [{ path: "../../public/fonts/OMNILONMono-Medium.otf", weight: "500", style: "normal" }],
   variable: "--font-mono",
   display: "swap"
 });
@@ -55,9 +55,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body
-        className={`${brandSans.variable} ${brandMono.variable} bg-bg text-text antialiased`}
-      >
+      <body className={`${brandSans.variable} ${brandMono.variable} bg-bg text-text antialiased`}>
         <BrandProviders>
           {children}
           <NoiseOverlay />

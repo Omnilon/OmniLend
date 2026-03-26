@@ -22,13 +22,20 @@ export function SectionHeading({
       )}
     >
       {eyebrow ? (
-        <p className="font-mono text-[11px] uppercase tracking-[0.4em] text-accent">
-          {eyebrow}
-        </p>
+        <p className={cn("omni-chip", align === "center" ? "mx-auto" : "")}>{eyebrow}</p>
       ) : null}
-      <h2 className="mt-4 text-3xl font-semibold text-white md:text-4xl">{title}</h2>
+      <h2 className="mt-4 text-[clamp(1.9rem,5vw,3.8rem)] font-semibold uppercase leading-[0.92] tracking-[0.015em] text-[color:var(--text)]">
+        {title}
+      </h2>
       {subtitle ? (
-        <p className="mt-4 text-base text-white/70 md:text-lg">{subtitle}</p>
+        <p
+          className={cn(
+            "mt-4 text-sm leading-6 text-[color:var(--muted)] md:text-base md:leading-7",
+            align === "center" ? "mx-auto" : ""
+          )}
+        >
+          {subtitle}
+        </p>
       ) : null}
     </div>
   );

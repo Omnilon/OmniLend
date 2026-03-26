@@ -1,40 +1,58 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 import { omniContent } from "@content/omnilend";
 import { cn } from "@/lib/utils";
 
 export function ExperienceNav({ anchorBase = "" }: { anchorBase?: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const brandHref = anchorBase ? `${anchorBase}#hero` : "#hero";
+
   return (
-    <div className="sticky top-0 z-30 border-b border-white/10 bg-[#0b0b11]/80 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-6 px-6 py-4">
-        <Link
-          href={anchorBase ? `${anchorBase}#hero` : "#hero"}
-          className="font-mono text-[11px] uppercase tracking-[0.4em]"
-        >
-          OMNILEND
-        </Link>
-        <nav
-          aria-label="Primary"
-          className="flex max-w-full items-center gap-4 overflow-x-auto text-xs text-white/70"
-        >
-          {omniContent.nav.map((item) => {
-            const href = item.href.startsWith("#")
-              ? `${anchorBase}${item.href}`
-              : item.href;
-            return (
-            <Link
-              key={item.href}
-              href={href}
+    <header className="sticky top-3 z-40">
+      <div className="omni-header-shell">
+        <div className="omni-panel omni-header-panel">
+          <div className="flex flex-wrap items-start gap-4 lg:items-center">
+            <Link href={brandHref} className="omni-brand mr-auto" onClick={() => setIsOpen(false)}>
+              <span className="omni-brand-main">{omniContent.site.name}</span>
+              <span className="omni-brand-sub">Integrated Systems</span>
+            </Link>
+            <button
+              type="button"
+              className="omni-menu-toggle lg:hidden"
+              aria-expanded={isOpen}
+              aria-controls="omnilend-nav"
+              onClick={() => setIsOpen((value) => !value)}
+            >
+              Menu
+            </button>
+            <nav
+              id="omnilend-nav"
+              aria-label="Primary"
               className={cn(
-                "whitespace-nowrap border-b border-transparent pb-1 transition",
-                "hover:border-accent hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+                "w-full flex-col gap-2 lg:flex lg:w-auto lg:flex-row lg:flex-wrap lg:items-center lg:justify-end",
+                isOpen ? "flex" : "hidden"
               )}
             >
-              {item.label}
-            </Link>
-          );
-          })}
-        </nav>
+              {omniContent.nav.map((item) => {
+                const href = item.href.startsWith("#") ? `${anchorBase}${item.href}` : item.href;
+
+                return (
+                  <Link
+                    key={item.href}
+                    href={href}
+                    className="omni-nav-link"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
       </div>
-    </div>
+    </header>
   );
 }

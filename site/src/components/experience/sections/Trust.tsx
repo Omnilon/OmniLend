@@ -8,19 +8,19 @@ export function Trust() {
 
   return (
     <Section id="trust">
-      <div className="grid gap-12">
-        <SectionHeading
-          eyebrow={trust.eyebrow}
-          title={trust.title}
-          subtitle={trust.subtitle}
-        />
-        <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-8">
+        <SectionHeading eyebrow={trust.eyebrow} title={trust.title} subtitle={trust.subtitle} />
+        <div className="grid gap-4 md:grid-cols-3">
           {trust.items.map((item, index) => (
             <Reveal key={item.title} delay={index * 0.08}>
-              <div className="glass-panel relative h-full rounded-2xl p-6">
-                <div className="absolute left-5 top-5 h-8 w-8 rounded-full border border-white/10 bg-white/5" />
-                <h3 className="mt-10 text-lg font-semibold text-white">{item.title}</h3>
-                <p className="mt-3 text-sm text-white/70">{item.description}</p>
+              <div className="omni-card h-full">
+                <p className="omni-kicker">Guard-{String(index + 1).padStart(2, "0")}</p>
+                <h3 className="mt-4 text-lg font-semibold uppercase leading-snug text-[color:var(--text)]">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-[color:var(--muted)]">
+                  {item.description}
+                </p>
               </div>
             </Reveal>
           ))}

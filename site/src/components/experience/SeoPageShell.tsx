@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { ExperienceNav } from "@/components/experience/ExperienceNav";
 import { ExperienceFooter } from "@/components/experience/ExperienceFooter";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function SeoPageShell({
   title,
@@ -14,11 +13,22 @@ export function SeoPageShell({
 }) {
   return (
     <div id="omnilend-shell" className="relative">
+      <div className="omni-backdrop-grid" aria-hidden="true" />
       <ExperienceNav anchorBase="/" />
-      <main className="relative z-10">
-        <section className="px-6 pb-6 pt-28 md:pt-32">
-          <div className="mx-auto max-w-4xl">
-            <SectionHeading eyebrow="OmniLend" title={title} subtitle={subtitle} />
+      <main className="relative z-10 pb-2">
+        <section className="scroll-mt-24 py-3 pt-1 md:scroll-mt-32">
+          <div className="omni-page-shell">
+            <div className="omni-panel omni-section-panel">
+              <p className="omni-chip">OmniLend // Briefing</p>
+              <h1 className="mt-4 text-[clamp(2.2rem,8vw,5.4rem)] font-semibold uppercase leading-[0.9] tracking-[0.015em] text-[color:var(--text)]">
+                {title}
+              </h1>
+              {subtitle ? (
+                <p className="mt-4 max-w-3xl text-base leading-7 text-[color:var(--muted)] md:text-lg">
+                  {subtitle}
+                </p>
+              ) : null}
+            </div>
           </div>
         </section>
         {children}

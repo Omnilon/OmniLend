@@ -3,30 +3,40 @@ import { omniContent } from "@content/omnilend";
 
 export function ExperienceFooter() {
   return (
-    <footer className="relative z-10 border-t border-white/10 px-6 py-10 text-sm text-white/60">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
-        <div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.4em] text-white/70">
-            OMNILEND
-          </p>
-          <p className="mt-2 text-xs text-white/50">{omniContent.site.tagline}</p>
-        </div>
-        <div className="flex flex-wrap gap-4 text-xs">
-          <Link href="/services" className="hover:text-white">
-            Services
-          </Link>
-          <Link href="/process" className="hover:text-white">
-            Process
-          </Link>
-          <Link href="/work" className="hover:text-white">
-            Work
-          </Link>
-          <Link href="/about" className="hover:text-white">
-            About
-          </Link>
-          <Link href="/contact" className="hover:text-white">
-            Contact
-          </Link>
+    <footer className="relative z-10 pb-6 pt-2">
+      <div className="omni-page-shell">
+        <div className="omni-panel omni-footer-panel">
+          <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
+            <div>
+              <p className="omni-chip">OmniLend // Closeout</p>
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-[color:var(--muted)]">
+                {omniContent.site.tagline} Centralized intake for spaces, financing, and protection.
+              </p>
+              <a
+                href={`mailto:${omniContent.contact.email}`}
+                className="mt-3 inline-flex text-sm font-medium text-[color:var(--text)] transition hover:text-[color:var(--muted)]"
+              >
+                {omniContent.contact.email}
+              </a>
+            </div>
+            <div className="flex flex-wrap gap-2 text-xs">
+              <Link href="/services" className="omni-nav-link">
+                Services
+              </Link>
+              <Link href="/process" className="omni-nav-link">
+                Process
+              </Link>
+              <Link href="/work" className="omni-nav-link">
+                Work
+              </Link>
+              <Link href="/about" className="omni-nav-link">
+                About
+              </Link>
+              <Link href="/contact" className="omni-nav-link">
+                Contact
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

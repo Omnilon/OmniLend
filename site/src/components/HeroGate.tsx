@@ -92,8 +92,9 @@ export function HeroGate({ open, onEnter, activeExperienceLabel }: HeroGateProps
                 Interiors. Asset Fortification. Tattoos. Financing.
               </h1>
               <p className="max-w-xl text-[14px] leading-[1.5] tracking-tightest text-muted">
-                Explore the high-contrast surface that houses Ømnilon Interiors, asset fortification,
-                the apprentice tattoo studio, and consumer financing powered by America's First Finance.
+                Explore the high-contrast surface that houses Ømnilon Interiors, asset
+                fortification, the apprentice tattoo studio, and consumer financing powered by
+                America&apos;s First Finance.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <motion.button

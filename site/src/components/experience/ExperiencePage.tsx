@@ -1,6 +1,3 @@
-import { omniContent } from "@content/omnilend";
-import { GatewayOverlay } from "@/components/gateway/GatewayOverlay";
-import { HUDShell } from "@/components/hud/HUDShell";
 import { ExperienceNav } from "@/components/experience/ExperienceNav";
 import { ExperienceFooter } from "@/components/experience/ExperienceFooter";
 import { Hero } from "@/components/experience/sections/Hero";
@@ -16,10 +13,9 @@ import { Contact } from "@/components/experience/sections/Contact";
 export function ExperiencePage() {
   return (
     <div id="omnilend-shell" className="relative">
-      <GatewayOverlay />
-      <HUDShell sections={omniContent.sections} />
+      <div className="omni-backdrop-grid" aria-hidden="true" />
       <ExperienceNav />
-      <main className="relative z-10">
+      <main className="relative z-10 pb-2">
         <Hero />
         <Overview />
         <Services />
