@@ -71,18 +71,6 @@ body {
   pointer-events: none;
 }
 
-#omnilend-shell::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-  background-size: 58px 58px;
-  pointer-events: none;
-}
-
 ::selection {
   background: var(--text);
   color: var(--paper);
