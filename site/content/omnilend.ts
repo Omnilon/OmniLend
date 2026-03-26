@@ -74,9 +74,9 @@ export const omniContent = {
     heroLabel: "OmniLend // Integrated Systems",
     heroTitle: "One system for spaces, capital, and protection.",
     heroSubtitle:
-      "We combine interior design, financial operations, and asset protection into a calm, coordinated engagement with clear outcomes.",
-    heroCtaPrimary: "Enter the system",
-    heroCtaSecondary: "Explore services",
+      "Choose the lane you need: interiors, finance, protection, or ink. Each service now has its own dedicated page with a lighter path to booking.",
+    heroCtaPrimary: "Browse services",
+    heroCtaSecondary: "Start contact",
     heroHighlights: [
       "Interior design + experience",
       "Financial clarity + planning",
@@ -85,14 +85,11 @@ export const omniContent = {
     ]
   },
   nav: [
-    { label: "Overview", href: "#overview" },
-    { label: "Services", href: "#services" },
-    { label: "Process", href: "#process" },
-    { label: "Proof", href: "#proof" },
-    { label: "Work", href: "#work" },
-    { label: "Trust", href: "#trust" },
-    { label: "FAQ", href: "#faq" },
-    { label: "Contact", href: "#contact" }
+    { label: "Home", href: "/" },
+    { label: "Services", href: "/services" },
+    { label: "Process", href: "/process" },
+    { label: "About", href: "/about" },
+    { label: "Contact", href: "/contact" }
   ],
   sections: [
     { id: "hero", label: "Gateway", mode: "MODE: GATEWAY" },
@@ -109,7 +106,7 @@ export const omniContent = {
     eyebrow: "System overview",
     title: "Four services, one operating partner.",
     subtitle:
-      "OmniLend blends interiors, asset fortification, tattoos, and consumer financing into one coordinated experience.",
+      "Use the homepage as a directory, then move into the service page that matches the work you actually need.",
     items: [
       {
         title: "Interior environments",
@@ -135,8 +132,9 @@ export const omniContent = {
   },
   services: {
     eyebrow: "Capabilities",
-    title: "Services built to stay calm under pressure.",
-    subtitle: "Pick a single discipline or combine multiple systems in one engagement.",
+    title: "Choose a lane, then go deeper.",
+    subtitle:
+      "Each service now lives on its own page so you can review scope, deliverables, and next steps without sorting through everything at once.",
     items: [
       {
         id: "interior-design",
@@ -371,5 +369,16 @@ export const omniContent = {
     ctaNote: "Response within 2 business days."
   }
 };
+
+export const serviceItems = omniContent.services.items;
+
+export function getServiceHref(service: Pick<Service, "id"> | string) {
+  const id = typeof service === "string" ? service : service.id;
+  return `/services/${id}`;
+}
+
+export function getServiceById(id: string) {
+  return serviceItems.find((service) => service.id === id);
+}
 
 export type OmniContent = typeof omniContent;

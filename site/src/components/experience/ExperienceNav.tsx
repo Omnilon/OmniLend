@@ -10,7 +10,7 @@ export function ExperienceNav({ anchorBase = "" }: { anchorBase?: string }) {
   const brandHref = anchorBase ? `${anchorBase}#hero` : "#hero";
 
   return (
-    <header className="sticky top-3 z-40">
+    <header className="fixed inset-x-0 top-3 z-50">
       <div className="omni-header-shell">
         <div className="omni-panel omni-header-panel">
           <div className="flex flex-wrap items-start gap-4 lg:items-center">

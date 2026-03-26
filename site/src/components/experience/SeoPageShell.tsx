@@ -15,8 +15,8 @@ export function SeoPageShell({
     <div id="omnilend-shell" className="relative">
       <div className="omni-backdrop-grid" aria-hidden="true" />
       <ExperienceNav anchorBase="/" />
-      <main className="relative z-10 pb-2">
-        <section className="scroll-mt-24 py-3 pt-1 md:scroll-mt-32">
+      <main className="relative z-10 pb-2 pt-24 md:pt-28">
+        <section className="scroll-mt-24 py-3 md:scroll-mt-32">
           <div className="omni-page-shell">
             <div className="omni-panel omni-section-panel">
               <p className="omni-chip">OmniLend // Briefing</p>

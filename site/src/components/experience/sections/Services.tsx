@@ -1,4 +1,5 @@
-import { omniContent } from "@content/omnilend";
+import Link from "next/link";
+import { getServiceHref, omniContent } from "@content/omnilend";
 import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
@@ -14,7 +15,7 @@ export function Services() {
           title={services.title}
           subtitle={services.subtitle}
         />
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-4">
           {services.items.map((service, index) => (
             <Reveal key={service.id} delay={index * 0.08}>
               <article className="omni-card flex h-full flex-col">
@@ -29,40 +30,28 @@ export function Services() {
                   {service.description}
                 </p>
 
-                <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <p className="omni-kicker">Outcomes</p>
-                    <ul className="mt-3 space-y-2">
-                      {service.outcomes.map((outcome) => (
-                        <li
-                          key={outcome}
-                          className="flex items-start gap-2 text-sm leading-6 text-[color:var(--muted)]"
-                        >
-                          <span className="mt-[0.55rem] h-[5px] w-[5px] rounded-full bg-[color:var(--text)]" />
-                          <span>{outcome}</span>
-                        </li>
-                      ))}
-                    </ul>
+                <div className="mt-5 grid gap-3">
+                  <div className="flex items-start gap-2 text-sm leading-6 text-[color:var(--muted)]">
+                    <span className="mt-[0.55rem] h-[5px] w-[5px] rounded-full bg-[color:var(--text)]" />
+                    <span>{service.outcomes[0]}</span>
                   </div>
-                  <div>
-                    <p className="omni-kicker">Deliverables</p>
-                    <ul className="mt-3 space-y-2">
-                      {service.deliverables.map((deliverable) => (
-                        <li
-                          key={deliverable}
-                          className="flex items-start gap-2 text-sm leading-6 text-[color:var(--muted)]"
-                        >
-                          <span className="mt-[0.55rem] h-[5px] w-[5px] rounded-full bg-[color:var(--text)]" />
-                          <span>{deliverable}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="flex items-start gap-2 text-sm leading-6 text-[color:var(--muted)]">
+                    <span className="mt-[0.55rem] h-[5px] w-[5px] rounded-full bg-[color:var(--text)]" />
+                    <span>{service.deliverables[0]}</span>
                   </div>
                 </div>
 
-                <p className="mt-5 border-t border-[color:var(--line)] pt-4 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--muted)]">
-                  {service.pricing}
-                </p>
+                <div className="mt-auto pt-6">
+                  <p className="border-t border-[color:var(--line)] pt-4 font-mono text-[11px] uppercase tracking-[0.18em] text-[color:var(--muted)]">
+                    {service.pricing}
+                  </p>
+                  <Link
+                    href={getServiceHref(service)}
+                    className="omni-button omni-button--ghost mt-4"
+                  >
+                    View service page
+                  </Link>
+                </div>
               </article>
             </Reveal>
           ))}

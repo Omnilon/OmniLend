@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { omniContent } from "@content/omnilend";
+import { getServiceHref, omniContent } from "@content/omnilend";
 
 export function Hero() {
   const { site, services, contact } = omniContent;
@@ -19,7 +19,7 @@ export function Hero() {
   ];
 
   return (
-    <section id="hero" className="scroll-mt-24 py-3 pt-1 md:scroll-mt-32">
+    <section id="hero" className="scroll-mt-24 py-3 md:scroll-mt-32">
       <div className="omni-page-shell">
         <div className="omni-panel omni-section-panel">
           <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
@@ -32,10 +32,10 @@ export function Hero() {
                 {site.heroSubtitle}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="#services" className="omni-button omni-button--primary">
+                <Link href="/services" className="omni-button omni-button--primary">
                   {site.heroCtaPrimary}
                 </Link>
-                <Link href="#contact" className="omni-button omni-button--ghost">
+                <Link href="/contact" className="omni-button omni-button--ghost">
                   {site.heroCtaSecondary}
                 </Link>
               </div>
@@ -76,18 +76,25 @@ export function Hero() {
                   ))}
                 </div>
 
-                <div className="mt-6 grid gap-3 sm:grid-cols-3">
-                  {services.items.map((service, index) => (
-                    <article key={service.id} className="omni-card">
-                      <p className="omni-kicker">LN-{String(index + 1).padStart(2, "0")}</p>
-                      <h3 className="mt-3 text-sm font-semibold uppercase leading-snug text-[color:var(--text)]">
-                        {service.title}
-                      </h3>
-                      <p className="mt-2 text-xs leading-5 text-[color:var(--muted)]">
-                        {service.summary}
-                      </p>
-                    </article>
-                  ))}
+                <div className="mt-6 grid gap-3">
+                  <div className="omni-card">
+                    <p className="omni-kicker">Next step</p>
+                    <p className="mt-3 text-sm leading-6 text-[color:var(--text)]">
+                      Start with the service page that matches your lane. Each one now carries its
+                      own scope, deliverables, and booking path.
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {services.items.map((service) => (
+                        <Link
+                          key={service.id}
+                          href={getServiceHref(service)}
+                          className="omni-nav-link"
+                        >
+                          {service.title}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
                 <div
@@ -110,7 +117,7 @@ export function Hero() {
                     {site.tagline}
                   </p>
                   <p className="mt-2 text-xs text-[color:var(--muted)]">
-                    Single-discipline or multi-lane engagements.
+                    Use the homepage as a gateway, not the full brief.
                   </p>
                 </div>
               </div>

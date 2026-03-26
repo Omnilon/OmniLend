@@ -6,7 +6,7 @@ import { Section } from "@/components/ui/Section";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 
-export function Contact() {
+export function Contact({ showLaneCards = true }: { showLaneCards?: boolean }) {
   const { contact } = omniContent;
   const serviceOptions = omniContent.services.items.map((service) => service.title);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
@@ -85,16 +85,18 @@ export function Contact() {
               {contact.availability}
             </p>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {serviceOptions.map((option, index) => (
-              <div key={option} className="omni-card">
-                <p className="omni-kicker">Lane-{String(index + 1).padStart(2, "0")}</p>
-                <p className="mt-3 text-sm font-semibold uppercase leading-snug text-[color:var(--text)]">
-                  {option}
-                </p>
-              </div>
-            ))}
-          </div>
+          {showLaneCards ? (
+            <div className="grid gap-3 sm:grid-cols-2">
+              {serviceOptions.map((option, index) => (
+                <div key={option} className="omni-card">
+                  <p className="omni-kicker">Lane-{String(index + 1).padStart(2, "0")}</p>
+                  <p className="mt-3 text-sm font-semibold uppercase leading-snug text-[color:var(--text)]">
+                    {option}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
         <Reveal>
           <div className="omni-console flex h-full flex-col gap-6">

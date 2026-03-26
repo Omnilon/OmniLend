@@ -20,14 +20,14 @@ export function ExperienceFooter() {
               </a>
             </div>
             <div className="flex flex-wrap gap-2 text-xs">
+              <Link href="/" className="omni-nav-link">
+                Home
+              </Link>
               <Link href="/services" className="omni-nav-link">
                 Services
               </Link>
               <Link href="/process" className="omni-nav-link">
                 Process
-              </Link>
-              <Link href="/work" className="omni-nav-link">
-                Work
               </Link>
               <Link href="/about" className="omni-nav-link">
                 About
