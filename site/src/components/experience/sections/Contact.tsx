@@ -147,7 +147,7 @@ export function Contact({ showLaneCards = true }: { showLaneCards?: boolean }) {
                     name="phone"
                     autoComplete="tel"
                     className="omni-input"
-                    placeholder="(404) 919-8026"
+                    placeholder="(470) 210-4341"
                   />
                 </div>
                 <div className="omni-form-field">

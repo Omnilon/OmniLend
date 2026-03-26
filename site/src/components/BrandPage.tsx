@@ -92,8 +92,7 @@ const INTERIOR_PROCESS = [
   },
   {
     title: "Procurement",
-    description:
-      "Client-funded purchasing keeps cash flow honest while we coordinate logistics."
+    description: "Client-funded purchasing keeps cash flow honest while we coordinate logistics."
   },
   {
     title: "Install + styling",
@@ -262,13 +261,11 @@ const INK_SERVICES: ServiceData[] = [
 const INK_PROCESS = [
   {
     title: "Select flash or request custom",
-    description:
-      "Browse the latest drop or send inspo so we can outline scope and timing."
+    description: "Browse the latest drop or send inspo so we can outline scope and timing."
   },
   {
     title: "Deposit & design prep",
-    description:
-      "A 50% deposit locks your date while we refine sketches and placement."
+    description: "A 50% deposit locks your date while we refine sketches and placement."
   },
   {
     title: "Session day",
@@ -310,7 +307,8 @@ const FINANCING_SERVICES: ServiceData[] = [
     description:
       "Bundle phones with cases, protectors, and accessories while keeping down payment, term length, and total repayment clear.",
     price: "Programs configured by ticket size",
-    image: "https://images.unsplash.com/photo-1503389152951-9f343605f61e?q=80&w=1400&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1503389152951-9f343605f61e?q=80&w=1400&auto=format&fit=crop",
     deliverables: [
       "Approval flow tuned for premium phone purchases",
       "Clear monthly and total-cost disclosure templates",
@@ -320,11 +318,13 @@ const FINANCING_SERVICES: ServiceData[] = [
   {
     id: "laptops",
     title: "MacBooks & computers",
-    summary: "Finance MacBooks, creator laptops, desktops, and gaming PCs without checkout friction.",
+    summary:
+      "Finance MacBooks, creator laptops, desktops, and gaming PCs without checkout friction.",
     description:
       "Set term and deposit ranges by product band so customers can buy now while you protect margin.",
     price: "Term + deposit matrix by category",
-    image: "https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=1400&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1556740749-887f6717d7e4?q=80&w=1400&auto=format&fit=crop",
     deliverables: [
       "SKU and bundle mapping for laptops and PCs",
       "Configurable term options by basket size",
@@ -338,7 +338,8 @@ const FINANCING_SERVICES: ServiceData[] = [
     description:
       "Launch moped and scooter financing with policies that balance affordability, approval speed, and portfolio safety.",
     price: "Mobility-ready underwriting setup",
-    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1400&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1400&auto=format&fit=crop",
     deliverables: [
       "Deposit guardrails for higher-risk assets",
       "America's First Finance integration guidance",
@@ -414,22 +415,17 @@ const EXPERIENCE_NAV: Record<ExperienceId, BrandNavItem[]> = {
   ]
 };
 
-const CTA_COPY: Record<
-  ExperienceId,
-  { intro: string; body: string; button: string }
-> = {
+const CTA_COPY: Record<ExperienceId, { intro: string; body: string; button: string }> = {
   interiors: {
     intro:
       "Tell us what space needs attention and we’ll respond within one business day with next steps and a discovery slot.",
-    body:
-      "Interiors projects are available nationwide with an Atlanta-based install team.",
+    body: "Interiors projects are available nationwide with an Atlanta-based install team.",
     button: "Start an interiors project"
   },
   security: {
     intro:
       "Launch an asset fortification review and we’ll scope in-store plus ecommerce vulnerabilities around your highest-risk flows.",
-    body:
-      "Asset fortification programs are available across the US with travel and remediation playbooks included.",
+    body: "Asset fortification programs are available across the US with travel and remediation playbooks included.",
     button: "Start fortification"
   },
   ink: {
@@ -441,8 +437,7 @@ const CTA_COPY: Record<
   financing: {
     intro:
       "Offer consumer financing powered by America's First Finance for mopeds, scooters, iPhones, MacBooks, computers, and PCs.",
-    body:
-      "Share your product mix and preferred term structure; we’ll reply within one business day.",
+    body: "Share your product mix and preferred term structure; we’ll reply within one business day.",
     button: "Launch financing"
   }
 };
@@ -525,9 +520,7 @@ export function BrandPage({ initialExperience = "interiors", skipIntro = false }
       const target = event.target as HTMLElement | null;
       const isTyping =
         target &&
-        (target.tagName === "INPUT" ||
-          target.tagName === "TEXTAREA" ||
-          target.isContentEditable);
+        (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable);
       if (isTyping) return;
       if (!preloaderDone) return;
 
@@ -549,7 +542,8 @@ export function BrandPage({ initialExperience = "interiors", skipIntro = false }
       if (event.key === "ArrowLeft") {
         event.preventDefault();
         const idx = EXPERIENCE_ORDER.indexOf(activeExperience);
-        const next = EXPERIENCE_ORDER[(idx - 1 + EXPERIENCE_ORDER.length) % EXPERIENCE_ORDER.length];
+        const next =
+          EXPERIENCE_ORDER[(idx - 1 + EXPERIENCE_ORDER.length) % EXPERIENCE_ORDER.length];
         handleExperienceSelect(next);
         return;
       }
@@ -607,10 +601,7 @@ export function BrandPage({ initialExperience = "interiors", skipIntro = false }
             title="Choose your service"
             intro="Pick interiors, asset fortification, tattoos, or consumer financing through America's First Finance. Each lane shows how we scope work, price clearly, and keep updates consistent."
           >
-            <ExperienceDeck
-              activeId={activeExperience}
-              onSelect={handleExperienceSelect}
-            />
+            <ExperienceDeck activeId={activeExperience} onSelect={handleExperienceSelect} />
             <div className="mt-6 flex flex-wrap gap-3 text-[10px] font-mono uppercase tracking-[0.32em] text-white/60">
               <span className="rounded-full border border-white/10 px-3 py-1">
                 1 / 2 / 3 / 4 or ← → switch experiences
@@ -904,11 +895,17 @@ export function BrandPage({ initialExperience = "interiors", skipIntro = false }
                     intro="Signals from teams that launched financing with transparent terms and predictable execution."
                   >
                     <div className="grid gap-6 md:grid-cols-2">
-                      {FINANCING_TESTIMONIALS.map(note => (
-                        <HudBracket key={note.quote} className="h-full bg-white/5 p-6" label={note.role}>
+                      {FINANCING_TESTIMONIALS.map((note) => (
+                        <HudBracket
+                          key={note.quote}
+                          className="h-full bg-white/5 p-6"
+                          label={note.role}
+                        >
                           <blockquote className="flex h-full flex-col justify-between gap-4">
                             <p className="text-sm text-muted">“{note.quote}”</p>
-                            <footer className="text-sm font-semibold text-white">{note.author}</footer>
+                            <footer className="text-sm font-semibold text-white">
+                              {note.author}
+                            </footer>
                           </blockquote>
                         </HudBracket>
                       ))}
@@ -926,22 +923,19 @@ export function BrandPage({ initialExperience = "interiors", skipIntro = false }
                 <HudBracket className="bg-white/5 p-6" label="Contact">
                   <div className="flex flex-col gap-4 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
                     <p>
-                      Email
-                      {" "}
+                      Email{" "}
                       <a
                         href="mailto:omnilend.co@gmail.com"
                         className="underline decoration-dotted underline-offset-4 hover:text-white"
                       >
                         omnilend.co@gmail.com
-                      </a>
-                      {" "}
-                      or call
-                      {" "}
+                      </a>{" "}
+                      or call{" "}
                       <a
-                        href="tel:14049198026"
+                        href="tel:14702104341"
                         className="underline decoration-dotted underline-offset-4 hover:text-white"
                       >
-                        404-919-8026
+                        470-210-4341
                       </a>
                       . {cta.body}
                     </p>
@@ -1010,9 +1004,7 @@ function ServicesGrid({ services, selectedId, onSelect }: ServicesGridProps) {
                 <span className="font-mono text-[10px] uppercase tracking-[0.36em] text-white/60">
                   {service.price}
                 </span>
-                <h3 className="font-grotesk text-xl font-semibold text-white">
-                  {service.title}
-                </h3>
+                <h3 className="font-grotesk text-xl font-semibold text-white">{service.title}</h3>
                 <p className="text-sm text-muted">{service.summary}</p>
               </div>
               <span className="mt-6 inline-flex items-center gap-2 text-sm text-white/80">
@@ -1057,9 +1049,7 @@ function ServicesGrid({ services, selectedId, onSelect }: ServicesGridProps) {
                 <h3 className="text-3xl font-semibold text-white sm:text-4xl">
                   {activeService.title}
                 </h3>
-                <p className="text-sm text-white/80 sm:text-base">
-                  {activeService.description}
-                </p>
+                <p className="text-sm text-white/80 sm:text-base">{activeService.description}</p>
                 <div className="grid gap-3 text-sm text-muted sm:grid-cols-2">
                   {activeService.deliverables.map((item) => (
                     <div
@@ -1085,7 +1075,8 @@ function ServicesGrid({ services, selectedId, onSelect }: ServicesGridProps) {
                         Visual reference
                       </p>
                       <p className="text-sm text-white/90">
-                        Imagery matches the service vibe—material palettes, staged sets, or flash closeups.
+                        Imagery matches the service vibe—material palettes, staged sets, or flash
+                        closeups.
                       </p>
                     </div>
                   </div>

@@ -160,7 +160,10 @@ export function ExperienceDeck({ activeId, onSelect }: ExperienceDeckProps) {
                 <div
                   aria-hidden
                   className="absolute inset-0 rounded-[32px] bg-cover bg-center"
-                  style={{ backgroundImage: `url(${activeExperience.image})`, transform: "scale(1.08)" }}
+                  style={{
+                    backgroundImage: `url(${activeExperience.image})`,
+                    transform: "scale(1.08)"
+                  }}
                 />
                 <div className="absolute inset-0 rounded-[32px] bg-gradient-to-tr from-black/80 via-black/40 to-transparent" />
                 <div className="absolute inset-0 rounded-[32px] bg-[radial-gradient(circle_at_20%_20%,rgba(212,160,255,0.25),transparent_55%)] mix-blend-screen" />
@@ -183,7 +186,10 @@ export function ExperienceDeck({ activeId, onSelect }: ExperienceDeckProps) {
                     {activeExperience.tagline}
                   </span>
                   <span className="hidden items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.3em] text-white/70 sm:inline-flex">
-                    <span className="h-2 w-2 rounded-full bg-accent-purple shadow-glow" aria-hidden />
+                    <span
+                      className="h-2 w-2 rounded-full bg-accent-purple shadow-glow"
+                      aria-hidden
+                    />
                     HUD Live
                   </span>
                 </div>
@@ -259,25 +265,23 @@ export function ExperienceDeck({ activeId, onSelect }: ExperienceDeckProps) {
         <HudBracket label="Why Ømnilon" className="h-full w-full bg-white/5 p-6">
           <div className="flex h-full flex-col justify-between gap-4">
             <p className="text-sm text-muted">
-              One studio now handles interiors, asset fortification, tattoos, and consumer financing.
-              Every lane keeps scopes clear, updates fast, and approvals straightforward.
+              One studio now handles interiors, asset fortification, tattoos, and consumer
+              financing. Every lane keeps scopes clear, updates fast, and approvals straightforward.
             </p>
             <p className="text-sm text-muted">
-              Ready to plan your project? Email
-              {" "}
+              Ready to plan your project? Email{" "}
               <a
                 href="mailto:omnilend.co@gmail.com"
                 className="underline decoration-dotted underline-offset-4 hover:text-white"
               >
                 omnilend.co@gmail.com
               </a>{" "}
-              or call
-              {" "}
+              or call{" "}
               <a
-                href="tel:14049198026"
+                href="tel:14702104341"
                 className="underline decoration-dotted underline-offset-4 hover:text-white"
               >
-                404-919-8026
+                470-210-4341
               </a>
               .
             </p>
