@@ -25,7 +25,7 @@ export function Hero() {
           <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
             <div>
               <p className="omni-chip">{site.heroLabel}</p>
-              <h1 className="mt-4 text-[clamp(2.6rem,9vw,6.8rem)] font-semibold uppercase leading-[0.88] tracking-[0.015em] text-[color:var(--text)]">
+              <h1 className="mt-4 text-[clamp(2.4rem,7vw,5.2rem)] font-semibold uppercase leading-[0.9] tracking-[0.015em] text-[color:var(--text)]">
                 {site.heroTitle}
               </h1>
               <p className="mt-5 max-w-2xl text-base leading-7 text-[color:var(--muted)] md:text-lg">

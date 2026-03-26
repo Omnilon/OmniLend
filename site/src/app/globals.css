@@ -139,9 +139,13 @@ a {
   pointer-events: none;
 }
 
-.omni-header-shell,
-.omni-page-shell {
+.omni-header-shell {
   width: var(--shell);
+  margin: 0 auto;
+}
+
+.omni-page-shell {
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -175,7 +179,22 @@ a {
 
 .omni-section-panel,
 .omni-footer-panel {
-  padding: clamp(1rem, 2vw, 1.7rem);
+  padding: clamp(1.1rem, 2.4vw, 2rem) clamp(1.4rem, 4vw, 3.5rem);
+}
+
+.omni-section-panel,
+.omni-footer-panel {
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+  background: transparent;
+  box-shadow: none;
+  clip-path: none;
+}
+
+.omni-section-panel::before,
+.omni-footer-panel::before {
+  display: none;
 }
 
 .omni-brand {

@@ -72,7 +72,7 @@ export const omniContent = {
     gatewayTagline: "OMNILEND // SYSTEM ENTRY",
     introLabel: "System access",
     heroLabel: "OmniLend // Integrated Systems",
-    heroTitle: "One system for spaces, capital, and protection.",
+    heroTitle: "One system",
     heroSubtitle:
       "Choose the lane you need: interiors, finance, protection, or ink. Each service now has its own dedicated page with a lighter path to booking.",
     heroCtaPrimary: "Browse services",
