@@ -1,41 +1,81 @@
 {
   "core": [
     {
-      "name": "E‑Design (Virtual)",
-      "desc": "A fast, mood‑board‑to‑makeover plan you can execute on your timeline—layout, palette, shoppable list, and a step‑by‑step setup guide.",
+      "name": "E\u2011Design (Virtual)",
+      "desc": "A fast, mood\u2011board\u2011to\u2011makeover plan you can execute on your timeline\u2014layout, palette, shoppable list, and a step\u2011by\u2011step setup guide.",
       "price": 450
     },
     {
       "name": "Residential Room Refresh",
-      "desc": "A precision tune‑up for one room—new paint and lighting, scaled furniture, curated textiles, and styling that makes what you already own feel intentional.",
+      "desc": "A precision tune\u2011up for one room\u2014new paint and lighting, scaled furniture, curated textiles, and styling that makes what you already own feel intentional.",
       "priceFrom": 1500
     },
     {
       "name": "Full Residential Design (Turnkey)",
-      "desc": "Concept through install—materials, custom pieces, trades and deliveries handled for you—so you leave a ‘before’ and come home to the ‘after.’",
+      "desc": "Concept through install\u2014materials, custom pieces, trades and deliveries handled for you\u2014so you leave a \u2018before\u2019 and come home to the \u2018after.\u2019",
       "priceFrom": 5000
     },
     {
       "name": "Home Staging",
-      "desc": "Market‑ready rooms styled to photograph beautifully and show even better—edited furniture, art, and accents that spotlight light, space, and flow.",
+      "desc": "Market\u2011ready rooms styled to photograph beautifully and show even better\u2014edited furniture, art, and accents that spotlight light, space, and flow.",
       "priceFrom": 2500
     },
     {
       "name": "Small Commercial / Boutique",
-      "desc": "Brand‑minded interiors for salons, cafés, and studios—optimized floor plans, durable finishes, and ‘stop‑and‑shoot’ moments that convert foot traffic.",
+      "desc": "Brand\u2011minded interiors for salons, caf\u00e9s, and studios\u2014optimized floor plans, durable finishes, and \u2018stop\u2011and\u2011shoot\u2019 moments that convert foot traffic.",
       "priceFrom": 7500
+    },
+    {
+      "name": "REO Clean Outs",
+      "desc": "Vacant-property clean out service for REO portfolios. Average market pricing is about $1.28/sq ft, while our competitive rate range is typically $0.88\u2013$1.42/sq ft depending on condition and haul-away volume.",
+      "priceFrom": 1200
     }
   ],
   "addons": [
-    {"name":"Move‑In Styling","desc":"Unpack, edit, and arrange what you own—then layer key pieces for a finished, livable feel by your first weekend in.","priceFrom":200},
-    {"name":"Paint & Color Direction","desc":"A cohesive palette for walls, trim, ceilings, and key finishes—with sheen specs and room‑by‑room placement so painters just roll.","priceFrom":200},
-    {"name":"Personal Sourcing Day","desc":"A designer on your arm—showrooms to checkout—pulling options, securing trade pricing, and leaving you with a ready‑to‑order cart.","priceFrom":75},
-    {"name":"Art Curation & Gallery Walls","desc":"A curated art plan with scaled mockups and a hanging map—so every piece lands at the right height and tells the right story.","priceFrom":200},
-    {"name":"Holiday / Event Styling","desc":"One‑day transformation for photos, parties, or rentals—tablescapes, mantel moments, florals, and layered lighting you can recreate next season.","priceFrom":500},
-    {"name":"Space Planning & Layout","desc":"Scaled floor plans that unlock sightlines and circulation—right‑sized furniture, clear dimensions, and a map for confident buying.","priceFrom":200},
-    {"name":"Finish & Fixture Selections (Kitchen/Bath)","desc":"Clean, cohesive specs—countertops, tile, plumbing, hardware, and paint that play together beautifully from sample to install.","priceFrom":200},
-    {"name":"Lighting Plan","desc":"Ambient, task, and accent layers plotted room by room—with fixture types, counts, and switch logic for flattering, functional light.","priceFrom":200},
-    {"name":"Window Treatments","desc":"Tailored drapery and shades—fabric and hardware pairings, measurements, and privacy/light control calibrated to each room.","priceFrom":200}
+    {
+      "name": "Move\u2011In Styling",
+      "desc": "Unpack, edit, and arrange what you own\u2014then layer key pieces for a finished, livable feel by your first weekend in.",
+      "priceFrom": 200
+    },
+    {
+      "name": "Paint & Color Direction",
+      "desc": "A cohesive palette for walls, trim, ceilings, and key finishes\u2014with sheen specs and room\u2011by\u2011room placement so painters just roll.",
+      "priceFrom": 200
+    },
+    {
+      "name": "Personal Sourcing Day",
+      "desc": "A designer on your arm\u2014showrooms to checkout\u2014pulling options, securing trade pricing, and leaving you with a ready\u2011to\u2011order cart.",
+      "priceFrom": 75
+    },
+    {
+      "name": "Art Curation & Gallery Walls",
+      "desc": "A curated art plan with scaled mockups and a hanging map\u2014so every piece lands at the right height and tells the right story.",
+      "priceFrom": 200
+    },
+    {
+      "name": "Holiday / Event Styling",
+      "desc": "One\u2011day transformation for photos, parties, or rentals\u2014tablescapes, mantel moments, florals, and layered lighting you can recreate next season.",
+      "priceFrom": 500
+    },
+    {
+      "name": "Space Planning & Layout",
+      "desc": "Scaled floor plans that unlock sightlines and circulation\u2014right\u2011sized furniture, clear dimensions, and a map for confident buying.",
+      "priceFrom": 200
+    },
+    {
+      "name": "Finish & Fixture Selections (Kitchen/Bath)",
+      "desc": "Clean, cohesive specs\u2014countertops, tile, plumbing, hardware, and paint that play together beautifully from sample to install.",
+      "priceFrom": 200
+    },
+    {
+      "name": "Lighting Plan",
+      "desc": "Ambient, task, and accent layers plotted room by room\u2014with fixture types, counts, and switch logic for flattering, functional light.",
+      "priceFrom": 200
+    },
+    {
+      "name": "Window Treatments",
+      "desc": "Tailored drapery and shades\u2014fabric and hardware pairings, measurements, and privacy/light control calibrated to each room.",
+      "priceFrom": 200
+    }
   ]
 }
-
