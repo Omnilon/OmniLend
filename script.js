@@ -747,3 +747,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     update();
 });
+
+// REO clean-out pricing estimator
+document.addEventListener('DOMContentLoaded', () => {
+    const sqftInput = document.getElementById('reoSqft');
+    const complexitySelect = document.getElementById('reoComplexity');
+    const estimateEl = document.getElementById('reoEstimate');
+    if (!sqftInput || !complexitySelect || !estimateEl) return;
+
+    const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+    const renderEstimate = () => {
+        const sqft = Math.max(0, Number(sqftInput.value) || 0);
+        const factor = Number(complexitySelect.value) || 1;
+        const marketAverage = sqft * 1.28 * factor;
+        const compLow = sqft * 0.88 * factor;
+        const compHigh = sqft * 1.42 * factor;
+
+        estimateEl.innerHTML = `Estimated average market total: <strong>${money.format(marketAverage)}</strong>. Competitive OmniLend range: <strong>${money.format(compLow)}–${money.format(compHigh)}</strong>.`;
+    };
+
+    sqftInput.addEventListener('input', renderEstimate);
+    complexitySelect.addEventListener('change', renderEstimate);
+    renderEstimate();
+});
