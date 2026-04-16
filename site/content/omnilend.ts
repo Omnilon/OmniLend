@@ -67,8 +67,8 @@ export const omniContent = {
     url: "https://omnilend.pro",
     title: "OmniLend - Interiors, Fortification, Tattoos & Financing",
     description:
-      "OmniLend offers four lanes in one place: interiors, asset fortification, tattoos, and consumer financing powered by America's First Finance.",
-    tagline: "Interiors. Fortification. Tattoos. Financing.",
+      "OmniLend offers five lanes in one place: interiors, REO clean-outs, asset fortification, tattoos, and consumer financing powered by America's First Finance.",
+    tagline: "Interiors. REO Clean-Outs. Fortification. Tattoos. Financing.",
     gatewayTagline: "OMNILEND // SYSTEM ENTRY",
     introLabel: "System access",
     heroLabel: "OmniLend // Integrated Systems",
@@ -79,6 +79,7 @@ export const omniContent = {
     heroCtaSecondary: "Start contact",
     heroHighlights: [
       "Interior design + experience",
+      "REO clean-outs + turnover",
       "Financial clarity + planning",
       "Asset protection + safety",
       "Operational alignment"
@@ -117,6 +118,11 @@ export const omniContent = {
         title: "Finance operations",
         description:
           "Planning, forecasting, and cash flow visibility that keeps teams aligned on growth and risk."
+      },
+      {
+        title: "REO clean-out operations",
+        description:
+          "Vacant-property clean-out coordination, debris removal, and disposition-ready turnover documentation."
       },
       {
         title: "Asset protection",
