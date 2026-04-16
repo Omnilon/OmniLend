@@ -67,18 +67,19 @@ export const omniContent = {
     url: "https://omnilend.pro",
     title: "OmniLend - Interiors, Fortification, Tattoos & Financing",
     description:
-      "OmniLend offers four lanes in one place: interiors, asset fortification, tattoos, and consumer financing powered by America's First Finance.",
-    tagline: "Interiors. Fortification. Tattoos. Financing.",
+      "OmniLend offers five lanes in one place: interiors, REO clean-outs, asset fortification, tattoos, and consumer financing powered by America's First Finance.",
+    tagline: "Interiors. REO Clean-Outs. Fortification. Tattoos. Financing.",
     gatewayTagline: "OMNILEND // SYSTEM ENTRY",
     introLabel: "System access",
     heroLabel: "OmniLend // Integrated Systems",
     heroTitle: "One system",
     heroSubtitle:
-      "Choose the lane you need: interiors, finance, protection, or ink. Each service now has its own dedicated page with a lighter path to booking.",
+      "Choose the lane you need: interiors, REO clean outs, finance, protection, or ink. Each service now has its own dedicated page with a lighter path to booking.",
     heroCtaPrimary: "Browse services",
     heroCtaSecondary: "Start contact",
     heroHighlights: [
       "Interior design + experience",
+      "REO clean-outs + turnover",
       "Financial clarity + planning",
       "Asset protection + safety",
       "Operational alignment"
@@ -104,7 +105,7 @@ export const omniContent = {
   ] as SectionNav[],
   overview: {
     eyebrow: "System overview",
-    title: "Four services, one operating partner.",
+    title: "Five services, one operating partner.",
     subtitle:
       "Use the homepage as a directory, then move into the service page that matches the work you actually need.",
     items: [
@@ -117,6 +118,11 @@ export const omniContent = {
         title: "Finance operations",
         description:
           "Planning, forecasting, and cash flow visibility that keeps teams aligned on growth and risk."
+      },
+      {
+        title: "REO clean-out operations",
+        description:
+          "Vacant-property clean-out coordination, debris removal, and disposition-ready turnover documentation."
       },
       {
         title: "Asset protection",
@@ -195,6 +201,26 @@ export const omniContent = {
         pricing: "Engagement: assessment plus ongoing review",
         accent: "#59D3B2",
         accentSoft: "rgba(89, 211, 178, 0.18)"
+      },
+      {
+        id: "reo-clean-outs",
+        title: "REO Clean Outs",
+        summary: "Vacant-property clean outs for lenders, servicers, and disposition teams.",
+        description:
+          "We coordinate clean outs, debris haul-away, broom-swept finishing, and photo documentation so REO assets are ready for market quickly.",
+        outcomes: [
+          "Faster market readiness",
+          "Clear scope and documentation",
+          "Predictable per-property pricing"
+        ],
+        deliverables: [
+          "Initial condition assessment",
+          "Debris removal and disposal logs",
+          "Completion photos and turnover checklist"
+        ],
+        pricing: "Average market rate ≈ $1.28/sq ft; OmniLend competitive range: $0.88–$1.42/sq ft",
+        accent: "#77B6EA",
+        accentSoft: "rgba(119, 182, 234, 0.18)"
       },
       {
         id: "ink-studio",
@@ -360,8 +386,8 @@ export const omniContent = {
     subtitle:
       "Share your goals across design, finance, or protection. We will respond with a tailored plan.",
     email: "omnilend.co@gmail.com",
-    phone: "(470) 210-4341",
-    phoneDial: "+14702104341",
+    phone: "(404) 769-2868",
+    phoneDial: "+14047692868",
     availability: "New engagements accepted quarterly.",
     formTitle: "Start an engagement",
     formDescription: "Send a brief note and we will follow up within 2 business days.",
