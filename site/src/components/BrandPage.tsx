@@ -932,10 +932,10 @@ export function BrandPage({ initialExperience = "interiors", skipIntro = false }
                       </a>{" "}
                       or call{" "}
                       <a
-                        href="tel:14702104341"
+                        href="tel:14047692868"
                         className="underline decoration-dotted underline-offset-4 hover:text-white"
                       >
-                        470-210-4341
+                        404-769-2868
                       </a>
                       . {cta.body}
                     </p>
