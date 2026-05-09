@@ -3,8 +3,7 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 import localFont from "next/font/local";
 import { BrandProviders } from "./_providers/BrandProviders";
-import { NoiseOverlay } from "./_components/NoiseOverlay";
-import { omniContent } from "@content/omnilend";
+import { NoiseOverlay } from "@/components/brand/NoiseOverlay";
 
 const brandSans = localFont({
   src: [
@@ -24,22 +23,22 @@ const brandMono = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: omniContent.site.title,
+    default: "OmniLend.pro — Design, Asset Fortification, and Finance",
     template: "%s | OmniLend"
   },
-  description: omniContent.site.description,
-  metadataBase: new URL(omniContent.site.url),
+  description: "Enter OmniLend’s three divisions: Interiors, Asset Fortification, and Finance.",
+  metadataBase: new URL("https://omnilend.pro"),
   openGraph: {
-    title: omniContent.site.title,
-    description: omniContent.site.description,
-    url: omniContent.site.url,
-    siteName: omniContent.site.name,
+    title: "OmniLend.pro — Design, Asset Fortification, and Finance",
+    description: "Enter OmniLend’s three divisions: Interiors, Asset Fortification, and Finance.",
+    url: "https://omnilend.pro",
+    siteName: "OmniLend",
     type: "website"
   },
   twitter: {
     card: "summary_large_image",
-    title: omniContent.site.title,
-    description: omniContent.site.description
+    title: "OmniLend.pro — Design, Asset Fortification, and Finance",
+    description: "Enter OmniLend’s three divisions: Interiors, Asset Fortification, and Finance."
   },
   manifest: "/site.webmanifest",
   icons: {
@@ -54,8 +53,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${brandSans.variable} ${brandMono.variable} bg-bg text-text antialiased`}>
+    <html lang="en" className={`${brandSans.variable} ${brandMono.variable}`}>
+      <body className="bg-bg text-text antialiased">
         <BrandProviders>
           {children}
           <NoiseOverlay />

@@ -65,308 +65,193 @@ export const omniContent = {
   site: {
     name: "OmniLend",
     url: "https://omnilend.pro",
-    title: "OmniLend - Interiors, Fortification, Tattoos & Financing",
+    title: "OmniLend.pro - Design, Asset Fortification, and Finance",
     description:
-      "OmniLend offers four lanes in one place: interiors, asset fortification, tattoos, and consumer financing powered by America's First Finance.",
-    tagline: "Interiors. Fortification. Tattoos. Financing.",
-    gatewayTagline: "OMNILEND // SYSTEM ENTRY",
-    introLabel: "System access",
-    heroLabel: "OmniLend // Integrated Systems",
-    heroTitle: "One system",
+      "OmniLend is a three-division umbrella brand for interiors, asset fortification, and finance intake.",
+    tagline: "Design. Protect. Structure.",
+    gatewayTagline: "OMNILEND // THREE DIVISIONS",
+    introLabel: "Gateway access",
+    heroLabel: "OmniLend // Umbrella Brand",
+    heroTitle: "Three specialist worlds under one parent brand.",
     heroSubtitle:
-      "Choose the lane you need: interiors, finance, protection, or ink. Each service now has its own dedicated page with a lighter path to booking.",
-    heroCtaPrimary: "Browse services",
-    heroCtaSecondary: "Start contact",
-    heroHighlights: [
-      "Interior design + experience",
-      "Financial clarity + planning",
-      "Asset protection + safety",
-      "Operational alignment"
-    ]
+      "Choose the division that matches the work: spatial design, asset fortification, or finance intake.",
+    heroCtaPrimary: "Open gateway",
+    heroCtaSecondary: "Send intake",
+    heroHighlights: ["Interior environments", "Asset fortification", "Finance intake"]
   },
   nav: [
-    { label: "Home", href: "/" },
-    { label: "Services", href: "/services" },
-    { label: "Process", href: "/process" },
-    { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" }
-  ],
+    { label: "Gateway", href: "/" },
+    { label: "Interiors", href: "/interiors" },
+    { label: "Asset Fortification", href: "/asset-fortification" },
+    { label: "Finance", href: "/finance" }
+  ] as NavItem[],
   sections: [
     { id: "hero", label: "Gateway", mode: "MODE: GATEWAY" },
     { id: "overview", label: "Overview", mode: "MODE: OVERVIEW" },
     { id: "services", label: "Services", mode: "MODE: SERVICES" },
     { id: "process", label: "Process", mode: "MODE: PROCESS" },
     { id: "proof", label: "Proof", mode: "MODE: SIGNAL" },
-    { id: "work", label: "Work", mode: "MODE: CASES" },
-    { id: "trust", label: "Trust", mode: "MODE: SAFEGUARD" },
-    { id: "faq", label: "FAQ", mode: "MODE: SUPPORT" },
     { id: "contact", label: "Contact", mode: "MODE: CTA" }
   ] as SectionNav[],
   overview: {
     eyebrow: "System overview",
-    title: "Four services, one operating partner.",
+    title: "One parent brand, three specialist divisions.",
     subtitle:
-      "Use the homepage as a directory, then move into the service page that matches the work you actually need.",
+      "Each division has its own route, visual language, intake questions, and operating context.",
     items: [
       {
-        title: "Interior environments",
+        title: "Interior Design",
         description:
-          "Human-centered spaces that balance beauty, function, and longevity for residential and boutique commercial clients."
+          "Spatial planning, staging, virtual redesign, and sourcing for residential, commercial, rental, and brand environments."
       },
       {
-        title: "Finance operations",
+        title: "Asset Fortification",
         description:
-          "Planning, forecasting, and cash flow visibility that keeps teams aligned on growth and risk."
+          "Risk review, loss-prevention planning, access-point checks, camera-zone review, and operational documentation."
       },
       {
-        title: "Asset protection",
+        title: "Finance",
         description:
-          "Risk assessment, safety protocols, and operational safeguards to protect people and assets."
-      },
-      {
-        title: "Ink studio services",
-        description:
-          "Tattoo planning, custom flash development, and private Atlanta sessions handled with the same measured intake process."
+          "Purchase planning, customer intake, eligibility workflow support, and structured follow-up where options are available."
       }
     ] as OverviewItem[]
   },
   services: {
-    eyebrow: "Capabilities",
-    title: "Choose a lane, then go deeper.",
+    eyebrow: "Divisions",
+    title: "Select the world you need.",
     subtitle:
-      "Each service now lives on its own page so you can review scope, deliverables, and next steps without sorting through everything at once.",
+      "The live site routes directly into Interiors, Asset Fortification, or Finance without a cluttered service menu.",
     items: [
       {
-        id: "interior-design",
-        title: "Interior Design Studio",
-        summary: "Concept-to-install design for residential and boutique commercial spaces.",
+        id: "interiors",
+        title: "ØMNILON Interiors",
+        summary: "Interior styling, staging, virtual redesign, and spatial direction.",
         description:
-          "We guide concepting, spatial planning, finishes, lighting, and procurement with a steady process that keeps teams aligned.",
+          "Design direction built around function, mood, budget, and clear visual deliverables before furniture or decor decisions are made.",
         outcomes: [
-          "Cohesive design direction",
-          "Predictable timelines",
-          "Vendor coordination and oversight"
+          "Clear room goals",
+          "Visual direction before purchases",
+          "Layout and sourcing support"
         ],
-        deliverables: [
-          "Design boards and layout plans",
-          "Finish schedules",
-          "Procurement and install guidance"
+        deliverables: ["Moodboards", "Layout plans", "Sourcing and staging direction"],
+        pricing: "Scoped by room, property type, and implementation needs",
+        accent: "#D4A0FF",
+        accentSoft: "rgba(212,160,255,0.18)"
+      },
+      {
+        id: "asset-fortification",
+        title: "ØMNILON Asset Fortification",
+        summary: "Risk review, loss prevention, and operational security recommendations.",
+        description:
+          "Security-minded review for practical gaps in access, visibility, workflow, documentation, and accountability.",
+        outcomes: [
+          "Vulnerability visibility",
+          "Prioritized safeguards",
+          "Documentation recommendations"
         ],
-        pricing: "Engagement: project-based or room packages",
-        accent: "#F07A8E",
-        accentSoft: "rgba(240, 122, 142, 0.18)"
+        deliverables: ["Risk intake", "Site or workflow review", "Fortification plan"],
+        pricing: "Scoped by site, workflow, and urgency",
+        accent: "#FF5300",
+        accentSoft: "rgba(255,83,0,0.18)"
       },
       {
         id: "finance",
         title: "OmniLend Finance",
-        summary: "Financial planning, forecasting, and operator-ready reporting.",
+        summary: "Purchase planning, finance intake, and structured follow-up.",
         description:
-          "We structure budgets, cash flow models, and decision frameworks so leadership can move quickly with confidence.",
-        outcomes: [
-          "Clear financial visibility",
-          "Aligned leadership decisions",
-          "Operational-ready reporting"
-        ],
-        deliverables: [
-          "Forecasting models",
-          "Budget and runway planning",
-          "Monthly reporting cadence"
-        ],
-        pricing: "Engagement: advisory or fractional support",
-        accent: "#F3C24A",
-        accentSoft: "rgba(243, 194, 74, 0.18)"
-      },
-      {
-        id: "asset-protection",
-        title: "OmniLend Asset Protection",
-        summary: "Risk assessments, safety planning, and loss prevention support.",
-        description:
-          "We audit vulnerabilities, design protocols, and train teams to protect people, spaces, and operational continuity.",
-        outcomes: [
-          "Risk visibility and mitigation",
-          "Stronger safety protocols",
-          "Reduced operational exposure"
-        ],
-        deliverables: [
-          "Risk assessment report",
-          "Protocol playbooks",
-          "Training and review sessions"
-        ],
-        pricing: "Engagement: assessment plus ongoing review",
-        accent: "#59D3B2",
-        accentSoft: "rgba(89, 211, 178, 0.18)"
-      },
-      {
-        id: "ink-studio",
-        title: "OmniLend Ink",
-        summary: "Custom tattoo sessions, flash development, and pre-booked studio work.",
-        description:
-          "We handle concept intake, placement planning, and aftercare guidance for clients booking custom or flash-based work through the Atlanta studio.",
-        outcomes: [
-          "Clear session planning",
-          "Aligned design direction",
-          "Private booking experience"
-        ],
-        deliverables: [
-          "Concept consultation",
-          "Placement and prep guidance",
-          "Aftercare and follow-up notes"
-        ],
-        pricing: "Engagement: consultation plus session booking",
-        accent: "#A7A7A7",
-        accentSoft: "rgba(167, 167, 167, 0.18)"
+          "Compliance-friendly intake for customers exploring payment options where available. Financing is subject to approval and terms may vary.",
+        outcomes: ["Intent capture", "Eligibility review support", "Follow-up clarity"],
+        deliverables: ["Lead qualification", "Purchase notes", "Approval-path tracking"],
+        pricing: "No guaranteed approvals, rates, or lending terms",
+        accent: "#6EC85C",
+        accentSoft: "rgba(110,200,92,0.18)"
       }
     ] as Service[]
   },
   process: {
     eyebrow: "Process",
-    title: "A repeatable operating rhythm.",
-    subtitle: "Five steps that keep teams aligned from intake to execution.",
+    title: "A clear intake rhythm.",
+    subtitle: "Each division starts with context, then narrows into a specific plan.",
     steps: [
       {
         title: "Signal intake",
-        description: "Gather objectives, constraints, and risk signals from stakeholders."
+        description: "Capture goals, constraints, timing, and the division-specific request."
       },
       {
-        title: "System mapping",
-        description: "Audit the current state and map gaps across people, process, and tools."
+        title: "Review",
+        description: "Assess the current space, asset exposure, or purchase path."
       },
       {
-        title: "Design + planning",
-        description: "Draft the plan, scope, and cadence with clear deliverables."
-      },
-      {
-        title: "Deployment",
-        description: "Deliver assets, execution support, and implementation guidance."
-      },
-      {
-        title: "Optimization",
-        description: "Review outcomes, adjust the system, and plan the next phase."
+        title: "Plan",
+        description: "Return a scoped direction with next steps and practical priorities."
       }
     ] as ProcessStep[]
   },
   proof: {
     eyebrow: "Proof",
-    title: "Measured outcomes, shared clearly.",
-    subtitle: "Replace these placeholders with verified metrics and case studies.",
-    metrics: [
-      { value: "18%", label: "Sample cost efficiency lift", note: "Placeholder" },
-      { value: "4.9/5", label: "Sample client satisfaction", note: "Placeholder" },
-      { value: "3-5w", label: "Sample engagement timeline", note: "Placeholder" }
-    ] as Metric[],
-    testimonials: [
-      {
-        quote:
-          "OmniLend brought clarity to our space, budget, and operational risks in one coordinated engagement.",
-        name: "Director of Operations",
-        role: "Hospitality",
-        company: "Boutique Group"
-      },
-      {
-        quote:
-          "The finance framework helped us align leadership and move faster without losing control.",
-        name: "Founder",
-        role: "Consumer Brand",
-        company: "Private Portfolio"
-      },
-      {
-        quote: "The asset protection review surfaced blind spots we had missed for years.",
-        name: "General Manager",
-        role: "Retail",
-        company: "Regional Operator"
-      }
-    ] as Testimonial[],
-    logos: ["Studio North", "Westlake", "Maven", "Eastbay", "Orchid"]
+    title: "Evidence belongs in the work.",
+    subtitle: "Public case studies and metrics should only be added when verified.",
+    metrics: [] as Metric[],
+    testimonials: [] as Testimonial[],
+    logos: [] as string[]
   },
   work: {
     eyebrow: "Work",
-    title: "Selected engagements (placeholder).",
-    subtitle: "Swap these with live case studies when ready.",
-    cases: [
-      {
-        title: "Residential interior transformation",
-        description:
-          "Reimagined a full-home interior with cohesive material palettes and custom lighting plans.",
-        tags: ["Interior Design", "Residential"],
-        outcome: "Improved flow and livability."
-      },
-      {
-        title: "Finance operations reset",
-        description:
-          "Built a forecasting and reporting cadence to align leadership on growth priorities.",
-        tags: ["Finance", "Planning"],
-        outcome: "Leadership decisions made with clearer data."
-      },
-      {
-        title: "Asset protection assessment",
-        description:
-          "Audited high-risk operational zones and deployed safety protocols across teams.",
-        tags: ["Asset Protection", "Safety"],
-        outcome: "Reduced exposure and improved team response."
-      }
-    ] as CaseStudy[]
+    title: "Division work is routed by context.",
+    subtitle: "Case studies can be added once real, approved examples are ready.",
+    cases: [] as CaseStudy[]
   },
   trust: {
-    eyebrow: "Trust & security",
-    title: "Safeguards designed into the engagement.",
-    subtitle: "We stay precise, transparent, and respectful of privacy while we build the system.",
+    eyebrow: "Trust",
+    title: "Practical, scoped, and compliance-aware.",
+    subtitle:
+      "The public site avoids fake claims, fake terms, and overbroad promises. Intake stays division-specific.",
     items: [
       {
         title: "Scope clarity",
-        description:
-          "Every engagement begins with clear deliverables, timelines, and communication paths."
+        description: "Each route asks for the details that matter to that division."
       },
       {
-        title: "Discretion + privacy",
-        description:
-          "Sensitive information stays protected with role-based access and secure documentation."
+        title: "Discretion",
+        description: "Sensitive operational context is handled through controlled intake."
       },
       {
-        title: "Safety-first protocols",
-        description:
-          "We plan for safety, compliance, and operational continuity without overpromising."
+        title: "Compliance-safe finance language",
+        description: "Finance copy avoids guaranteed approval, invented rates, or lender claims."
       }
     ] as TrustItem[]
   },
   faq: {
     eyebrow: "FAQ",
-    title: "Questions, answered with clarity.",
+    title: "Common routing questions.",
     items: [
       {
-        question: "Can we engage on just one discipline?",
-        answer:
-          "Yes. You can engage OmniLend for a single service or combine multiple systems under one engagement."
+        question: "Can I start with only one division?",
+        answer: "Yes. Each division has its own route and form."
       },
       {
-        question: "Do you offer ongoing retainers?",
+        question: "Does finance guarantee approval?",
         answer:
-          "Yes, retainers are available for finance advisory, asset protection reviews, and continued design support."
+          "No. Availability, approval, and terms may vary and are subject to review and provider requirements."
       },
       {
-        question: "Where do you operate?",
-        answer:
-          "We work remotely across the U.S. and travel on-site for engagements that require it."
-      },
-      {
-        question: "How quickly can we start?",
-        answer:
-          "Discovery typically begins within two weeks once scope and stakeholders are aligned."
+        question: "Where should I send attachments?",
+        answer: "Email Omnilend.co@gmail.com after submitting the relevant division intake."
       }
     ] as FaqItem[]
   },
   contact: {
     eyebrow: "Contact",
-    title: "Tell us what you are building.",
-    subtitle:
-      "Share your goals across design, finance, or protection. We will respond with a tailored plan.",
-    email: "omnilend.co@gmail.com",
-    phone: "(470) 210-4341",
-    phoneDial: "+14702104341",
-    availability: "New engagements accepted quarterly.",
+    title: "Send the right intake.",
+    subtitle: "Start from the division route that matches your request.",
+    email: "Omnilend.co@gmail.com",
+    phone: "",
+    phoneDial: "",
+    availability: "New requests accepted through division forms.",
     formTitle: "Start an engagement",
-    formDescription: "Send a brief note and we will follow up within 2 business days.",
-    ctaLabel: "Schedule a discovery call",
-    ctaNote: "Response within 2 business days."
+    formDescription: "Use the division-specific lead forms for the cleanest routing.",
+    ctaLabel: "Open gateway",
+    ctaNote: "Response timing depends on scope and availability."
   }
 };
 
@@ -374,7 +259,7 @@ export const serviceItems = omniContent.services.items;
 
 export function getServiceHref(service: Pick<Service, "id"> | string) {
   const id = typeof service === "string" ? service : service.id;
-  return `/services/${id}`;
+  return id === "interiors" ? "/interiors" : `/${id}`;
 }
 
 export function getServiceById(id: string) {

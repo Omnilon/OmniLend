@@ -19,23 +19,23 @@ exports[`HudBracket > renders content with framing label 1`] = `
     </div>
     <span
       aria-hidden="true"
-      class="pointer-events-none absolute h-8 w-8 border-2 border-accent-purple left-0 top-0 opacity-40"
-      style="transform-origin: left top; opacity: 0.4; transform: scale(0.6);"
+      class="pointer-events-none absolute h-6 w-6 border-accent-purple left-0 top-0 -translate-x-[1px] -translate-y-[1px] border-l-2 border-t-2 opacity-40"
+      style="transform-origin: top left; opacity: 0.4; transform: scale(0.6);"
     />
     <span
       aria-hidden="true"
-      class="pointer-events-none absolute h-8 w-8 border-2 border-accent-purple right-0 top-0 opacity-40"
-      style="transform-origin: left top; opacity: 0.4; transform: scale(0.6) rotate(90deg);"
+      class="pointer-events-none absolute h-6 w-6 border-accent-purple right-0 top-0 translate-x-[1px] -translate-y-[1px] border-r-2 border-t-2 opacity-40"
+      style="transform-origin: top right; opacity: 0.4; transform: scale(0.6);"
     />
     <span
       aria-hidden="true"
-      class="pointer-events-none absolute h-8 w-8 border-2 border-accent-purple right-0 bottom-0 opacity-40"
-      style="transform-origin: left top; opacity: 0.4; transform: scale(0.6) rotate(180deg);"
+      class="pointer-events-none absolute h-6 w-6 border-accent-purple right-0 bottom-0 translate-x-[1px] translate-y-[1px] border-r-2 border-b-2 opacity-40"
+      style="transform-origin: bottom right; opacity: 0.4; transform: scale(0.6);"
     />
     <span
       aria-hidden="true"
-      class="pointer-events-none absolute h-8 w-8 border-2 border-accent-purple left-0 bottom-0 opacity-40"
-      style="transform-origin: left top; opacity: 0.4; transform: scale(0.6) rotate(270deg);"
+      class="pointer-events-none absolute h-6 w-6 border-accent-purple left-0 bottom-0 -translate-x-[1px] translate-y-[1px] border-l-2 border-b-2 opacity-40"
+      style="transform-origin: bottom left; opacity: 0.4; transform: scale(0.6);"
     />
     <div
       aria-hidden="true"

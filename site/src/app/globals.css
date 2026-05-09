@@ -3,29 +3,29 @@
 @tailwind utilities;
 
 :root {
-  --bg: #f5f5f5;
-  --paper: #f5f5f5;
-  --paper-alt: #ececec;
-  --panel: rgba(255, 255, 255, 0.9);
-  --text: #070707;
-  --muted: #5f5f5f;
-  --accent: #070707;
-  --accent2: #2f2f2f;
-  --accent-purple: #070707;
-  --accent-orange: #2f2f2f;
-  --accent-green: #111111;
-  --accent-red: #3b3b3b;
-  --border: rgba(0, 0, 0, 0.18);
-  --hud: rgba(0, 0, 0, 0.08);
-  --line: rgba(0, 0, 0, 0.2);
-  --line-strong: rgba(0, 0, 0, 0.48);
-  --noise-opacity: 0.03;
+  --bg: #050505;
+  --paper: #0a0a0a;
+  --paper-alt: #111111;
+  --panel: rgba(255, 255, 255, 0.06);
+  --text: #f7f7f7;
+  --muted: rgba(255, 255, 255, 0.62);
+  --accent: #d4a0ff;
+  --accent2: #ff5300;
+  --accent-purple: #d4a0ff;
+  --accent-orange: #ff5300;
+  --accent-green: #6ec85c;
+  --accent-red: #ff5300;
+  --border: rgba(255, 255, 255, 0.14);
+  --hud: rgba(255, 255, 255, 0.08);
+  --line: rgba(255, 255, 255, 0.14);
+  --line-strong: rgba(255, 255, 255, 0.32);
+  --noise-opacity: 0.055;
   --font-grotesk:
     "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono:
     "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     monospace;
-  --shadow: 0 30px 90px rgba(0, 0, 0, 0.16);
+  --shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
   --shell: min(1320px, calc(100% - 2.2rem));
 }
 
@@ -400,5 +400,491 @@ a {
 
   .omni-brand-sub {
     font-size: 0.58rem;
+  }
+}
+
+.division-world {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #050505;
+  color: #fff;
+  isolation: isolate;
+}
+
+.division-bg,
+.division-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.division-bg {
+  z-index: 0;
+  background: var(--division-gradient);
+}
+
+.division-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.62)),
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.08), transparent 52%);
+}
+
+.division-grid {
+  z-index: 1;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 58px 58px;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 86%);
+  opacity: 0.6;
+}
+
+.division-section {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.4rem);
+  padding: clamp(3.4rem, 7vw, 6.2rem) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-heading {
+  max-width: 760px;
+  font-size: clamp(2.2rem, 6vw, 5.4rem);
+  line-height: 0.88;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 650;
+}
+
+.division-card,
+.process-row,
+.portal-card,
+.gateway-card,
+.division-visual {
+  transition:
+    border-color 260ms ease,
+    background 260ms ease,
+    transform 260ms ease;
+}
+
+.gateway-card:hover,
+.portal-card:hover {
+  border-color: color-mix(in srgb, var(--division-accent) 62%, white 8%);
+  transform: translateY(-4px);
+}
+
+.division-card:hover,
+.process-row:hover {
+  border-color: color-mix(in srgb, var(--division-accent) 44%, white 6%);
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.form-label {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.form-field {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background: rgba(0, 0, 0, 0.38);
+  color: white;
+  padding: 0.92rem 1rem;
+  font: inherit;
+  border-radius: 0;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.form-field::placeholder {
+  color: rgba(255, 255, 255, 0.32);
+}
+
+.form-field:focus {
+  border-color: var(--division-accent);
+  background: rgba(0, 0, 0, 0.54);
+  outline: 2px solid color-mix(in srgb, var(--division-accent) 35%, transparent);
+  outline-offset: 2px;
+}
+
+.form-field option {
+  color: #111;
+}
+
+.gateway-graphic {
+  position: relative;
+  min-height: 150px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.gateway-graphic::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--division-gradient);
+  opacity: 0.58;
+}
+
+.gateway-graphic span {
+  position: absolute;
+  display: block;
+  border: 1px solid color-mix(in srgb, var(--division-accent) 64%, white 8%);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.gateway-graphic--interiors span:nth-child(1) {
+  left: 16%;
+  top: 20%;
+  width: 30%;
+  height: 54%;
+}
+
+.gateway-graphic--interiors span:nth-child(2) {
+  right: 16%;
+  top: 16%;
+  width: 22%;
+  height: 22%;
+  background: rgba(245, 218, 185, 0.18);
+}
+
+.gateway-graphic--interiors span:nth-child(3) {
+  right: 18%;
+  bottom: 16%;
+  width: 34%;
+  height: 22%;
+  background: rgba(212, 160, 255, 0.16);
+}
+
+.gateway-graphic--asset span:nth-child(1) {
+  left: 12%;
+  top: 20%;
+  width: 72%;
+  height: 1px;
+}
+
+.gateway-graphic--asset span:nth-child(2) {
+  left: 24%;
+  top: 34%;
+  width: 42%;
+  height: 42%;
+  transform: rotate(22deg);
+}
+
+.gateway-graphic--asset span:nth-child(3) {
+  right: 16%;
+  top: 24%;
+  width: 12px;
+  height: 12px;
+  background: var(--division-accent);
+  box-shadow: 0 0 26px var(--division-accent);
+}
+
+.gateway-graphic--finance span:nth-child(1),
+.gateway-graphic--finance span:nth-child(2),
+.gateway-graphic--finance span:nth-child(3) {
+  bottom: 22%;
+  width: 18%;
+  background: color-mix(in srgb, var(--division-accent) 28%, transparent);
+}
+
+.gateway-graphic--finance span:nth-child(1) {
+  left: 18%;
+  height: 34%;
+}
+
+.gateway-graphic--finance span:nth-child(2) {
+  left: 42%;
+  height: 56%;
+}
+
+.gateway-graphic--finance span:nth-child(3) {
+  left: 66%;
+  height: 44%;
+}
+
+.interior-board {
+  position: relative;
+  min-height: 380px;
+  overflow: hidden;
+  background:
+    linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(212, 160, 255, 0.16), rgba(245, 218, 185, 0.08));
+  background-size: 42px 42px, 42px 42px, auto;
+}
+
+.interior-board__hero,
+.interior-board__swatch,
+.interior-board__plan {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.28);
+}
+
+.interior-board__hero {
+  left: 7%;
+  top: 12%;
+  width: 54%;
+  height: 58%;
+  background:
+    linear-gradient(135deg, rgba(245, 245, 245, 0.18), rgba(212, 160, 255, 0.08)),
+    linear-gradient(90deg, transparent 48%, rgba(255, 255, 255, 0.28) 49%, transparent 51%);
+}
+
+.interior-board__swatch--a {
+  right: 10%;
+  top: 14%;
+  width: 23%;
+  height: 24%;
+  background: rgba(245, 218, 185, 0.18);
+}
+
+.interior-board__swatch--b {
+  right: 16%;
+  top: 44%;
+  width: 20%;
+  height: 18%;
+  background: rgba(212, 160, 255, 0.22);
+}
+
+.interior-board__plan {
+  bottom: 9%;
+  left: 18%;
+  width: 62%;
+  height: 22%;
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.interior-board__plan span {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.38);
+}
+
+.interior-board__plan span:nth-child(1) {
+  left: 20%;
+  top: 0;
+  width: 1px;
+  height: 100%;
+}
+
+.interior-board__plan span:nth-child(2) {
+  left: 52%;
+  top: 38%;
+  width: 48%;
+  height: 1px;
+}
+
+.interior-board__plan span:nth-child(3) {
+  left: 0;
+  top: 62%;
+  width: 32%;
+  height: 1px;
+}
+
+.risk-map {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255, 83, 0, 0.12), rgba(255, 255, 255, 0.03)),
+    #070707;
+}
+
+.risk-map__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 46px 46px;
+}
+
+.risk-map__scan {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 83, 0, 0.34) 48%, transparent 52%);
+  animation: scanSweep 4.4s ease-in-out infinite;
+}
+
+.risk-map__node {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(255, 83, 0, 0.45);
+  background: rgba(0, 0, 0, 0.62);
+  padding: 0.7rem 0.82rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.risk-map__node--one {
+  left: 12%;
+  top: 20%;
+}
+
+.risk-map__node--two {
+  right: 12%;
+  top: 38%;
+}
+
+.risk-map__node--three {
+  left: 24%;
+  bottom: 26%;
+}
+
+.risk-map__timeline {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  right: 1.25rem;
+  display: grid;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.52);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.finance-board {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(110, 200, 92, 0.13), rgba(212, 160, 255, 0.08));
+  background-size: 52px 52px, 52px 52px, auto;
+}
+
+.finance-board__stat,
+.finance-board__card {
+  position: absolute;
+  border: 1px solid rgba(110, 200, 92, 0.32);
+  background: rgba(0, 0, 0, 0.46);
+  backdrop-filter: blur(14px);
+}
+
+.finance-board__stat {
+  top: 10%;
+  width: 36%;
+  padding: 1rem;
+}
+
+.finance-board__stat:nth-child(1) {
+  left: 8%;
+}
+
+.finance-board__stat:nth-child(2) {
+  right: 8%;
+}
+
+.finance-board__stat span,
+.finance-board__card {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.finance-board__stat strong {
+  display: block;
+  margin-top: 0.8rem;
+  font-size: clamp(1.15rem, 3vw, 2rem);
+  line-height: 1;
+  color: white;
+  font-family: var(--font-grotesk);
+  text-transform: uppercase;
+}
+
+.finance-board__path {
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  top: 48%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.finance-board__path span {
+  width: 26%;
+  height: 3px;
+  background: var(--division-accent);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--division-accent) 48%, transparent);
+}
+
+.finance-board__card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: min(70%, 360px);
+  padding: 1rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.finance-board__card--a {
+  left: 8%;
+  bottom: 22%;
+}
+
+.finance-board__card--b {
+  right: 8%;
+  bottom: 8%;
+}
+
+@keyframes scanSweep {
+  0%,
+  100% {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+  18%,
+  80% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(110%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .gateway-card:hover,
+  .portal-card:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .division-section {
+    padding: 3rem 0;
+  }
+
+  .section-heading {
+    line-height: 0.95;
+  }
+
+  .division-visual {
+    display: none;
   }
 }
