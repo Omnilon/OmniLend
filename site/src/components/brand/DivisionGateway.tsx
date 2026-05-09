@@ -1,6 +1,7 @@
 "use client";
 
 import type { CSSProperties } from "react";
+import Image from "next/image";
 import { ArrowUpRight, Building2, CircleDollarSign, ShieldCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import type { Division } from "@/content/divisions";
@@ -15,6 +16,11 @@ const iconBySlug = {
   finance: CircleDollarSign
 };
 
+const gatewayAssets = {
+  interiors: "/assets/divisions/interiors/interior-hero.webp",
+  finance: "/assets/divisions/finance/finance-hero.webp"
+};
+
 function divisionPath(division: Division) {
   return `/${division.slug}`;
 }
@@ -22,29 +28,49 @@ function divisionPath(division: Division) {
 function GatewayCardGraphic({ division }: { division: Division }) {
   if (division.slug === "interiors") {
     return (
-      <div className="gateway-graphic gateway-graphic--interiors">
-        <span />
-        <span />
-        <span />
+      <div className="gateway-asset gateway-asset--interiors">
+        <Image
+          src={gatewayAssets.interiors}
+          alt=""
+          fill
+          sizes="(min-width: 768px) 33vw, 100vw"
+        />
+        <div className="gateway-asset__caption">
+          <span>Spatial entry</span>
+          <strong>Design the space</strong>
+        </div>
       </div>
     );
   }
 
   if (division.slug === "asset-fortification") {
     return (
-      <div className="gateway-graphic gateway-graphic--asset">
-        <span />
-        <span />
-        <span />
+      <div className="gateway-asset gateway-asset--asset">
+        <div className="gateway-asset__signal">
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="gateway-asset__caption">
+          <span>Risk surface</span>
+          <strong>Protect the asset</strong>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="gateway-graphic gateway-graphic--finance">
-      <span />
-      <span />
-      <span />
+    <div className="gateway-asset gateway-asset--finance">
+      <Image
+        src={gatewayAssets.finance}
+        alt=""
+        fill
+        sizes="(min-width: 768px) 33vw, 100vw"
+      />
+      <div className="gateway-asset__caption">
+        <span>Intake path</span>
+        <strong>Structure the purchase</strong>
+      </div>
     </div>
   );
 }
@@ -52,8 +78,25 @@ function GatewayCardGraphic({ division }: { division: Division }) {
 export function DivisionGateway({ divisions }: { divisions: Division[] }) {
   return (
     <main className="min-h-screen overflow-hidden bg-[#050505] text-white">
-      <div className="fixed inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(212,160,255,0.14),transparent_30%),radial-gradient(circle_at_82%_16%,rgba(255,83,0,0.12),transparent_28%),radial-gradient(circle_at_60%_90%,rgba(110,200,92,0.12),transparent_32%)]" />
-      <div className="fixed inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:64px_64px] opacity-55" />
+      <div className="gateway-atmosphere" aria-hidden="true">
+        <Image
+          src={gatewayAssets.interiors}
+          alt=""
+          width={720}
+          height={720}
+          className="gateway-atmosphere__media gateway-atmosphere__media--interiors"
+        />
+        <Image
+          src={gatewayAssets.finance}
+          alt=""
+          width={900}
+          height={900}
+          className="gateway-atmosphere__media gateway-atmosphere__media--finance"
+        />
+        <span className="gateway-atmosphere__beam gateway-atmosphere__beam--violet" />
+        <span className="gateway-atmosphere__beam gateway-atmosphere__beam--orange" />
+        <span className="gateway-atmosphere__beam gateway-atmosphere__beam--green" />
+      </div>
 
       <div className="relative z-10 mx-auto flex min-h-screen w-[min(1180px,calc(100%-2rem))] flex-col px-1 py-6 sm:px-0 sm:py-8">
         <header className="flex items-center justify-between gap-4">

@@ -1,5 +1,6 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
 import type { CSSProperties } from "react";
 import {
   ArrowDown,
@@ -13,7 +14,6 @@ import {
   Eye,
   Layers3,
   LockKeyhole,
-  MapPinned,
   ShieldCheck,
   Sofa,
   Waypoints
@@ -30,6 +30,26 @@ const routeBySlug: Record<DivisionKey, string> = {
   interiors: "/interiors",
   "asset-fortification": "/asset-fortification",
   finance: "/finance"
+};
+
+const divisionAssets: Record<
+  DivisionKey,
+  {
+    hero?: string;
+    detail?: string;
+    tertiary?: string;
+  }
+> = {
+  interiors: {
+    hero: "/assets/divisions/interiors/interior-hero.webp",
+    tertiary: "/assets/divisions/interiors/interior-orb.png"
+  },
+  "asset-fortification": {},
+  finance: {
+    hero: "/assets/divisions/finance/finance-hero.webp",
+    detail: "/assets/divisions/finance/finance-panel.webp",
+    tertiary: "/assets/divisions/finance/finance-flow.webp"
+  }
 };
 
 const divisionCopy = {
@@ -92,22 +112,64 @@ const divisionCopy = {
   }
 >;
 
+function DivisionAtmosphere({ division }: { division: Division }) {
+  const assets = divisionAssets[division.slug];
+
+  return (
+    <div className={`division-atmosphere division-atmosphere--${division.slug}`} aria-hidden="true">
+      {assets.hero ? (
+        <img
+          src={assets.hero}
+          alt=""
+          className="division-atmosphere__asset division-atmosphere__asset--primary"
+        />
+      ) : null}
+      {assets.detail ? (
+        <img
+          src={assets.detail}
+          alt=""
+          className="division-atmosphere__asset division-atmosphere__asset--secondary"
+        />
+      ) : null}
+      <span className="division-atmosphere__glow division-atmosphere__glow--one" />
+      <span className="division-atmosphere__glow division-atmosphere__glow--two" />
+      {division.slug === "asset-fortification" ? (
+        <div className="asset-atmosphere">
+          <span />
+          <span />
+          <span />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 function WorldVisual({ division }: { division: Division }) {
+  const assets = divisionAssets[division.slug];
+
   if (division.slug === "interiors") {
     return (
-      <HudFrame className="division-visual division-visual--interiors p-5" label="Material Board">
-        <div className="grid h-full min-h-[440px] grid-rows-[1fr_auto] gap-5">
-          <div className="interior-board">
-            <div className="interior-board__hero" />
-            <div className="interior-board__swatch interior-board__swatch--a" />
-            <div className="interior-board__swatch interior-board__swatch--b" />
-            <div className="interior-board__plan">
-              <span />
-              <span />
-              <span />
-            </div>
+      <HudFrame
+        className="division-visual division-visual--interiors p-4 sm:p-5"
+        label="Material Board"
+      >
+        <div className="interior-studio min-h-[440px]">
+          <img
+            src={assets.hero!}
+            alt=""
+            className="interior-studio__hero"
+          />
+          <div className="interior-studio__detail" />
+          <div className="interior-studio__swatches">
+            <span />
+            <span />
+            <span />
           </div>
-          <div className="grid grid-cols-3 gap-3 font-mono text-[0.58rem] uppercase tracking-[0.24em] text-white/52">
+          <div className="interior-studio__note">
+            <span>Material read</span>
+            <strong>Light / scale / texture</strong>
+          </div>
+          <div className="interior-studio__rail">
             <span>Texture</span>
             <span>Scale</span>
             <span>Light</span>
@@ -120,26 +182,33 @@ function WorldVisual({ division }: { division: Division }) {
   if (division.slug === "asset-fortification") {
     return (
       <HudFrame className="division-visual division-visual--asset p-5" label="Exposure Scan">
-        <div className="risk-map min-h-[440px]">
-          <div className="risk-map__grid" />
-          <div className="risk-map__scan" />
-          <div className="risk-map__node risk-map__node--one">
-            <Camera className="h-4 w-4" />
-            Zone A
+        <div className="asset-console min-h-[440px]">
+          <div className="asset-console__scan" />
+          <div className="asset-console__header">
+            <span>Site review surface</span>
+            <strong>Operational exposure</strong>
           </div>
-          <div className="risk-map__node risk-map__node--two">
-            <LockKeyhole className="h-4 w-4" />
-            Access
+          <div className="asset-console__nodes">
+            <div className="asset-console__node asset-console__node--hot">
+              <Camera className="h-4 w-4" />
+              Camera blind spot
+            </div>
+            <div className="asset-console__node">
+              <LockKeyhole className="h-4 w-4" />
+              Access routine
+            </div>
+            <div className="asset-console__node">
+              <Eye className="h-4 w-4" />
+              Staff visibility
+            </div>
           </div>
-          <div className="risk-map__node risk-map__node--three">
-            <Eye className="h-4 w-4" />
-            Blind Spot
-          </div>
-          <div className="risk-map__timeline">
-            <span>00 Intake</span>
-            <span>01 Walkthrough</span>
-            <span>02 Map</span>
-            <span>03 Fixes</span>
+          <div className="asset-console__timeline">
+            {["Intake", "Walkthrough", "Exposure", "Fix order"].map((item, index) => (
+              <span key={item}>
+                <strong>0{index}</strong>
+                {item}
+              </span>
+            ))}
           </div>
         </div>
       </HudFrame>
@@ -148,25 +217,40 @@ function WorldVisual({ division }: { division: Division }) {
 
   return (
     <HudFrame className="division-visual division-visual--finance p-5" label="Purchase Path">
-      <div className="finance-board min-h-[440px]">
-        <div className="finance-board__stat">
-          <span>INTENT</span>
+      <div className="finance-console min-h-[440px]">
+        <img
+          src={assets.hero!}
+          alt=""
+          className="finance-console__media finance-console__media--hero"
+        />
+        <img
+          src={assets.detail!}
+          alt=""
+          className="finance-console__media finance-console__media--panel"
+        />
+        <img
+          src={assets.tertiary!}
+          alt=""
+          className="finance-console__media finance-console__media--flow"
+        />
+        <div className="finance-console__stat finance-console__stat--intent">
+          <span>Intent</span>
           <strong>Captured</strong>
         </div>
-        <div className="finance-board__stat">
-          <span>REVIEW</span>
+        <div className="finance-console__stat finance-console__stat--review">
+          <span>Review</span>
           <strong>Subject to approval</strong>
         </div>
-        <div className="finance-board__path">
+        <div className="finance-console__path">
           <span />
           <span />
           <span />
         </div>
-        <div className="finance-board__card finance-board__card--a">
+        <div className="finance-console__card finance-console__card--a">
           <CreditCard className="h-5 w-5" />
           Payment options where available
         </div>
-        <div className="finance-board__card finance-board__card--b">
+        <div className="finance-console__card finance-console__card--b">
           <ClipboardCheck className="h-5 w-5" />
           Terms may vary by provider
         </div>
@@ -190,7 +274,7 @@ export function DivisionShell({ division }: { division: Division }) {
       }
     >
       <div className="division-bg" />
-      <div className="division-grid" />
+      <DivisionAtmosphere division={division} />
 
       <motion.div
         className="relative z-10 mx-auto w-[min(1220px,calc(100%-2rem))] py-6 sm:py-8"
@@ -217,7 +301,7 @@ export function DivisionShell({ division }: { division: Division }) {
               <Icon className="h-4 w-4 text-[color:var(--division-accent)]" />
               {config.heroCode}
             </div>
-            <h1 className="mt-7 text-[clamp(2.8rem,6.2vw,5.6rem)] font-semibold uppercase leading-[0.9] text-white">
+            <h1 className="division-hero-title mt-7 text-[clamp(2.8rem,6.2vw,5.6rem)] font-semibold uppercase leading-[0.9] text-white">
               {division.heroTitle}
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/68 md:text-lg">

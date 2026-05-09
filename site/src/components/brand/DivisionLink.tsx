@@ -50,7 +50,7 @@ export function DivisionLink({
           }
 
           setOrigin({ x: event.clientX, y: event.clientY });
-          timeoutRef.current = window.setTimeout(() => router.push(href), 520);
+          timeoutRef.current = window.setTimeout(() => router.push(href), 600);
         }}
       >
         {children}

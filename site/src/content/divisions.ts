@@ -46,7 +46,7 @@ export const divisions: Record<DivisionKey, Division> = {
     heroSubtitle:
       "Interior styling, staging, virtual redesign, and environment planning for homes, offices, rentals, and commercial spaces.",
     visualMood:
-      "warm-black gallery, soft architectural lighting, material swatches, floor-plan grid overlays, cinematic before/after reveals",
+      "warm-black gallery, soft architectural lighting, material swatches, layered image cards, cinematic before/after reveals",
     accentColor: "#D4A0FF",
     gradient:
       "radial-gradient(circle at 18% 12%, rgba(212,160,255,0.24), transparent 36%), radial-gradient(circle at 78% 30%, rgba(245,218,185,0.16), transparent 34%), linear-gradient(140deg, #09070c 0%, #161018 48%, #08070a 100%)",
@@ -104,7 +104,7 @@ export const divisions: Record<DivisionKey, Division> = {
     heroSubtitle:
       "Security-minded audits, site assessments, loss-prevention planning, and operational safeguards for businesses, properties, and high-risk environments.",
     visualMood:
-      "black/grey tactical interface, red-orange scanning lines, subtle map grid, incident timeline cards, camera-zone overlays",
+      "black/grey tactical interface, red-orange scanning lines, stacked risk panels, incident timeline cards, camera-zone overlays",
     accentColor: "#FF5300",
     gradient:
       "radial-gradient(circle at 12% 18%, rgba(255,83,0,0.22), transparent 34%), radial-gradient(circle at 82% 16%, rgba(255,255,255,0.08), transparent 28%), linear-gradient(150deg, #050505 0%, #151515 50%, #090706 100%)",

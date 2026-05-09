@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 export function PortalTransition({
@@ -24,26 +25,50 @@ export function PortalTransition({
   return (
     <motion.div
       aria-hidden="true"
-      className="fixed inset-0 z-[120] overflow-hidden bg-black"
-      initial={{ clipPath: `circle(0px at ${point})`, opacity: 0.88 }}
-      animate={{ clipPath: `circle(150vmax at ${point})`, opacity: 1 }}
+      className="portal-transition fixed inset-0 z-[120] overflow-hidden bg-black"
+      style={{ "--portal-accent": accentColor, "--portal-origin": point } as CSSProperties}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.52, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.12, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div
-        className="absolute inset-0"
-        style={{
-          background: `radial-gradient(circle at ${point}, ${accentColor} 0%, rgba(255,255,255,0.18) 16%, rgba(0,0,0,0.94) 50%)`
-        }}
-      />
       <motion.div
-        className="absolute inset-y-0 left-0 w-1/3 bg-white/12 blur-2xl"
-        initial={{ x: "-120%" }}
-        animate={{ x: "360%" }}
+        className="portal-transition__aperture"
+        initial={{ clipPath: "inset(48% 42% 48% 42%)", filter: "blur(10px)" }}
+        animate={{ clipPath: "inset(0% 0% 0% 0%)", filter: "blur(0px)" }}
         transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
       />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.09)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[size:48px_48px] opacity-25" />
-      <div className="absolute bottom-8 left-8 font-mono text-[0.62rem] uppercase tracking-[0.42em] text-white/65">
+      <motion.div
+        className="portal-transition__slab portal-transition__slab--top"
+        initial={{ y: "-105%" }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+      />
+      <motion.div
+        className="portal-transition__slab portal-transition__slab--bottom"
+        initial={{ y: "105%" }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+      />
+      <motion.div
+        className="portal-transition__sweep"
+        initial={{ x: "-130%", skewX: -16 }}
+        animate={{ x: "155%", skewX: -16 }}
+        transition={{ duration: 0.54, ease: [0.22, 1, 0.36, 1] }}
+      />
+      <motion.div
+        className="portal-transition__thread portal-transition__thread--a"
+        initial={{ scaleX: 0, opacity: 0 }}
+        animate={{ scaleX: 1, opacity: 1 }}
+        transition={{ duration: 0.46, ease: [0.22, 1, 0.36, 1] }}
+      />
+      <motion.div
+        className="portal-transition__thread portal-transition__thread--b"
+        initial={{ scaleX: 0, opacity: 0 }}
+        animate={{ scaleX: 1, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.04, ease: [0.22, 1, 0.36, 1] }}
+      />
+      <div className="portal-transition__label">
         Opening {label}
       </div>
     </motion.div>
