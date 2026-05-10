@@ -34,8 +34,9 @@ export function PortalTransition({
     >
       <motion.div
         className="portal-transition__aperture"
-        initial={{ clipPath: "inset(48% 42% 48% 42%)", filter: "blur(10px)" }}
-        animate={{ clipPath: "inset(0% 0% 0% 0%)", filter: "blur(0px)" }}
+        style={{ transformOrigin: point }}
+        initial={{ scaleX: 0.08, scaleY: 0.025, filter: "blur(10px)" }}
+        animate={{ scaleX: 1, scaleY: 1, filter: "blur(0px)" }}
         transition={{ duration: 0.48, ease: [0.22, 1, 0.36, 1] }}
       />
       <motion.div

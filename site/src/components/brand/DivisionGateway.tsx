@@ -108,7 +108,7 @@ export function DivisionGateway({ divisions }: { divisions: Division[] }) {
 
         <section className="grid flex-1 content-center gap-8 py-10 md:py-12">
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.58, ease: [0.23, 1, 0.32, 1] }}
             className="max-w-4xl"
@@ -130,7 +130,7 @@ export function DivisionGateway({ divisions }: { divisions: Division[] }) {
               return (
                 <motion.div
                   key={division.slug}
-                  initial={{ opacity: 0, y: 24 }}
+                  initial={false}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.52, delay: 0.08 * index, ease: [0.23, 1, 0.32, 1] }}
                 >

@@ -1,30 +1,18 @@
 "use client";
 
 /* eslint-disable @next/next/no-img-element */
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import {
   ArrowDown,
   ArrowUpRight,
-  Building2,
   Camera,
   CheckCircle2,
-  CircleDollarSign,
-  ClipboardCheck,
-  CreditCard,
   Eye,
-  Layers3,
-  LockKeyhole,
-  ShieldCheck,
-  Sofa,
-  Waypoints
+  LockKeyhole
 } from "lucide-react";
-import { motion } from "framer-motion";
 import { divisions, type Division, type DivisionKey } from "@/content/divisions";
-import { BrandMark } from "./BrandMark";
 import { DivisionLink } from "./DivisionLink";
-import { HudFrame } from "./HudFrame";
 import { LeadCaptureForm } from "./LeadCaptureForm";
-import { SectionLabel } from "./SectionLabel";
 
 const routeBySlug: Record<DivisionKey, string> = {
   interiors: "/interiors",
@@ -32,434 +20,376 @@ const routeBySlug: Record<DivisionKey, string> = {
   finance: "/finance"
 };
 
-const divisionAssets: Record<
-  DivisionKey,
-  {
-    hero?: string;
-    detail?: string;
-    tertiary?: string;
-  }
-> = {
+const assets = {
   interiors: {
-    hero: "/assets/divisions/interiors/interior-hero.webp",
-    tertiary: "/assets/divisions/interiors/interior-orb.png"
+    hero: "/assets/divisions/interiors/interior-hero.webp"
   },
-  "asset-fortification": {},
   finance: {
     hero: "/assets/divisions/finance/finance-hero.webp",
-    detail: "/assets/divisions/finance/finance-panel.webp",
-    tertiary: "/assets/divisions/finance/finance-flow.webp"
+    panel: "/assets/divisions/finance/finance-panel.webp",
+    flow: "/assets/divisions/finance/finance-flow.webp",
+    thumbs: [
+      "/assets/divisions/finance/Makhno_Thumbnail_e6008952f7.webp",
+      "/assets/divisions/finance/Eminente_Thumbnail_d7767e1666.webp",
+      "/assets/divisions/finance/Grids_Thumbnail_674aa5712c.webp",
+      "/assets/divisions/finance/Glyphic_Biotechnologies_Thumbnail_50ecd8bb9a.webp"
+    ]
   }
 };
 
-const divisionCopy = {
-  interiors: {
-    heroCode: "STUDIO 01",
-    primaryTitle: "Services",
-    secondaryTitle: "Room Transformation Process",
-    detailTitle: "Visual deliverables",
-    detailIntro:
-      "The work becomes legible before purchase decisions are made: mood, layout, sourcing, and implementation notes stay visible.",
-    detailItems: [
-      "Moodboard direction with material and lighting cues",
-      "Layout plan for movement, furniture scale, and focal points",
-      "Sourcing map with priority buys, alternates, and implementation notes"
-    ],
-    visualLabel: "Gallery / Floor Plan",
-    icon: Sofa
-  },
-  "asset-fortification": {
-    heroCode: "RISK 02",
-    primaryTitle: "What gets reviewed",
-    secondaryTitle: "Fortification Process",
-    detailTitle: "Risk categories",
-    detailIntro:
-      "The review focuses on practical exposure: movement, access, documentation, visibility, and staff-facing workflow gaps.",
-    detailItems: [
-      "Entry points, storage exposure, and access routines",
-      "Camera-zone visibility, customer flow, and blind spots",
-      "Incident documentation, escalation paths, and accountability loops"
-    ],
-    visualLabel: "Risk Map / Timeline",
-    icon: ShieldCheck
-  },
-  finance: {
-    heroCode: "INTAKE 03",
-    primaryTitle: "Finance pathways",
-    secondaryTitle: "Customer intake flow",
-    detailTitle: "Lead qualification process",
-    detailIntro:
-      "The intake path separates casual interest from workable purchase conversations without promising rates, approvals, or lending terms.",
-    detailItems: [
-      "Capture intent, purchase amount, timing, and preferred option type",
-      "Organize eligibility notes for review where financing is available",
-      "Track follow-up so terms, next steps, and open questions stay clear"
-    ],
-    visualLabel: "Dashboard / Approval Path",
-    icon: CircleDollarSign
-  }
-} satisfies Record<
-  DivisionKey,
-  {
-    heroCode: string;
-    primaryTitle: string;
-    secondaryTitle: string;
-    detailTitle: string;
-    detailIntro: string;
-    detailItems: string[];
-    visualLabel: string;
-    icon: typeof Sofa;
-  }
->;
-
-function DivisionAtmosphere({ division }: { division: Division }) {
-  const assets = divisionAssets[division.slug];
-
+function AnimatedPage({
+  children,
+  className,
+  style
+}: {
+  children: ReactNode;
+  className: string;
+  style?: CSSProperties;
+}) {
   return (
-    <div className={`division-atmosphere division-atmosphere--${division.slug}`} aria-hidden="true">
-      {assets.hero ? (
-        <img
-          src={assets.hero}
-          alt=""
-          className="division-atmosphere__asset division-atmosphere__asset--primary"
-        />
-      ) : null}
-      {assets.detail ? (
-        <img
-          src={assets.detail}
-          alt=""
-          className="division-atmosphere__asset division-atmosphere__asset--secondary"
-        />
-      ) : null}
-      <span className="division-atmosphere__glow division-atmosphere__glow--one" />
-      <span className="division-atmosphere__glow division-atmosphere__glow--two" />
-      {division.slug === "asset-fortification" ? (
-        <div className="asset-atmosphere">
-          <span />
-          <span />
-          <span />
-        </div>
-      ) : null}
+    <main className={`${className} world-page-enter`} style={style}>
+      {children}
+    </main>
+  );
+}
+
+function CrossDivisionLinks({
+  division,
+  variant
+}: {
+  division: Division;
+  variant: "pk" | "obys" | "ow";
+}) {
+  return (
+    <div className={`world-crosslinks world-crosslinks--${variant}`}>
+      {division.crossLinks.map((slug) => {
+        const target = divisions[slug];
+
+        return (
+          <DivisionLink
+            key={target.slug}
+            href={routeBySlug[target.slug]}
+            label={target.shortName}
+            accentColor={target.accentColor}
+            className={`world-crosslink world-crosslink--${variant}`}
+          >
+            <span>{target.shortName}</span>
+            <ArrowUpRight className="h-4 w-4" />
+          </DivisionLink>
+        );
+      })}
     </div>
   );
 }
 
-function WorldVisual({ division }: { division: Division }) {
-  const assets = divisionAssets[division.slug];
-
-  if (division.slug === "interiors") {
-    return (
-      <HudFrame
-        className="division-visual division-visual--interiors p-4 sm:p-5"
-        label="Material Board"
-      >
-        <div className="interior-studio min-h-[440px]">
-          <img
-            src={assets.hero!}
-            alt=""
-            className="interior-studio__hero"
-          />
-          <div className="interior-studio__detail" />
-          <div className="interior-studio__swatches">
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className="interior-studio__note">
-            <span>Material read</span>
-            <strong>Light / scale / texture</strong>
-          </div>
-          <div className="interior-studio__rail">
-            <span>Texture</span>
-            <span>Scale</span>
-            <span>Light</span>
-          </div>
-        </div>
-      </HudFrame>
-    );
-  }
-
-  if (division.slug === "asset-fortification") {
-    return (
-      <HudFrame className="division-visual division-visual--asset p-5" label="Exposure Scan">
-        <div className="asset-console min-h-[440px]">
-          <div className="asset-console__scan" />
-          <div className="asset-console__header">
-            <span>Site review surface</span>
-            <strong>Operational exposure</strong>
-          </div>
-          <div className="asset-console__nodes">
-            <div className="asset-console__node asset-console__node--hot">
-              <Camera className="h-4 w-4" />
-              Camera blind spot
-            </div>
-            <div className="asset-console__node">
-              <LockKeyhole className="h-4 w-4" />
-              Access routine
-            </div>
-            <div className="asset-console__node">
-              <Eye className="h-4 w-4" />
-              Staff visibility
-            </div>
-          </div>
-          <div className="asset-console__timeline">
-            {["Intake", "Walkthrough", "Exposure", "Fix order"].map((item, index) => (
-              <span key={item}>
-                <strong>0{index}</strong>
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
-      </HudFrame>
-    );
-  }
-
+function InteriorsWorld({ division }: { division: Division }) {
   return (
-    <HudFrame className="division-visual division-visual--finance p-5" label="Purchase Path">
-      <div className="finance-console min-h-[440px]">
-        <img
-          src={assets.hero!}
-          alt=""
-          className="finance-console__media finance-console__media--hero"
-        />
-        <img
-          src={assets.detail!}
-          alt=""
-          className="finance-console__media finance-console__media--panel"
-        />
-        <img
-          src={assets.tertiary!}
-          alt=""
-          className="finance-console__media finance-console__media--flow"
-        />
-        <div className="finance-console__stat finance-console__stat--intent">
-          <span>Intent</span>
-          <strong>Captured</strong>
+    <AnimatedPage
+      className="pk-page"
+      style={{ "--division-accent": division.accentColor } as CSSProperties}
+    >
+      <header className="pk-nav">
+        <a href="/" className="pk-nav__brand">
+          ØMNILON Interiors
+        </a>
+        <span className="pk-nav__ticks">IIIII</span>
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+        <a href="#lead">Contact</a>
+        <a href="#lead" className="pk-nav__cta">
+          Request room review
+          <ArrowUpRight className="h-5 w-5" />
+        </a>
+      </header>
+
+      <section className="pk-hero">
+        <div className="pk-hero__copy">
+          <p className="pk-kicker">{division.eyebrow}</p>
+          <h1>
+            <span>Rooms change</span>
+            <span>everything.</span>
+            <em>Except intention.</em>
+          </h1>
+          <p>{division.heroSubtitle}</p>
+          <a href="#lead" className="pk-button">
+            Start interiors intake
+            <ArrowDown className="h-5 w-5" />
+          </a>
         </div>
-        <div className="finance-console__stat finance-console__stat--review">
-          <span>Review</span>
-          <strong>Subject to approval</strong>
+        <figure className="pk-hero__art">
+          <img src={assets.interiors.hero} alt="" />
+          <figcaption>ØMNILON Interiors - spatial redesign / staging / visual direction</figcaption>
+        </figure>
+      </section>
+
+      <section id="services" className="pk-section pk-section--split">
+        <div>
+          <p className="pk-kicker">How it works</p>
+          <h2>Design direction that survives the first purchase.</h2>
         </div>
-        <div className="finance-console__path">
-          <span />
-          <span />
-          <span />
+        <div className="pk-service-list">
+          {division.services.map((service, index) => (
+            <article key={service}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{service}</h3>
+            </article>
+          ))}
         </div>
-        <div className="finance-console__card finance-console__card--a">
-          <CreditCard className="h-5 w-5" />
-          Payment options where available
+      </section>
+
+      <section id="process" className="pk-section pk-process">
+        <p className="pk-kicker">Transformation process</p>
+        <div className="pk-process__rows">
+          {division.process.map((step, index) => (
+            <div key={step}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{step}</h3>
+            </div>
+          ))}
         </div>
-        <div className="finance-console__card finance-console__card--b">
-          <ClipboardCheck className="h-5 w-5" />
-          Terms may vary by provider
+      </section>
+
+      <section className="pk-section pk-proof">
+        {division.proofPoints.map((point) => (
+          <p key={point}>{point}</p>
+        ))}
+      </section>
+
+      <section id="lead" className="pk-section pk-lead">
+        <LeadCaptureForm division={division} />
+      </section>
+
+      <section className="pk-section pk-portals">
+        <p className="pk-kicker">Other OmniLend divisions</p>
+        <CrossDivisionLinks division={division} variant="pk" />
+      </section>
+    </AnimatedPage>
+  );
+}
+
+function FinanceWorld({ division }: { division: Division }) {
+  return (
+    <AnimatedPage
+      className="obys-page"
+      style={{ "--division-accent": division.accentColor } as CSSProperties}
+    >
+      <header className="obys-top">
+        <nav>
+          <a href="#work">Work</a>
+          <a href="#lead">Intake</a>
+        </nav>
+        <span>Subject to approval</span>
+        <a href="#lead">Contact</a>
+      </header>
+
+      <section id="work" className="obys-hero">
+        <h1 className="obys-logo">
+          OMNILEND
+          <br />
+          FINANCE<sup>®</sup>
+        </h1>
+        <aside className="obys-index">
+          {division.services.map((service, index) => (
+            <span key={service} className={index === 2 ? "is-active" : ""}>
+              {service}
+            </span>
+          ))}
+        </aside>
+        <div className="obys-gallery" aria-hidden="true">
+          <img src={assets.finance.thumbs[0]} alt="" />
+          <img src={assets.finance.panel} alt="" />
+          <div className="obys-gallery__focus">
+            <span className="obys-bracket obys-bracket--left" />
+            <img src={assets.finance.hero} alt="" />
+            <span className="obys-bracket obys-bracket--right" />
+          </div>
+          <img src={assets.finance.flow} alt="" />
+          <img src={assets.finance.thumbs[3]} alt="" />
         </div>
+        <aside className="obys-copy">
+          <p>
+            Finance intake shaped like a clean editorial workflow: purchase intent, eligibility
+            notes, option presentation, and follow-up status without invented terms.
+          </p>
+          <p>
+            Contact:
+            <br />
+            <a href="mailto:Omnilend.co@gmail.com">Omnilend.co@gmail.com</a>
+          </p>
+        </aside>
+        <div className="obys-case-meta">
+          <span>Purchase planning, customer intake</span>
+          <span>Terms may vary</span>
+          <span>03</span>
+        </div>
+      </section>
+
+      <section className="obys-section obys-pathways">
+        <div>
+          <p>Finance pathways</p>
+          <h2>{division.heroTitle}</h2>
+        </div>
+        <div className="obys-pathways__cards">
+          {division.process.map((step, index) => (
+            <article key={step}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{step}</h3>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="obys-section obys-proof">
+        {division.proofPoints.map((point) => (
+          <p key={point}>{point}</p>
+        ))}
+      </section>
+
+      <section className="obys-disclaimer">
+        Financing availability, terms, and approvals may vary. OmniLend does not guarantee
+        approval, specific rates, or lending terms. Final options are subject to review,
+        eligibility, and applicable partner or provider requirements.
+      </section>
+
+      <section id="lead" className="obys-lead">
+        <LeadCaptureForm division={division} />
+      </section>
+
+      <section className="obys-portals">
+        <p>Other OmniLend divisions</p>
+        <CrossDivisionLinks division={division} variant="obys" />
+      </section>
+    </AnimatedPage>
+  );
+}
+
+function Meter({ label, value, count, lit }: { label: string; value: string; count: number; lit: number }) {
+  return (
+    <div className="ow-meter">
+      <div className="ow-meter__head">
+        <span>{label}</span>
+        <strong>{value}</strong>
       </div>
-    </HudFrame>
+      <div className="ow-meter__cells">
+        {Array.from({ length: count }).map((_, index) => (
+          <span key={index} className={index < lit ? "is-lit" : ""} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function AssetFortificationWorld({ division }: { division: Division }) {
+  return (
+    <AnimatedPage
+      className="ow-page"
+      style={{ "--division-accent": division.accentColor } as CSSProperties}
+    >
+      <div className="ow-dots" aria-hidden="true" />
+      <header className="ow-topbar">
+        <a href="/" className="ow-brand">
+          <span />
+          ØMNILON OVERWATCH
+        </a>
+        <div>
+          <span>RISK_ACTIVE: 03</span>
+          <span className="ow-live">LIVE_FEED_ACTIVE</span>
+        </div>
+      </header>
+
+      <section className="ow-hero">
+        <span className="ow-corner ow-corner--tl" />
+        <span className="ow-corner ow-corner--tr" />
+        <span className="ow-corner ow-corner--bl" />
+        <span className="ow-corner ow-corner--br" />
+        <div className="ow-intro">
+          <p>Operational security platform</p>
+          <h1>
+            Asset
+            <br />
+            Fortification<span>_</span>
+          </h1>
+          <div>
+            <p>{division.heroSubtitle}</p>
+          </div>
+        </div>
+        <Meter label="Exposure review aggregate" value="156,967" count={32} lit={32} />
+        <Meter label="Documentation gap aggregate" value="109,154" count={32} lit={22} />
+        <div className="ow-stat-grid">
+          {[
+            ["Total reviews", "1,145"],
+            ["Prevention rate", "75.4%"],
+            ["Active session", "02"],
+            ["Last sync", "22d AGO"]
+          ].map(([label, value]) => (
+            <article key={label}>
+              <span>{label}</span>
+              <strong>{value}</strong>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="ow-command-row">
+        <div className="ow-terminal">
+          <span>{">"} Establishing site walkthrough protocol...</span>
+          <span>{">"} Loading dataset ACCESS_CAMERA_DOCUMENTATION...</span>
+          <span>{">"} Reindexing {division.services.length} review vectors...</span>
+          <span>{">"} Verifying prevention block 0x4F... OK</span>
+          <strong>{">"} SYSTEM_READY_FOR_QUERY</strong>
+        </div>
+        <a href="#lead" className="ow-command">
+          <span>Command input</span>
+          <strong>{">"} ENTER</strong>
+        </a>
+      </section>
+
+      <section className="ow-section ow-review">
+        <div>
+          <p>Review vectors</p>
+          <h2>What gets reviewed</h2>
+        </div>
+        <div className="ow-review__grid">
+          {division.services.map((service, index) => (
+            <article key={service}>
+              {index % 3 === 0 ? <Camera /> : index % 3 === 1 ? <LockKeyhole /> : <Eye />}
+              <span>0{index + 1}</span>
+              <h3>{service}</h3>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="ow-section ow-process">
+        {division.process.map((step, index) => (
+          <article key={step}>
+            <span>0{index}</span>
+            <h3>{step}</h3>
+            <CheckCircle2 className="h-5 w-5" />
+          </article>
+        ))}
+      </section>
+
+      <section id="lead" className="ow-lead">
+        <LeadCaptureForm division={division} />
+      </section>
+
+      <section className="ow-portals">
+        <p>Portal transfer</p>
+        <CrossDivisionLinks division={division} variant="ow" />
+      </section>
+    </AnimatedPage>
   );
 }
 
 export function DivisionShell({ division }: { division: Division }) {
-  const config = divisionCopy[division.slug];
-  const Icon = config.icon;
+  if (division.slug === "interiors") {
+    return <InteriorsWorld division={division} />;
+  }
 
-  return (
-    <main
-      className={`division-world division-world--${division.slug}`}
-      style={
-        {
-          "--division-accent": division.accentColor,
-          "--division-gradient": division.gradient
-        } as CSSProperties
-      }
-    >
-      <div className="division-bg" />
-      <DivisionAtmosphere division={division} />
+  if (division.slug === "finance") {
+    return <FinanceWorld division={division} />;
+  }
 
-      <motion.div
-        className="relative z-10 mx-auto w-[min(1220px,calc(100%-2rem))] py-6 sm:py-8"
-        initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.58, ease: [0.23, 1, 0.32, 1] }}
-      >
-        <header className="flex items-center justify-between gap-4">
-          <BrandMark />
-          <DivisionLink
-            href="/"
-            label="Gateway"
-            accentColor={division.accentColor}
-            className="border border-white/12 px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.32em] text-white/52 transition hover:border-white/30 hover:text-white"
-          >
-            Gateway
-          </DivisionLink>
-        </header>
-
-        <section className="grid min-h-[calc(100vh-6rem)] items-center gap-10 py-14 lg:grid-cols-[0.95fr_1.05fr] lg:py-20">
-          <div>
-            <SectionLabel>{division.eyebrow}</SectionLabel>
-            <div className="mt-6 inline-flex items-center gap-3 border border-white/10 bg-white/[0.03] px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.32em] text-white/46">
-              <Icon className="h-4 w-4 text-[color:var(--division-accent)]" />
-              {config.heroCode}
-            </div>
-            <h1 className="division-hero-title mt-7 text-[clamp(2.8rem,6.2vw,5.6rem)] font-semibold uppercase leading-[0.9] text-white">
-              {division.heroTitle}
-            </h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-white/68 md:text-lg">
-              {division.heroSubtitle}
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="#lead"
-                className="inline-flex items-center gap-2 border border-[color:var(--division-accent)]/50 bg-[color:var(--division-accent)] px-5 py-3 font-mono text-[0.68rem] uppercase tracking-[0.28em] text-black transition hover:brightness-110"
-              >
-                Start intake
-                <ArrowDown className="h-4 w-4" />
-              </a>
-              <span className="inline-flex items-center border border-white/10 px-5 py-3 font-mono text-[0.68rem] uppercase tracking-[0.28em] text-white/50">
-                {config.visualLabel}
-              </span>
-            </div>
-          </div>
-          <WorldVisual division={division} />
-        </section>
-
-        <section className="division-section">
-          <div>
-            <SectionLabel>{config.primaryTitle}</SectionLabel>
-            <h2 className="section-heading">{config.primaryTitle}</h2>
-          </div>
-          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-            {division.services.map((service, index) => (
-              <HudFrame key={service} className="division-card p-5">
-                <div className="flex min-h-[170px] flex-col justify-between gap-6">
-                  <span className="font-mono text-[0.62rem] uppercase tracking-[0.32em] text-white/34">
-                    0{index + 1}
-                  </span>
-                  <h3 className="text-xl font-semibold leading-tight text-white">{service}</h3>
-                </div>
-              </HudFrame>
-            ))}
-          </div>
-        </section>
-
-        <section className="division-section">
-          <div>
-            <SectionLabel>{config.detailTitle}</SectionLabel>
-            <h2 className="section-heading">{config.detailTitle}</h2>
-            <p className="mt-4 max-w-3xl text-sm leading-7 text-white/62 md:text-base">
-              {config.detailIntro}
-            </p>
-          </div>
-          <div className="grid gap-4 lg:grid-cols-3">
-            {config.detailItems.map((item) => (
-              <HudFrame key={item} className="division-card p-5">
-                <div className="flex gap-4">
-                  <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-[color:var(--division-accent)]" />
-                  <p className="text-sm leading-7 text-white/68">{item}</p>
-                </div>
-              </HudFrame>
-            ))}
-          </div>
-        </section>
-
-        <section className="division-section">
-          <div>
-            <SectionLabel>{config.secondaryTitle}</SectionLabel>
-            <h2 className="section-heading">{config.secondaryTitle}</h2>
-          </div>
-          <div className="grid gap-3">
-            {division.process.map((step, index) => (
-              <HudFrame key={step} className="process-row p-5">
-                <div className="grid gap-4 md:grid-cols-[120px_1fr_auto] md:items-center">
-                  <span className="font-mono text-[0.72rem] uppercase tracking-[0.32em] text-[color:var(--division-accent)]">
-                    Phase {index + 1}
-                  </span>
-                  <h3 className="text-2xl font-semibold uppercase leading-none text-white">
-                    {step}
-                  </h3>
-                  <Waypoints className="hidden h-5 w-5 text-white/32 md:block" />
-                </div>
-              </HudFrame>
-            ))}
-          </div>
-        </section>
-
-        <section className="division-section">
-          <div>
-            <SectionLabel>Proof Points</SectionLabel>
-            <h2 className="section-heading">Built for practical decisions.</h2>
-          </div>
-          <div className="grid gap-4 lg:grid-cols-3">
-            {division.proofPoints.map((point) => (
-              <HudFrame key={point} className="division-card p-5">
-                <Layers3 className="h-5 w-5 text-[color:var(--division-accent)]" />
-                <p className="mt-6 text-sm leading-7 text-white/68">{point}</p>
-              </HudFrame>
-            ))}
-          </div>
-        </section>
-
-        {division.slug === "finance" ? (
-          <section className="division-section">
-            <HudFrame className="border-[color:var(--division-accent)]/35 p-6">
-              <SectionLabel>Compliance Note</SectionLabel>
-              <p className="mt-4 max-w-4xl text-sm leading-7 text-white/68 md:text-base">
-                Financing availability, terms, and approvals may vary. OmniLend does not
-                guarantee approval, specific rates, or lending terms. Final options are subject to
-                review, eligibility, and applicable partner or provider requirements.
-              </p>
-            </HudFrame>
-          </section>
-        ) : null}
-
-        <section id="lead" className="division-section scroll-mt-24">
-          <HudFrame className="p-5 md:p-8">
-            <LeadCaptureForm division={division} />
-          </HudFrame>
-        </section>
-
-        <section className="division-section pb-16">
-          <div>
-            <SectionLabel>Portal Links</SectionLabel>
-            <h2 className="section-heading">Move to another division.</h2>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            {division.crossLinks.map((slug) => {
-              const target = divisions[slug];
-
-              return (
-                <DivisionLink
-                  key={target.slug}
-                  href={routeBySlug[target.slug]}
-                  label={target.shortName}
-                  accentColor={target.accentColor}
-                  className="block"
-                >
-                  <HudFrame
-                    className="portal-card p-5"
-                    label={`${target.shortName} Portal`}
-                  >
-                    <div
-                      style={{ "--division-accent": target.accentColor } as CSSProperties}
-                      className="flex items-end justify-between gap-6"
-                    >
-                      <div>
-                        <p className="font-mono text-[0.62rem] uppercase tracking-[0.32em] text-white/42">
-                          Open division
-                        </p>
-                        <h3 className="mt-5 text-3xl font-semibold uppercase leading-none text-white">
-                          {target.shortName}
-                        </h3>
-                      </div>
-                      <ArrowUpRight className="h-6 w-6 text-[color:var(--division-accent)] transition group-hover:translate-x-1 group-hover:-translate-y-1" />
-                    </div>
-                  </HudFrame>
-                </DivisionLink>
-              );
-            })}
-          </div>
-        </section>
-      </motion.div>
-    </main>
-  );
+  return <AssetFortificationWorld division={division} />;
 }
