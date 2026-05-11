@@ -7,8 +7,10 @@ import {
   ArrowUpRight,
   Camera,
   CheckCircle2,
-  Eye,
-  LockKeyhole
+  FileText,
+  LockKeyhole,
+  Radio,
+  ShieldCheck
 } from "lucide-react";
 import { divisions, type Division, type DivisionKey } from "@/content/divisions";
 import { DivisionLink } from "./DivisionLink";
@@ -20,9 +22,11 @@ const routeBySlug: Record<DivisionKey, string> = {
   finance: "/finance"
 };
 
-const assets = {
+const divisionAssets = {
   interiors: {
-    hero: "/assets/divisions/interiors/interior-hero.webp"
+    hero: "/assets/divisions/interiors/interior-hero.webp",
+    detail: "/assets/divisions/interiors/interior-detail.avif",
+    videoFrame: "/assets/divisions/interiors/68414b36c5bc5cd43e314e77_Videoframe.webp"
   },
   finance: {
     hero: "/assets/divisions/finance/finance-hero.webp",
@@ -30,12 +34,16 @@ const assets = {
     flow: "/assets/divisions/finance/finance-flow.webp",
     thumbs: [
       "/assets/divisions/finance/Makhno_Thumbnail_e6008952f7.webp",
+      "/assets/divisions/finance/Source_Unknown_Thumbnail_7e7a08561b.webp",
       "/assets/divisions/finance/Eminente_Thumbnail_d7767e1666.webp",
       "/assets/divisions/finance/Grids_Thumbnail_674aa5712c.webp",
-      "/assets/divisions/finance/Glyphic_Biotechnologies_Thumbnail_50ecd8bb9a.webp"
+      "/assets/divisions/finance/Glyphic_Biotechnologies_Thumbnail_50ecd8bb9a.webp",
+      "/assets/divisions/finance/Peter_Thumbnail_bee0ce3a78.webp"
     ]
   }
 };
+
+const assetIcons = [Camera, LockKeyhole, ShieldCheck, Radio, FileText, CheckCircle2];
 
 function AnimatedPage({
   children,
@@ -58,10 +66,10 @@ function CrossDivisionLinks({
   variant
 }: {
   division: Division;
-  variant: "pk" | "obys" | "ow";
+  variant: "interiors" | "finance" | "asset";
 }) {
   return (
-    <div className={`world-crosslinks world-crosslinks--${variant}`}>
+    <div className={`division-portals division-portals--${variant}`}>
       {division.crossLinks.map((slug) => {
         const target = divisions[slug];
 
@@ -71,7 +79,7 @@ function CrossDivisionLinks({
             href={routeBySlug[target.slug]}
             label={target.shortName}
             accentColor={target.accentColor}
-            className={`world-crosslink world-crosslink--${variant}`}
+            className={`division-portal division-portal--${variant}`}
           >
             <span>{target.shortName}</span>
             <ArrowUpRight className="h-4 w-4" />
@@ -85,84 +93,100 @@ function CrossDivisionLinks({
 function InteriorsWorld({ division }: { division: Division }) {
   return (
     <AnimatedPage
-      className="pk-page"
+      className="interiors-world"
       style={{ "--division-accent": division.accentColor } as CSSProperties}
     >
-      <header className="pk-nav">
-        <a href="/" className="pk-nav__brand">
+      <header className="interiors-nav">
+        <a href="/" className="interiors-nav__brand">
           ØMNILON Interiors
         </a>
-        <span className="pk-nav__ticks">IIIII</span>
-        <a href="#services">Services</a>
-        <a href="#process">Process</a>
-        <a href="#lead">Contact</a>
-        <a href="#lead" className="pk-nav__cta">
+        <span className="interiors-nav__ticks">•••••</span>
+        <nav aria-label="Interiors">
+          <a href="#how">How it works</a>
+          <a href="#stories">Stories</a>
+          <a href="#lead">Contact</a>
+        </nav>
+        <a href="#lead" className="interiors-nav__cta">
           Request room review
           <ArrowUpRight className="h-5 w-5" />
         </a>
       </header>
 
-      <section className="pk-hero">
-        <div className="pk-hero__copy">
-          <p className="pk-kicker">{division.eyebrow}</p>
+      <section className="interiors-hero">
+        <div className="interiors-hero__copy">
+          <p className="interiors-label">{division.eyebrow}</p>
           <h1>
-            <span>Rooms change</span>
-            <span>everything.</span>
+            Rooms change everything.
             <em>Except intention.</em>
           </h1>
-          <p>{division.heroSubtitle}</p>
-          <a href="#lead" className="pk-button">
+          <p>
+            Interior styling, staging, virtual redesign, and environment planning for homes,
+            offices, rentals, and commercial spaces.
+          </p>
+          <a href="#lead" className="interiors-button">
             Start interiors intake
             <ArrowDown className="h-5 w-5" />
           </a>
         </div>
-        <figure className="pk-hero__art">
-          <img src={assets.interiors.hero} alt="" />
+        <figure className="interiors-hero__image">
+          <img src={divisionAssets.interiors.hero} alt="" />
           <figcaption>ØMNILON Interiors - spatial redesign / staging / visual direction</figcaption>
         </figure>
       </section>
 
-      <section id="services" className="pk-section pk-section--split">
+      <section className="interiors-proof" aria-label="Interior design proof points">
+        {division.proofPoints.map((point) => (
+          <article key={point}>
+            <p>{point}</p>
+          </article>
+        ))}
+      </section>
+
+      <section id="how" className="interiors-story interiors-story--process">
         <div>
-          <p className="pk-kicker">How it works</p>
-          <h2>Design direction that survives the first purchase.</h2>
+          <p className="interiors-label">How it works</p>
+          <h2>You look. Then the room answers back.</h2>
         </div>
-        <div className="pk-service-list">
-          {division.services.map((service, index) => (
-            <article key={service}>
+        <div className="interiors-process">
+          {division.process.map((step, index) => (
+            <article key={step}>
               <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{service}</h3>
+              <h3>{step}</h3>
             </article>
           ))}
         </div>
       </section>
 
-      <section id="process" className="pk-section pk-process">
-        <p className="pk-kicker">Transformation process</p>
-        <div className="pk-process__rows">
-          {division.process.map((step, index) => (
-            <div key={step}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{step}</h3>
-            </div>
-          ))}
+      <section id="stories" className="interiors-story interiors-story--media">
+        <div className="interiors-media-pair">
+          <img src={divisionAssets.interiors.detail} alt="" />
+          <img src={divisionAssets.interiors.videoFrame} alt="" />
+        </div>
+        <div>
+          <p className="interiors-label">What you can request</p>
+          <h2>Design direction before the buying starts.</h2>
+          <div className="interiors-services">
+            {division.services.map((service, index) => (
+              <article key={service}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{service}</h3>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="pk-section pk-proof">
-        {division.proofPoints.map((point) => (
-          <p key={point}>{point}</p>
-        ))}
-      </section>
-
-      <section id="lead" className="pk-section pk-lead">
+      <section id="lead" className="interiors-lead">
         <LeadCaptureForm division={division} />
       </section>
 
-      <section className="pk-section pk-portals">
-        <p className="pk-kicker">Other OmniLend divisions</p>
-        <CrossDivisionLinks division={division} variant="pk" />
-      </section>
+      <footer className="interiors-footer">
+        <div>
+          <p className="interiors-label">Continue through OmniLend</p>
+          <h2>Choose another specialist world.</h2>
+        </div>
+        <CrossDivisionLinks division={division} variant="interiors" />
+      </footer>
     </AnimatedPage>
   );
 }
@@ -170,43 +194,45 @@ function InteriorsWorld({ division }: { division: Division }) {
 function FinanceWorld({ division }: { division: Division }) {
   return (
     <AnimatedPage
-      className="obys-page"
+      className="finance-world"
       style={{ "--division-accent": division.accentColor } as CSSProperties}
     >
-      <header className="obys-top">
-        <nav>
+      <header className="finance-top">
+        <nav aria-label="Finance">
           <a href="#work">Work</a>
-          <a href="#lead">Intake</a>
+          <a href="#about">About</a>
         </nav>
         <span>Subject to approval</span>
         <a href="#lead">Contact</a>
       </header>
 
-      <section id="work" className="obys-hero">
-        <h1 className="obys-logo">
+      <section id="work" className="finance-editorial">
+        <h1 className="finance-logo">
           OMNILEND
           <br />
           FINANCE<sup>®</sup>
         </h1>
-        <aside className="obys-index">
+
+        <aside className="finance-index" aria-label="Finance service index">
           {division.services.map((service, index) => (
-            <span key={service} className={index === 2 ? "is-active" : ""}>
+            <a key={service} href={`#finance-case-${index + 1}`} className={index === 2 ? "is-active" : ""}>
               {service}
-            </span>
+            </a>
           ))}
         </aside>
-        <div className="obys-gallery" aria-hidden="true">
-          <img src={assets.finance.thumbs[0]} alt="" />
-          <img src={assets.finance.panel} alt="" />
-          <div className="obys-gallery__focus">
-            <span className="obys-bracket obys-bracket--left" />
-            <img src={assets.finance.hero} alt="" />
-            <span className="obys-bracket obys-bracket--right" />
+
+        <div className="finance-rail" aria-hidden="true">
+          <img src={divisionAssets.finance.panel} alt="" />
+          <img src={divisionAssets.finance.flow} alt="" />
+          <div className="finance-feature">
+            <span className="finance-bracket finance-bracket--left" />
+            <img src={divisionAssets.finance.hero} alt="" />
+            <span className="finance-bracket finance-bracket--right" />
           </div>
-          <img src={assets.finance.flow} alt="" />
-          <img src={assets.finance.thumbs[3]} alt="" />
+          <img src={divisionAssets.finance.thumbs[3]} alt="" />
         </div>
-        <aside className="obys-copy">
+
+        <aside id="about" className="finance-note">
           <p>
             Finance intake shaped like a clean editorial workflow: purchase intent, eligibility
             notes, option presentation, and follow-up status without invented terms.
@@ -217,64 +243,62 @@ function FinanceWorld({ division }: { division: Division }) {
             <a href="mailto:Omnilend.co@gmail.com">Omnilend.co@gmail.com</a>
           </p>
         </aside>
-        <div className="obys-case-meta">
-          <span>Purchase planning, customer intake</span>
+
+        <div className="finance-meta">
+          <span>Purchase planning</span>
+          <span>Customer intake</span>
           <span>Terms may vary</span>
           <span>03</span>
         </div>
       </section>
 
-      <section className="obys-section obys-pathways">
-        <div>
-          <p>Finance pathways</p>
-          <h2>{division.heroTitle}</h2>
-        </div>
-        <div className="obys-pathways__cards">
-          {division.process.map((step, index) => (
-            <article key={step}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h3>{step}</h3>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="obys-section obys-proof">
-        {division.proofPoints.map((point) => (
-          <p key={point}>{point}</p>
+      <section className="finance-taxonomy" aria-label="Finance workflow taxonomy">
+        {division.process.map((step, index) => (
+          <p key={step}>
+            {step}
+            <span>{division.services[index] ?? "Structured follow-up"}</span>
+            <b>{String(index + 1).padStart(2, "0")}</b>
+          </p>
         ))}
       </section>
 
-      <section className="obys-disclaimer">
+      <section className="finance-work-grid" aria-label="Finance pathways">
+        {division.services.slice(0, 6).map((service, index) => (
+          <article id={`finance-case-${index + 1}`} key={service}>
+            <a href="#lead">
+              <img src={divisionAssets.finance.thumbs[index]} alt="" />
+              <h2>{service}</h2>
+              <p>{division.process[index % division.process.length]}</p>
+              <p>Finance intake / purchase planning</p>
+            </a>
+          </article>
+        ))}
+      </section>
+
+      <section className="finance-disclaimer">
         Financing availability, terms, and approvals may vary. OmniLend does not guarantee
         approval, specific rates, or lending terms. Final options are subject to review,
         eligibility, and applicable partner or provider requirements.
       </section>
 
-      <section id="lead" className="obys-lead">
+      <section id="lead" className="finance-lead">
         <LeadCaptureForm division={division} />
       </section>
 
-      <section className="obys-portals">
-        <p>Other OmniLend divisions</p>
-        <CrossDivisionLinks division={division} variant="obys" />
-      </section>
+      <footer className="finance-footer">
+        <p>All rights reserved. ©2026 OmniLend</p>
+        <CrossDivisionLinks division={division} variant="finance" />
+      </footer>
     </AnimatedPage>
   );
 }
 
-function Meter({ label, value, count, lit }: { label: string; value: string; count: number; lit: number }) {
+function SignalBars({ lit = 24 }: { lit?: number }) {
   return (
-    <div className="ow-meter">
-      <div className="ow-meter__head">
-        <span>{label}</span>
-        <strong>{value}</strong>
-      </div>
-      <div className="ow-meter__cells">
-        {Array.from({ length: count }).map((_, index) => (
-          <span key={index} className={index < lit ? "is-lit" : ""} />
-        ))}
-      </div>
+    <div className="asset-bars" aria-hidden="true">
+      {Array.from({ length: 34 }).map((_, index) => (
+        <span key={index} className={index < lit ? "is-lit" : ""} />
+      ))}
     </div>
   );
 }
@@ -282,27 +306,27 @@ function Meter({ label, value, count, lit }: { label: string; value: string; cou
 function AssetFortificationWorld({ division }: { division: Division }) {
   return (
     <AnimatedPage
-      className="ow-page"
+      className="asset-world"
       style={{ "--division-accent": division.accentColor } as CSSProperties}
     >
-      <div className="ow-dots" aria-hidden="true" />
-      <header className="ow-topbar">
-        <a href="/" className="ow-brand">
+      <header className="asset-topbar">
+        <a href="/" className="asset-brand">
           <span />
-          ØMNILON OVERWATCH
+          ØMNILON Overwatch
         </a>
         <div>
           <span>RISK_ACTIVE: 03</span>
-          <span className="ow-live">LIVE_FEED_ACTIVE</span>
+          <b>LIVE_FEED_ACTIVE</b>
         </div>
       </header>
 
-      <section className="ow-hero">
-        <span className="ow-corner ow-corner--tl" />
-        <span className="ow-corner ow-corner--tr" />
-        <span className="ow-corner ow-corner--bl" />
-        <span className="ow-corner ow-corner--br" />
-        <div className="ow-intro">
+      <section className="asset-command">
+        <span className="asset-corner asset-corner--tl" />
+        <span className="asset-corner asset-corner--tr" />
+        <span className="asset-corner asset-corner--bl" />
+        <span className="asset-corner asset-corner--br" />
+
+        <div className="asset-intro">
           <p>Operational security platform</p>
           <h1>
             Asset
@@ -313,9 +337,24 @@ function AssetFortificationWorld({ division }: { division: Division }) {
             <p>{division.heroSubtitle}</p>
           </div>
         </div>
-        <Meter label="Exposure review aggregate" value="156,967" count={32} lit={32} />
-        <Meter label="Documentation gap aggregate" value="109,154" count={32} lit={22} />
-        <div className="ow-stat-grid">
+
+        <div className="asset-aggregate asset-aggregate--primary">
+          <div>
+            <span>Exposure review aggregate</span>
+            <strong>156,967</strong>
+          </div>
+          <SignalBars lit={28} />
+        </div>
+
+        <div className="asset-aggregate">
+          <div>
+            <span>Documentation gap aggregate</span>
+            <strong>109,154</strong>
+          </div>
+          <SignalBars lit={21} />
+        </div>
+
+        <div className="asset-stats">
           {[
             ["Total reviews", "1,145"],
             ["Prevention rate", "75.4%"],
@@ -330,54 +369,67 @@ function AssetFortificationWorld({ division }: { division: Division }) {
         </div>
       </section>
 
-      <section className="ow-command-row">
-        <div className="ow-terminal">
-          <span>{">"} Establishing site walkthrough protocol...</span>
-          <span>{">"} Loading dataset ACCESS_CAMERA_DOCUMENTATION...</span>
-          <span>{">"} Reindexing {division.services.length} review vectors...</span>
-          <span>{">"} Verifying prevention block 0x4F... OK</span>
-          <strong>{">"} SYSTEM_READY_FOR_QUERY</strong>
+      <section className="asset-query">
+        <div className="asset-terminal">
+          <p>&gt; Establishing site walkthrough protocol...</p>
+          <p>&gt; Loading dataset ACCESS_CAMERA_DOCUMENTATION...</p>
+          <p>&gt; Reindexing {division.services.length} review vectors...</p>
+          <p>&gt; Verifying prevention block 0x4F... OK</p>
+          <strong>&gt; SYSTEM_READY_FOR_QUERY</strong>
         </div>
-        <a href="#lead" className="ow-command">
+        <a href="#lead" className="asset-input">
           <span>Command input</span>
-          <strong>{">"} ENTER</strong>
+          <strong>&gt; ENTER</strong>
         </a>
       </section>
 
-      <section className="ow-section ow-review">
+      <section className="asset-review">
         <div>
-          <p>Review vectors</p>
+          <p className="asset-label">Review vectors</p>
           <h2>What gets reviewed</h2>
         </div>
-        <div className="ow-review__grid">
-          {division.services.map((service, index) => (
-            <article key={service}>
-              {index % 3 === 0 ? <Camera /> : index % 3 === 1 ? <LockKeyhole /> : <Eye />}
-              <span>0{index + 1}</span>
-              <h3>{service}</h3>
+        <div className="asset-review__grid">
+          {division.services.map((service, index) => {
+            const Icon = assetIcons[index % assetIcons.length];
+
+            return (
+              <article key={service}>
+                <Icon />
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{service}</h3>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="asset-review asset-review--process">
+        <div>
+          <p className="asset-label">Fortification process</p>
+          <h2>Prioritized fixes, not theater.</h2>
+        </div>
+        <div className="asset-process">
+          {division.process.map((step, index) => (
+            <article key={step}>
+              <span>{String(index).padStart(2, "0")}</span>
+              <h3>{step}</h3>
+              <CheckCircle2 />
             </article>
           ))}
         </div>
       </section>
 
-      <section className="ow-section ow-process">
-        {division.process.map((step, index) => (
-          <article key={step}>
-            <span>0{index}</span>
-            <h3>{step}</h3>
-            <CheckCircle2 className="h-5 w-5" />
-          </article>
-        ))}
-      </section>
-
-      <section id="lead" className="ow-lead">
+      <section id="lead" className="asset-lead">
         <LeadCaptureForm division={division} />
       </section>
 
-      <section className="ow-portals">
-        <p>Portal transfer</p>
-        <CrossDivisionLinks division={division} variant="ow" />
-      </section>
+      <footer className="asset-footer">
+        <div>
+          <p className="asset-label">Portal transfer</p>
+          <h2>Other OmniLend divisions</h2>
+        </div>
+        <CrossDivisionLinks division={division} variant="asset" />
+      </footer>
     </AnimatedPage>
   );
 }
