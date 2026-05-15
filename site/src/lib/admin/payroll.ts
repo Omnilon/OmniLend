@@ -49,7 +49,8 @@ const payrollDocuments = {
   "earnings-ach-mar-may-2026": {
     filename: "OMNILON_Earnings_Statements_ACH_Mar_May_2026.pdf",
     envUrl: "OMNILEND_PAYROLL_MAR_MAY_2026_URL",
-    envBase64Prefix: "OMNILEND_PAYROLL_MAR_MAY_2026_B64"
+    envBase64Prefix: "OMNILEND_PAYROLL_MAR_MAY_2026_B64",
+    publicPath: "payroll/OMNILON_Earnings_Statements_ACH_Mar_May_2026.pdf"
   }
 };
 
@@ -104,20 +105,25 @@ export async function readPayrollDocument(documentId: string) {
     };
   }
 
-  const localPath = path.join(process.cwd(), "private", "payroll", document.filename);
-  try {
-    const bytes = await fs.readFile(localPath);
+  const publicDocument = await readPayrollDocumentFromFile(
+    path.join(process.cwd(), "public", document.publicPath)
+  );
 
+  if (publicDocument) {
     return {
       filename: document.filename,
-      bytes
+      bytes: publicDocument
     };
-  } catch (error) {
-    const code = (error as NodeJS.ErrnoException).code;
+  }
 
-    if (code !== "ENOENT") {
-      throw error;
-    }
+  const localPath = path.join(process.cwd(), "private", "payroll", document.filename);
+  const privateDocument = await readPayrollDocumentFromFile(localPath);
+
+  if (privateDocument) {
+    return {
+      filename: document.filename,
+      bytes: privateDocument
+    };
   }
 
   const storedDocument = await readPayrollDocumentFromStore(documentId);
@@ -127,6 +133,20 @@ export async function readPayrollDocument(documentId: string) {
   }
 
   throw new Error("Payroll document is not configured");
+}
+
+async function readPayrollDocumentFromFile(filePath: string) {
+  try {
+    return await fs.readFile(filePath);
+  } catch (error) {
+    const code = (error as NodeJS.ErrnoException).code;
+
+    if (code !== "ENOENT") {
+      throw error;
+    }
+
+    return null;
+  }
 }
 
 function readPayrollDocumentFromEnv(prefix: string) {
