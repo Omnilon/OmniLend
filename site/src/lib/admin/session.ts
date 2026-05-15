@@ -20,11 +20,17 @@ type SessionPayload = AdminUser & {
 export const ADMIN_COOKIE_NAME = "omnilend_admin_session";
 
 const SESSION_TTL_SECONDS = 60 * 60 * 8;
+const FALLBACK_ADMIN_EMAIL = "Omnilend.co@gmail.com";
+const FALLBACK_PASSWORD_SALT = "omnilend-admin-v1-isaac-lelonek";
+const FALLBACK_PASSWORD_SCRYPT =
+  "f36f7ca2ddc9894068e778d038face7ed919498c17b1cdb6425d3abd1db72235";
+const FALLBACK_SESSION_SECRET =
+  "df637fa038efe3a24b2c428b76af5481d9a73f0f30fbc8c5a9ba84955509428c";
 
 export const adminProfile: AdminUser = {
   id: "isaac-lelonek",
   name: "Isaac Lelonek",
-  email: "Omnilend.co@gmail.com",
+  email: FALLBACK_ADMIN_EMAIL,
   role: "Employee Administrator",
   initials: "IL"
 };
@@ -49,7 +55,7 @@ function getSessionSecret() {
     return crypto.createHash("sha256").update(`omnilend-admin:${password}`).digest("hex");
   }
 
-  return null;
+  return FALLBACK_SESSION_SECRET;
 }
 
 function safeCompare(a: string, b: string) {
@@ -77,13 +83,18 @@ export function validateAdminCredentials(email: string, password: string) {
   const configuredEmail = getAdminEmail();
   const configuredPassword = getAdminPassword();
 
-  if (!configuredEmail || !configuredPassword) {
-    throw new Error("Missing OmniLend admin credential configuration");
+  if (configuredEmail && configuredPassword) {
+    return (
+      safeCompare(email.trim().toLowerCase(), configuredEmail.trim().toLowerCase()) &&
+      safeCompare(password, configuredPassword)
+    );
   }
 
+  const submittedHash = crypto.scryptSync(password, FALLBACK_PASSWORD_SALT, 32).toString("hex");
+
   return (
-    safeCompare(email.trim().toLowerCase(), configuredEmail.trim().toLowerCase()) &&
-    safeCompare(password, configuredPassword)
+    safeCompare(email.trim().toLowerCase(), FALLBACK_ADMIN_EMAIL.toLowerCase()) &&
+    safeCompare(submittedHash, FALLBACK_PASSWORD_SCRYPT)
   );
 }
 

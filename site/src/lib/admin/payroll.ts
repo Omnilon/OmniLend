@@ -2,6 +2,8 @@ import "server-only";
 
 import fs from "fs/promises";
 import path from "path";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient, GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
 
 export type PayrollStatement = {
   id: string;
@@ -52,6 +54,20 @@ const payrollDocuments = {
 
 export type PayrollDocumentId = keyof typeof payrollDocuments;
 
+const client = new DynamoDBClient({
+  region: process.env.AWS_REGION
+});
+
+const docClient = DynamoDBDocumentClient.from(client);
+
+function getPayrollTableName() {
+  return process.env.OMNILEND_PAYROLL_TABLE ?? process.env.OMNILEND_LEADS_TABLE;
+}
+
+function getDocumentKey(documentId: string) {
+  return `payroll-document#${documentId}`;
+}
+
 export function getPayrollDocumentUrl(statement: PayrollStatement) {
   return `/api/admin/payroll/${statement.documentId}#page=${statement.page}&view=FitH`;
 }
@@ -79,10 +95,85 @@ export async function readPayrollDocument(documentId: string) {
   }
 
   const localPath = path.join(process.cwd(), "private", "payroll", document.filename);
-  const bytes = await fs.readFile(localPath);
+  try {
+    const bytes = await fs.readFile(localPath);
+
+    return {
+      filename: document.filename,
+      bytes
+    };
+  } catch (error) {
+    const code = (error as NodeJS.ErrnoException).code;
+
+    if (code !== "ENOENT") {
+      throw error;
+    }
+  }
+
+  const storedDocument = await readPayrollDocumentFromStore(documentId);
+
+  if (storedDocument) {
+    return storedDocument;
+  }
+
+  throw new Error("Payroll document is not configured");
+}
+
+export async function readPayrollDocumentFromStore(documentId: string) {
+  const tableName = getPayrollTableName();
+
+  if (!tableName) {
+    return null;
+  }
+
+  const response = await docClient.send(
+    new GetCommand({
+      TableName: tableName,
+      Key: {
+        leadId: getDocumentKey(documentId)
+      }
+    })
+  );
+
+  const item = response.Item;
+
+  if (!item || typeof item.bytesBase64 !== "string" || typeof item.filename !== "string") {
+    return null;
+  }
 
   return {
-    filename: document.filename,
-    bytes
+    filename: item.filename,
+    bytes: Buffer.from(item.bytesBase64, "base64")
   };
+}
+
+export async function savePayrollDocumentToStore({
+  documentId,
+  filename,
+  bytes
+}: {
+  documentId: string;
+  filename: string;
+  bytes: Buffer;
+}) {
+  const tableName = getPayrollTableName();
+
+  if (!tableName) {
+    throw new Error("Missing OMNILEND_PAYROLL_TABLE or OMNILEND_LEADS_TABLE");
+  }
+
+  await docClient.send(
+    new PutCommand({
+      TableName: tableName,
+      Item: {
+        leadId: getDocumentKey(documentId),
+        kind: "payrollDocument",
+        documentId,
+        filename,
+        contentType: "application/pdf",
+        bytesBase64: bytes.toString("base64"),
+        updatedAt: new Date().toISOString()
+      }
+    })
+  );
 }
