@@ -48,7 +48,8 @@ export const payrollStatements: PayrollStatement[] = [
 const payrollDocuments = {
   "earnings-ach-mar-may-2026": {
     filename: "OMNILON_Earnings_Statements_ACH_Mar_May_2026.pdf",
-    envUrl: "OMNILEND_PAYROLL_MAR_MAY_2026_URL"
+    envUrl: "OMNILEND_PAYROLL_MAR_MAY_2026_URL",
+    envBase64Prefix: "OMNILEND_PAYROLL_MAR_MAY_2026_B64"
   }
 };
 
@@ -94,6 +95,15 @@ export async function readPayrollDocument(documentId: string) {
     };
   }
 
+  const envBytes = readPayrollDocumentFromEnv(document.envBase64Prefix);
+
+  if (envBytes) {
+    return {
+      filename: document.filename,
+      bytes: envBytes
+    };
+  }
+
   const localPath = path.join(process.cwd(), "private", "payroll", document.filename);
   try {
     const bytes = await fs.readFile(localPath);
@@ -117,6 +127,26 @@ export async function readPayrollDocument(documentId: string) {
   }
 
   throw new Error("Payroll document is not configured");
+}
+
+function readPayrollDocumentFromEnv(prefix: string) {
+  const chunks: string[] = [];
+
+  for (let index = 0; index < 20; index += 1) {
+    const chunk = process.env[`${prefix}_${index}`];
+
+    if (!chunk) {
+      break;
+    }
+
+    chunks.push(chunk);
+  }
+
+  if (chunks.length === 0) {
+    return null;
+  }
+
+  return Buffer.from(chunks.join(""), "base64");
 }
 
 export async function readPayrollDocumentFromStore(documentId: string) {
