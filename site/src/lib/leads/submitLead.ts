@@ -1,10 +1,10 @@
-import type { LeadInput } from "./schema";
+import type { LeadSubmissionInput } from "./schema";
 
 export type LeadSubmitResult =
   | { ok: true; leadId: string }
   | { ok: false; error: string };
 
-export async function submitLead(input: LeadInput): Promise<LeadSubmitResult> {
+export async function submitLead(input: LeadSubmissionInput): Promise<LeadSubmitResult> {
   const response = await fetch("/api/leads", {
     method: "POST",
     headers: {

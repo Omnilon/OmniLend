@@ -1,14 +1,19 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowUpRight,
   BadgeDollarSign,
   BriefcaseBusiness,
   FileText,
+  Inbox,
   LockKeyhole,
   LogOut,
+  Mail,
+  MessageSquareText,
+  Phone,
+  RefreshCw,
   ShieldCheck,
   UserRound
 } from "lucide-react";
@@ -16,6 +21,20 @@ import type { AdminUser } from "@/lib/admin/session";
 import type { PayrollStatement } from "@/lib/admin/payroll";
 
 type AdminTab = "overview" | "payroll" | "leads" | "documents" | "settings";
+type AdminLead = {
+  leadId: string;
+  division: "interiors" | "asset-fortification" | "finance";
+  name: string;
+  email: string;
+  phone?: string;
+  budget?: string;
+  serviceInterest?: string;
+  message: string;
+  sourcePath?: string;
+  status: "new";
+  createdAt: string;
+  userAgent?: string;
+};
 
 const tabs: Array<{ id: AdminTab; label: string }> = [
   { id: "overview", label: "Overview" },
@@ -24,6 +43,12 @@ const tabs: Array<{ id: AdminTab; label: string }> = [
   { id: "documents", label: "Documents" },
   { id: "settings", label: "Settings" }
 ];
+
+const divisionLabels: Record<AdminLead["division"], string> = {
+  interiors: "Interiors",
+  "asset-fortification": "Asset Fortification",
+  finance: "Finance"
+};
 
 export function AdminDashboard({
   user,
@@ -105,6 +130,7 @@ export function AdminDashboard({
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
+                aria-pressed={activeTab === tab.id}
                 className={`flex items-center justify-between border px-4 py-3 text-left font-mono text-[0.68rem] uppercase tracking-[0.2em] transition ${
                   activeTab === tab.id
                     ? "border-white bg-white text-black"
@@ -127,7 +153,7 @@ export function AdminDashboard({
               onSelect={setSelectedStatementId}
             />
           ) : null}
-          {activeTab === "leads" ? <UtilityPanel type="leads" /> : null}
+          {activeTab === "leads" ? <LeadDeskPanel /> : null}
           {activeTab === "documents" ? <UtilityPanel type="documents" /> : null}
           {activeTab === "settings" ? <UtilityPanel type="settings" /> : null}
         </div>
@@ -241,13 +267,253 @@ function PayrollPanel({
   );
 }
 
-function UtilityPanel({ type }: { type: "leads" | "documents" | "settings" }) {
+function LeadDeskPanel() {
+  const [leads, setLeads] = useState<AdminLead[]>([]);
+  const [selectedLeadId, setSelectedLeadId] = useState("");
+  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
+  const [error, setError] = useState("");
+
+  const selectedLead = useMemo(
+    () => leads.find((lead) => lead.leadId === selectedLeadId) ?? leads[0],
+    [leads, selectedLeadId]
+  );
+
+  const divisionCounts = useMemo(
+    () =>
+      leads.reduce(
+        (counts, lead) => {
+          counts[lead.division] += 1;
+          return counts;
+        },
+        { interiors: 0, "asset-fortification": 0, finance: 0 } as Record<AdminLead["division"], number>
+      ),
+    [leads]
+  );
+
+  const loadLeads = useCallback(async () => {
+    setStatus("loading");
+    setError("");
+
+    try {
+      const response = await fetch("/api/admin/leads", { cache: "no-store" });
+      const body = (await response.json().catch(() => null)) as
+        | { ok: true; leads: AdminLead[] }
+        | { ok: false; error: string }
+        | null;
+
+      if (!response.ok || !body) {
+        throw new Error("Lead inbox is not available.");
+      }
+
+      if (!body.ok) {
+        throw new Error(body.error);
+      }
+
+      setLeads(body.leads);
+      setSelectedLeadId((current) =>
+        body.leads.some((lead) => lead.leadId === current) ? current : body.leads[0]?.leadId || ""
+      );
+      setStatus("ready");
+    } catch (loadError) {
+      setError(loadError instanceof Error ? loadError.message : "Lead inbox is not available.");
+      setStatus("error");
+    }
+  }, []);
+
+  useEffect(() => {
+    void loadLeads();
+  }, [loadLeads]);
+
+  return (
+    <section className="space-y-5">
+      <div className="flex flex-wrap items-start justify-between gap-4 border border-white/12 bg-white/[0.045] p-6 sm:p-8">
+        <div>
+          <p className="font-mono text-[0.68rem] uppercase tracking-[0.34em] text-white/42">
+            inquiry routing
+          </p>
+          <h2 className="mt-4 text-4xl font-semibold tracking-[-0.05em]">Lead desk</h2>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-white/55">
+            Messages submitted from the public division forms, grouped by source section and
+            stored through the OmniLend lead capture endpoint.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => void loadLeads()}
+          disabled={status === "loading"}
+          className="inline-flex items-center gap-2 border border-white/16 px-4 py-3 font-mono text-[0.65rem] uppercase tracking-[0.22em] text-white/65 transition hover:border-white/44 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          <RefreshCw size={14} aria-hidden="true" />
+          Refresh
+        </button>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-4">
+        <StatusCard icon={<Inbox size={19} />} label="Total inquiries" value={String(leads.length)} />
+        <StatusCard
+          icon={<MessageSquareText size={19} />}
+          label="Interiors"
+          value={String(divisionCounts.interiors)}
+        />
+        <StatusCard
+          icon={<ShieldCheck size={19} />}
+          label="Asset fortification"
+          value={String(divisionCounts["asset-fortification"])}
+        />
+        <StatusCard
+          icon={<BadgeDollarSign size={19} />}
+          label="Finance"
+          value={String(divisionCounts.finance)}
+        />
+      </div>
+
+      {status === "error" ? (
+        <div className="border border-red-300/25 bg-red-500/10 p-5">
+          <p className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-red-200">
+            {error}
+          </p>
+        </div>
+      ) : null}
+
+      {status === "loading" && leads.length === 0 ? (
+        <div className="border border-white/12 bg-white/[0.045] p-8 text-white/55">
+          Loading inquiries...
+        </div>
+      ) : null}
+
+      {status === "ready" && leads.length === 0 ? (
+        <div className="border border-white/12 bg-white/[0.045] p-8">
+          <p className="font-mono text-[0.68rem] uppercase tracking-[0.3em] text-white/42">
+            no inquiries yet
+          </p>
+          <p className="mt-3 text-sm leading-6 text-white/55">
+            New division form submissions will appear here after DynamoDB stores them.
+          </p>
+        </div>
+      ) : null}
+
+      {leads.length > 0 && selectedLead ? (
+        <div className="grid gap-5 xl:grid-cols-[24rem_1fr]">
+          <div className="grid max-h-[48rem] gap-3 overflow-auto pr-1">
+            {leads.map((lead) => (
+              <button
+                key={lead.leadId}
+                type="button"
+                onClick={() => setSelectedLeadId(lead.leadId)}
+                aria-pressed={selectedLead.leadId === lead.leadId}
+                className={`border p-4 text-left transition ${
+                  selectedLead.leadId === lead.leadId
+                    ? "border-white bg-white text-black"
+                    : "border-white/12 bg-white/[0.035] text-white hover:border-white/34"
+                }`}
+              >
+                <span className="font-mono text-[0.62rem] uppercase tracking-[0.24em] opacity-60">
+                  {divisionLabels[lead.division]} / {formatDate(lead.createdAt)}
+                </span>
+                <span className="mt-2 block text-lg font-semibold tracking-[-0.03em]">
+                  {lead.name}
+                </span>
+                <span className="mt-2 block truncate text-sm opacity-70">
+                  {lead.serviceInterest || "General inquiry"}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          <article className="border border-white/12 bg-white/[0.045]">
+            <div className="flex flex-wrap items-start justify-between gap-4 border-b border-white/10 p-5">
+              <div>
+                <p className="font-mono text-[0.62rem] uppercase tracking-[0.28em] text-white/42">
+                  {divisionLabels[selectedLead.division]} inquiry
+                </p>
+                <h3 className="mt-2 text-3xl font-semibold tracking-[-0.04em]">
+                  {selectedLead.name}
+                </h3>
+              </div>
+              <span className="border border-white/14 px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.22em] text-white/55">
+                {selectedLead.status}
+              </span>
+            </div>
+
+            <div className="grid gap-5 p-5 lg:grid-cols-2">
+              <DetailItem icon={<Mail size={15} />} label="Email" value={selectedLead.email} />
+              <DetailItem
+                icon={<Phone size={15} />}
+                label="Phone"
+                value={selectedLead.phone || "Not provided"}
+              />
+              <DetailItem
+                icon={<BriefcaseBusiness size={15} />}
+                label="Interest"
+                value={selectedLead.serviceInterest || "Not provided"}
+              />
+              <DetailItem
+                icon={<BadgeDollarSign size={15} />}
+                label="Budget / amount"
+                value={selectedLead.budget || "Not provided"}
+              />
+              <DetailItem
+                icon={<ArrowUpRight size={15} />}
+                label="Source section"
+                value={`${divisionLabels[selectedLead.division]} (${selectedLead.sourcePath || "/"})`}
+              />
+              <DetailItem
+                icon={<MessageSquareText size={15} />}
+                label="Received"
+                value={formatDate(selectedLead.createdAt)}
+              />
+            </div>
+
+            <div className="border-t border-white/10 p-5">
+              <p className="font-mono text-[0.62rem] uppercase tracking-[0.28em] text-white/42">
+                Message
+              </p>
+              <p className="mt-4 whitespace-pre-wrap text-base leading-7 text-white/72">
+                {selectedLead.message}
+              </p>
+            </div>
+          </article>
+        </div>
+      ) : null}
+    </section>
+  );
+}
+
+function DetailItem({
+  icon,
+  label,
+  value
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="border border-white/10 bg-black/20 p-4">
+      <div className="flex items-center gap-2 text-white/42">
+        {icon}
+        <span className="font-mono text-[0.62rem] uppercase tracking-[0.24em]">{label}</span>
+      </div>
+      <p className="mt-3 break-words text-sm leading-6 text-white/72">{value}</p>
+    </div>
+  );
+}
+
+function formatDate(value: string) {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    dateStyle: "medium",
+    timeStyle: "short"
+  }).format(date);
+}
+
+function UtilityPanel({ type }: { type: "documents" | "settings" }) {
   const copy = {
-    leads: {
-      icon: <BriefcaseBusiness size={20} />,
-      title: "Lead desk",
-      body: "Lead capture is already routed through the OmniLend AWS endpoint. This tab is reserved for the authenticated lead review surface."
-    },
     documents: {
       icon: <FileText size={20} />,
       title: "Documents",

@@ -13,6 +13,14 @@ export const LeadSchema = z.object({
 
 export type LeadInput = z.infer<typeof LeadSchema>;
 
+export const LeadSubmissionSchema = LeadSchema.extend({
+  captchaToken: z.string().min(20).max(1200),
+  captchaAnswer: z.string().min(1).max(20),
+  companyWebsite: z.string().max(200).optional().or(z.literal(""))
+});
+
+export type LeadSubmissionInput = z.infer<typeof LeadSubmissionSchema>;
+
 export type LeadRecord = LeadInput & {
   leadId: string;
   status: "new";

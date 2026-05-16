@@ -2,7 +2,8 @@ import crypto from "crypto";
 import { NextResponse } from "next/server";
 import { saveLead } from "@/lib/aws/dynamo";
 import { sendLeadEmail } from "@/lib/aws/ses";
-import { LeadSchema, type LeadRecord } from "@/lib/leads/schema";
+import { verifyLeadCaptcha } from "@/lib/leads/captcha";
+import { LeadSchema, LeadSubmissionSchema, type LeadRecord } from "@/lib/leads/schema";
 
 export const runtime = "nodejs";
 
@@ -23,7 +24,7 @@ function hashIp(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const parsed = LeadSchema.safeParse(body);
+    const parsed = LeadSubmissionSchema.safeParse(body);
 
     if (!parsed.success) {
       return NextResponse.json(
@@ -32,9 +33,26 @@ export async function POST(request: Request) {
       );
     }
 
+    if (parsed.data.companyWebsite) {
+      return NextResponse.json({ ok: true, leadId: crypto.randomUUID() });
+    }
+
+    if (
+      !verifyLeadCaptcha({
+        token: parsed.data.captchaToken,
+        answer: parsed.data.captchaAnswer
+      })
+    ) {
+      return NextResponse.json(
+        { ok: false, error: "Security check failed. Refresh the check and try again." },
+        { status: 400 }
+      );
+    }
+
+    const leadInput = LeadSchema.parse(parsed.data);
     const lead: LeadRecord = {
       leadId: crypto.randomUUID(),
-      ...parsed.data,
+      ...leadInput,
       status: "new",
       createdAt: new Date().toISOString(),
       ipHash: hashIp(request),
@@ -42,7 +60,12 @@ export async function POST(request: Request) {
     };
 
     await saveLead(lead);
-    await sendLeadEmail(lead);
+
+    try {
+      await sendLeadEmail(lead);
+    } catch (emailError) {
+      console.error("[lead-email-error]", emailError);
+    }
 
     return NextResponse.json({ ok: true, leadId: lead.leadId });
   } catch (error) {
