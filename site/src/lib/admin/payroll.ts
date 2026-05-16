@@ -49,8 +49,7 @@ const payrollDocuments = {
   "earnings-ach-mar-may-2026": {
     filename: "OMNILON_Earnings_Statements_ACH_Mar_May_2026.pdf",
     envUrl: "OMNILEND_PAYROLL_MAR_MAY_2026_URL",
-    envBase64Prefix: "OMNILEND_PAYROLL_MAR_MAY_2026_B64",
-    publicPath: "payroll/OMNILON_Earnings_Statements_ACH_Mar_May_2026.pdf"
+    envBase64Prefix: "OMNILEND_PAYROLL_MAR_MAY_2026_B64"
   }
 };
 
@@ -102,17 +101,6 @@ export async function readPayrollDocument(documentId: string) {
     return {
       filename: document.filename,
       bytes: envBytes
-    };
-  }
-
-  const publicDocument = await readPayrollDocumentFromFile(
-    path.join(process.cwd(), "public", document.publicPath)
-  );
-
-  if (publicDocument) {
-    return {
-      filename: document.filename,
-      bytes: publicDocument
     };
   }
 
