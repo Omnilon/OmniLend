@@ -6,7 +6,7 @@ import { ArrowRight, LockKeyhole } from "lucide-react";
 
 export function LoginForm() {
   const router = useRouter();
-  const [email, setEmail] = useState("Omnilend.co@gmail.com");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -51,7 +51,10 @@ export function LoginForm() {
         <p className="font-mono text-[0.68rem] uppercase tracking-[0.34em] text-white/45">
           secure employee login
         </p>
-        <h2 className="text-3xl font-semibold tracking-[-0.04em]">Isaac Lelonek</h2>
+        <h2 className="text-3xl font-semibold tracking-[-0.04em]">Employee portal</h2>
+        <p className="max-w-md text-sm leading-6 text-white/50">
+          Use your assigned OmniLend credentials to continue.
+        </p>
       </div>
 
       <div className="mt-8 grid gap-5">
@@ -65,6 +68,7 @@ export function LoginForm() {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             autoComplete="username"
+            placeholder="employee@omnilend.pro"
             className="border border-white/14 bg-black/35 px-4 py-3 text-base text-white outline-none transition focus:border-white/60"
             required
           />

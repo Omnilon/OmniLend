@@ -6,7 +6,7 @@ import { payrollStatements } from "@/lib/admin/payroll";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Isaac Lelonek Employee Admin"
+  title: "OmniLend Employee Admin"
 };
 
 export default function AdminPage() {
