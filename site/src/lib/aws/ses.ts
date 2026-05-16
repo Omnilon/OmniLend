@@ -4,10 +4,12 @@ import { SESv2Client, SendEmailCommand } from "@aws-sdk/client-sesv2";
 
 let sesClient: SESv2Client | null = null;
 
+const DEFAULT_AWS_REGION = "us-east-1";
+
 function getSesClient() {
   if (!sesClient) {
     sesClient = new SESv2Client({
-      region: process.env.AWS_REGION
+      region: process.env.AWS_REGION ?? DEFAULT_AWS_REGION
     });
   }
 

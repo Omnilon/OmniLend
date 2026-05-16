@@ -6,10 +6,13 @@ import type { LeadRecord } from "@/lib/leads/schema";
 
 let docClient: DynamoDBDocumentClient | null = null;
 
+const DEFAULT_AWS_REGION = "us-east-1";
+const DEFAULT_LEADS_TABLE = "OmniLendLeads";
+
 function getDocClient() {
   if (!docClient) {
     const client = new DynamoDBClient({
-      region: process.env.AWS_REGION
+      region: process.env.AWS_REGION ?? DEFAULT_AWS_REGION
     });
 
     docClient = DynamoDBDocumentClient.from(client);
@@ -19,11 +22,7 @@ function getDocClient() {
 }
 
 export async function saveLead(lead: Record<string, unknown>) {
-  const tableName = process.env.OMNILEND_LEADS_TABLE;
-
-  if (!tableName) {
-    throw new Error("Missing OMNILEND_LEADS_TABLE");
-  }
+  const tableName = process.env.OMNILEND_LEADS_TABLE ?? DEFAULT_LEADS_TABLE;
 
   await getDocClient().send(
     new PutCommand({
@@ -77,11 +76,7 @@ function normalizeLeadRecord(item: Record<string, unknown>): LeadRecord | null {
 }
 
 export async function listLeads(limit = 100) {
-  const tableName = process.env.OMNILEND_LEADS_TABLE;
-
-  if (!tableName) {
-    throw new Error("Missing OMNILEND_LEADS_TABLE");
-  }
+  const tableName = process.env.OMNILEND_LEADS_TABLE ?? DEFAULT_LEADS_TABLE;
 
   const leads: LeadRecord[] = [];
   let exclusiveStartKey: Record<string, unknown> | undefined;
